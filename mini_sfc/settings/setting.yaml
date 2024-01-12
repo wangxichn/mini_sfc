@@ -11,6 +11,7 @@ substrate_network_setting:
     type: random
     break_prob: 0.2
     connect_prob: 0.2
+    change_times: 10
   node_attrs_setting:
     cpu_setting:
       price: 1
@@ -49,7 +50,6 @@ substrate_network_setting:
         distribution: uniform
       remain_setting:
         dtype: int
-
   link_attrs_setting:
     band_setting:
       price: 1
@@ -61,24 +61,27 @@ substrate_network_setting:
       remain_setting:
         dtype: int
 
-service_function_chain_setting:
+service_group_setting:
   num_sfc: 1000
-  topology_setting:
-    type: chain
-  num_nodes_setting:
-    dtype: int
-    low: 8
-    high: 8
-    distribution: uniform
   arrival_rate_setting:
     dtype: float
     distribution: possion
     lam: 0.04
+    reciprocal: true
   lifetime_setting:
     dtype: float
     distribution: uniform
     low: 1
     high: 10
+
+service_chain_setting:
+  num_nodes_setting:
+    dtype: int
+    low: 8
+    high: 10
+    distribution: uniform
+  topology_setting:
+    type: path
   node_attrs_setting:
     cpu_setting:
       dtype: int

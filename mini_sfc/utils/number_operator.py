@@ -1,6 +1,6 @@
 
 import numpy as np
-
+import code
 
 class NumberOperator:
     def __init__(self) -> None:

@@ -33,7 +33,8 @@ class Config:
         content = self.__read_settings_from_yaml(filepath)
         self.scenario_setting = content["scenario_setting"]
         self.substrate_network_setting = content["substrate_network_setting"]
-        self.service_function_chain_setting = content["service_function_chain_setting"]
+        self.service_group_setting = content["service_group_setting"]
+        self.service_chain_setting = content["service_chain_setting"]
 
         # code.interact(banner="",local=locals())
 

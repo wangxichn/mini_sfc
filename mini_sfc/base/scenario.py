@@ -14,7 +14,10 @@ from base import Schedule
 from mano import NfvMano
 from data import Config
 from data import SubstrateNetwork
+from data import ServiceGroup
+
 import copy
+import code
 
 class Scenario:
 
@@ -28,10 +31,9 @@ class Scenario:
     def build(cls, config:Config):
 
         substrate_network = SubstrateNetwork(config)
-
-        ## todo -----------------------------------------------------------
-
-        schedule = Schedule(config,substrate_network)
+        service_group = ServiceGroup(config)
+        
+        schedule = Schedule(config,substrate_network,service_group)
         nfv_mano = NfvMano(config)
 
         scenario = cls(config,schedule,nfv_mano)

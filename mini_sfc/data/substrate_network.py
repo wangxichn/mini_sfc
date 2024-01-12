@@ -20,7 +20,7 @@ import copy
 
 class SubstrateNetwork(nx.Graph):
     def __init__(self, config:Config):
-        super(SubstrateNetwork, self).__init__()
+        super().__init__()
        
         self.num_nodes: int = config.substrate_network_setting["num_nodes"]
         self.topology_setting: dict = config.substrate_network_setting["topology_setting"]
