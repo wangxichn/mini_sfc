@@ -41,6 +41,18 @@ substrate_network_setting:
       remain_setting:
         type: state
         dtype: int
+    energy_setting:
+      price: 1
+      max_setting:
+        type: limit
+        dtype: int
+        high: 100
+        low: 50
+        distribution: uniform
+      remain_setting:
+        type: state
+        dtype: int
+
   link_attrs_setting:
     band_setting:
       price: 1

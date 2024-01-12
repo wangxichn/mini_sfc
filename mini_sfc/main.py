@@ -27,7 +27,7 @@ def run(config):
     code.interact(banner="",local=locals())
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     logging.info(f"{'-' * 20}   Hello Mini-SFC!   {'-' * 20}")
 
     config = Config()

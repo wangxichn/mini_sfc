@@ -31,7 +31,7 @@ class Scenario:
 
         ## todo -----------------------------------------------------------
 
-        schedule = Schedule(config)
+        schedule = Schedule(config,substrateNetwork)
         nfv_mano = NfvMano(config)
 
         scenario = cls(config,schedule,nfv_mano)

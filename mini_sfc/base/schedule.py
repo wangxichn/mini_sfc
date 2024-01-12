@@ -11,7 +11,9 @@
 '''
 
 from data import Config
+from data import SubstrateNetwork
 
 class Schedule:
-    def __init__(self,config:Config) -> None:
-        pass
+    def __init__(self,config:Config,substrate_network:SubstrateNetwork) -> None:
+        self.config = config
+        self.substrate_network = substrate_network
