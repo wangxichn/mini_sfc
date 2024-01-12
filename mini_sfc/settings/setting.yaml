@@ -7,28 +7,28 @@ substrate_network_setting:
     type: waxman
     wm_alpha: 0.5
     wm_beta: 0.2
+  topology_change_setting:
+    type: random
+    break_prob: 0.2
+    connect_prob: 0.2
   node_attrs_setting:
     cpu_setting:
       price: 1
       max_setting:
-        type: limit
         dtype: int
         high: 100
         low: 50
         distribution: uniform
       remain_setting:
-        type: state
         dtype: int
     ram_setting:
       price: 1
       max_setting:
-        type: limit
         dtype: int
         high: 100
         low: 50
         distribution: uniform
       remain_setting:
-        type: state
         dtype: int
     disk_setting:
       price: 1
@@ -39,31 +39,26 @@ substrate_network_setting:
         low: 50
         distribution: uniform
       remain_setting:
-        type: state
         dtype: int
     energy_setting:
       price: 1
       max_setting:
-        type: limit
         dtype: int
         high: 100
         low: 50
         distribution: uniform
       remain_setting:
-        type: state
         dtype: int
 
   link_attrs_setting:
     band_setting:
       price: 1
       max_setting:
-        type: limit
         dtype: int
         high: 100
         low: 50
         distribution: uniform
       remain_setting:
-        type: state
         dtype: int
 
 service_function_chain_setting:
@@ -86,26 +81,22 @@ service_function_chain_setting:
     high: 10
   node_attrs_setting:
     cpu_setting:
-      type: request
       dtype: int
       high: 10
       low: 1
       distribution: uniform
     ram_setting:
-      type: request
       dtype: int
       high: 10
       low: 1
       distribution: uniform
     disk_setting:
-      type: request
       dtype: int
       high: 10
       low: 1
       distribution: uniform
   link_attrs_setting:
     band_setting:
-      type: request
       dtype: int
       high: 10
       low: 1

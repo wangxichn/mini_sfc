@@ -7,7 +7,7 @@ class NumberOperator:
         pass
 
     @staticmethod
-    def generate_data_with_distribution(size: int, **kwargs):
+    def generate_data_with_distribution(size: int, **kwargs) -> list:
         """
         Generate data with the given distribution and data type.
         
