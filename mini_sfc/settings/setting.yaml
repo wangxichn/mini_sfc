@@ -1,0 +1,100 @@
+scenario_setting: 
+  solver_name: algorithm
+
+substrate_network_setting:
+  num_nodes: 100
+  topology_setting:
+    type: waxman
+    wm_alpha: 0.5
+    wm_beta: 0.2
+  node_attrs_setting:
+    cpu_setting:
+      price: 1
+      max_setting:
+        type: limit
+        dtype: int
+        high: 100
+        low: 50
+        distribution: uniform
+      remain_setting:
+        type: state
+        dtype: int
+    ram_setting:
+      price: 1
+      max_setting:
+        type: limit
+        dtype: int
+        high: 100
+        low: 50
+        distribution: uniform
+      remain_setting:
+        type: state
+        dtype: int
+    disk_setting:
+      price: 1
+      max_setting:
+        type: limit
+        dtype: int
+        high: 100
+        low: 50
+        distribution: uniform
+      remain_setting:
+        type: state
+        dtype: int
+  link_attrs_setting:
+    band_setting:
+      price: 1
+      max_setting:
+        type: limit
+        dtype: int
+        high: 100
+        low: 50
+        distribution: uniform
+      remain_setting:
+        type: state
+        dtype: int
+
+service_function_chain_setting:
+  num_sfc: 1000
+  topology_setting:
+    type: chain
+  num_nodes_setting:
+    dtype: int
+    low: 8
+    high: 8
+    distribution: uniform
+  arrival_rate_setting:
+    dtype: float
+    distribution: possion
+    lam: 0.04
+  lifetime_setting:
+    dtype: float
+    distribution: uniform
+    low: 1
+    high: 10
+  node_attrs_setting:
+    cpu_setting:
+      type: request
+      dtype: int
+      high: 10
+      low: 1
+      distribution: uniform
+    ram_setting:
+      type: request
+      dtype: int
+      high: 10
+      low: 1
+      distribution: uniform
+    disk_setting:
+      type: request
+      dtype: int
+      high: 10
+      low: 1
+      distribution: uniform
+  link_attrs_setting:
+    band_setting:
+      type: request
+      dtype: int
+      high: 10
+      low: 1
+      distribution: uniform
