@@ -27,10 +27,12 @@ class SubstrateNetwork(nx.Graph):
         self.topology_change_setting: dict =  config.substrate_network_setting["topology_change_setting"]
         self.node_attrs_setting: dict[dict] = config.substrate_network_setting["node_attrs_setting"]
         self.link_attrs_setting: dict[dict] = config.substrate_network_setting["link_attrs_setting"]
+        self.intralink_attrs_setting: dict[dict] = config.substrate_network_setting["intralink_attrs_setting"]
 
         self.__generate_topology()
         self.__generate_node_attrs_data()
         self.__generate_link_attrs_data()
+        self.__generate_intralink_attrs_data()
         self.change_topology()
 
 
@@ -53,18 +55,19 @@ class SubstrateNetwork(nx.Graph):
         else:
             raise NotImplementedError
         
+        # There are internal links in the nodes of the substrate network 
+        for i in range(self.num_nodes):
+            G.add_edge(i,i)
+        
         self.__dict__['_node'] = G.__dict__['_node']
         self.__dict__['_adj'] = G.__dict__['_adj']
+
     
     def __generate_node_attrs_data(self):
-        # 对于每一种资源执行
         for node_attrs_name in self.node_attrs_setting.keys():
-            # 获取该资源的属性
             node_attrs_name_setting = self.node_attrs_setting[node_attrs_name]
-            # 生成该资源的随机值数列
             node_attrs_name_value = NumberOperator.generate_data_with_distribution(self.num_nodes,**node_attrs_name_setting["max_setting"])
 
-            # 对于每一个节点
             for node_id in range(self.num_nodes):
                 self.node_attrs_setting[node_attrs_name]["max_setting"]["value"] = node_attrs_name_value[node_id]
                 self.node_attrs_setting[node_attrs_name]["remain_setting"]["value"] = node_attrs_name_value[node_id]
@@ -77,11 +80,23 @@ class SubstrateNetwork(nx.Graph):
             link_attrs_name_value = NumberOperator.generate_data_with_distribution(len(self.edges),**link_attrs_name_setting["max_setting"])
 
             for edge_temp in self.edges:
-                self.link_attrs_setting[link_attrs_name]["max_setting"]["value"] = link_attrs_name_value[0]
-                self.link_attrs_setting[link_attrs_name]["remain_setting"]["value"] = link_attrs_name_value[0]
-                self.edges[edge_temp][link_attrs_name] = copy.deepcopy(self.link_attrs_setting[link_attrs_name])
-                link_attrs_name_value.pop(0)
+                if edge_temp[0] != edge_temp[1]:
+                    self.link_attrs_setting[link_attrs_name]["max_setting"]["value"] = link_attrs_name_value[0]
+                    self.link_attrs_setting[link_attrs_name]["remain_setting"]["value"] = link_attrs_name_value[0]
+                    self.edges[edge_temp][link_attrs_name] = copy.deepcopy(self.link_attrs_setting[link_attrs_name])
+                    link_attrs_name_value.pop(0)
 
+    def __generate_intralink_attrs_data(self):
+        for link_attrs_name in self.intralink_attrs_setting.keys():
+            link_attrs_name_setting = self.intralink_attrs_setting[link_attrs_name]
+            link_attrs_name_value = NumberOperator.generate_data_with_distribution(len(self.edges),**link_attrs_name_setting["max_setting"])
+
+            for edge_temp in self.edges:
+                if edge_temp[0] == edge_temp[1]:
+                    self.intralink_attrs_setting[link_attrs_name]["max_setting"]["value"] = link_attrs_name_value[0]
+                    self.intralink_attrs_setting[link_attrs_name]["remain_setting"]["value"] = link_attrs_name_value[0]
+                    self.edges[edge_temp][link_attrs_name] = copy.deepcopy(self.intralink_attrs_setting[link_attrs_name])
+                    link_attrs_name_value.pop(0)
 
     def get_node_attrs_value(self, node_id:int, node_attrs_name:str, value_type:str) -> int:
         """Get the attribute values of a node

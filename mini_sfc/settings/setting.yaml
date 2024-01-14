@@ -60,6 +60,16 @@ substrate_network_setting:
         distribution: uniform
       remain_setting:
         dtype: int
+  intralink_attrs_setting:
+    band_setting:
+      price: 1
+      max_setting:
+        dtype: int
+        high: 10000
+        low: 10000
+        distribution: uniform
+      remain_setting:
+        dtype: int
 
 service_group_setting:
   num_sfc: 1000

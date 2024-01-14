@@ -7,12 +7,24 @@
 @Version :   0.0
 @Contact :   wangxi_chn@foxmail.com
 @License :   (C)Copyright 2023-2024, Wang Xi
-@Desc    :   None
+@Desc    :   
+             The structure of the service function chain is expressed as: 
+             ----    -----       -----    ----
+             |ap| -- |vnf| -...- |vnf| -- |ap|
+             ----    -----       -----    ----
+             'ap' indicates the access point using this service function chain.
+              The creation of an access point does not use resources on any physical node, 
+              only needs to indicate its mapping relationship with the physical node.
+
+             'vnf' represents a virtual node in the service function chain that 
+             needs to occupy physical node resources. The mapping relationship between it 
+             and physical nodes has MANO dynamic arrangement 
 '''
 
 import networkx as nx
 from data import Config
 from utils import NumberOperator
+import numpy as np
 import code
 import copy
 
@@ -32,13 +44,17 @@ class ServiceChain(nx.Graph):
         self.lifetime = kwargs.get("lifetime",0)
         self.endtime = self.arrivetime + self.lifetime
 
+        # set the ap nodes mapping relationship with the physical nodes
+        self.ap_map = np.random.choice(range(config.substrate_network_setting["num_nodes"]),2)
+
         self.__generate_topology()
         self.__generate_node_attrs_data()
         self.__generate_link_attrs_data()
 
 
     def __generate_topology(self):
-        assert self.num_nodes >= 1
+        #  A service function chain requires at least two nodes: access points
+        assert self.num_nodes >= 2
         type = self.topology_setting["type"]
         assert type in ['path', 'star', 'waxman', 'random'], ValueError('Unsupported graph type!')
         
@@ -65,6 +81,9 @@ class ServiceChain(nx.Graph):
             node_attrs_name_setting = self.node_attrs_setting[node_attrs_name]
             node_attrs_name_value = NumberOperator.generate_data_with_distribution(self.num_nodes,**node_attrs_name_setting)
 
+            # Two access points do not use resources on physical node
+            node_attrs_name_value[0] = node_attrs_name_value[-1] = 0
+            
             for node_id in range(self.num_nodes):
                 self.node_attrs_setting[node_attrs_name]["value"] = node_attrs_name_value[node_id]
                 self.nodes[node_id][node_attrs_name] = copy.deepcopy(self.node_attrs_setting[node_attrs_name])
@@ -106,3 +125,4 @@ class ServiceChain(nx.Graph):
         """
 
         return self.edges[link_id][link_attrs_name]["value"]
+    
