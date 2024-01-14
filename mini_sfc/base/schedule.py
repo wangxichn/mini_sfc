@@ -10,21 +10,40 @@
 @Desc    :   None
 '''
 
-from typing import Any
 from data import Config
 from data import SubstrateNetwork
 from data import ServiceGroup
 from data import ServiceChain
+from base.event import EventType, Event
+from typing import Tuple
+import copy
+import code
 
 class Schedule:
     def __init__(self,config:Config,substrate_network:SubstrateNetwork,service_group:ServiceGroup) -> None:
         self.config = config
         self.substrate_network = substrate_network
         self.service_group = service_group
-        self.events = []
+        self.events: list[Event] = []
+        self.current_event_id = 0
 
         self.__generate_event_list()
+    
+    def reset(self):
+        self.current_event_id = 0
 
+    def step(self) -> Tuple[Event,bool]:
+        if self.current_event_id == len(self.events):
+            return None, True
+        else:
+            event = self.events[self.current_event_id]
+            if event.type == EventType.SFC_ARRIVE or event.type == EventType.SFC_ENDING:
+                event.sfc = copy.deepcopy(self.service_group[event.sfc_id])
+            elif event.type == EventType.TOPO_CHANGE:
+                self.substrate_network.change_topology()
+                event.current_topo = copy.deepcopy(self.substrate_network)
+            self.current_event_id += 1
+            return event, False
 
     def __generate_event_list(self):
         
@@ -33,22 +52,30 @@ class Schedule:
             event_list = self.__generate_sfc_event_list()
         else:
             event_list = self.__generate_sfc_event_list()
-            event_list = sorted(event_list, key=lambda e: e.__getitem__('time'))
-            event_list = event_list + self.__generate_topo_event_list(event_list[0]['time'],event_list[-1]['time'])
+            event_list = sorted(event_list, key=lambda e: e.time)
+            event_list = event_list + self.__generate_topo_event_list(event_list[0].time,event_list[-1].time)
 
-        self.events = sorted(event_list, key=lambda e: e.__getitem__('time'))
-        for i, event in enumerate(self.events): 
-            event['id'] = i
+        self.events = sorted(event_list, key=lambda e: e.time)
+        for i, event in enumerate(self.events):
+            event.id = i
 
-    def __generate_sfc_event_list(self):
-        arrive_event_list = [{'sfc_id':int(service_chain.id), 'time':float(service_chain.arrivetime), 'type':1} for service_chain in self.service_group]
-        end_event_list = [{'sfc_id':int(service_chain.id), 'time':float(service_chain.endtime), 'type':0} for service_chain in self.service_group]
+    def __generate_sfc_event_list(self) -> list[Event]:
+        arrive_event_list = [Event(**{'type':EventType.SFC_ARRIVE,
+                                      'time':float(service_chain.arrivetime),
+                                      'sfc_id':int(service_chain.id)})
+                                      for service_chain in self.service_group]
+        end_event_list = [Event(**{'type':EventType.SFC_ENDING,
+                                   'time':float(service_chain.endtime),
+                                   'sfc_id':int(service_chain.id)})
+                                   for service_chain in self.service_group]
         return arrive_event_list + end_event_list
     
-    def __generate_topo_event_list(self, starttime:float, endtime:float):
+    def __generate_topo_event_list(self, starttime:float, endtime:float) -> list[Event]:
         change_times = self.substrate_network.topology_change_setting["change_times"]
         change_interval = (endtime-starttime)/(change_times+1)
-        topo_event_list = [{'time':float((i+1)*change_interval+starttime),'type':2} for i in range(change_times)]
+        topo_event_list = [Event(**{'type':EventType.TOPO_CHANGE,
+                                    'time':float((i+1)*change_interval+starttime)})
+                                    for i in range(change_times)]
         return topo_event_list
     
     

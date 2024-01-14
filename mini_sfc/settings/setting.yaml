@@ -1,8 +1,9 @@
-scenario_setting: 
-  solver_name: algorithm
+scenario_setting:
+  exp_repeat_time: 1
+  solver_name: algorithm1
 
 substrate_network_setting:
-  num_nodes: 100
+  num_nodes: 10
   topology_setting:
     type: waxman
     wm_alpha: 0.5

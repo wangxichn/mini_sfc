@@ -191,6 +191,8 @@ class SubstrateNetwork(nx.Graph):
         else:
             raise NotImplementedError
         
+
+        
     def __change_topology_with_adjacency(self,aim_adjacency_matrix):
         origin_adjacency_matrix = self.get_adjacency_matrix()
         for i in range(self.num_nodes):
