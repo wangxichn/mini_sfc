@@ -34,6 +34,7 @@ class Config:
 
         content = self.__read_settings_from_yaml(filepath)
         self.scenario_setting:dict = content["scenario_setting"]
+        self.mano_setting:dict = content["mano_setting"]
         self.substrate_network_setting:dict = content["substrate_network_setting"]
         self.service_group_setting:dict = content["service_group_setting"]
         self.service_chain_setting:dict = content["service_chain_setting"]

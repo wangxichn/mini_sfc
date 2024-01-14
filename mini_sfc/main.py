@@ -20,6 +20,7 @@ def run(config):
     logging.info(f"{'-' * 20}   Mini-SFC Start!   {'-' * 20}")
 
     scenario = Scenario.build(config)
+
     scenario.start()
 
     logging.info(f"{'-' * 20}   Mini-SFC Complete!   {'-' * 20}")

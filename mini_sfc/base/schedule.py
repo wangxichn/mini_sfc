@@ -14,7 +14,7 @@ from data import Config
 from data import SubstrateNetwork
 from data import ServiceGroup
 from data import ServiceChain
-from base.event import EventType, Event
+from base import EventType, Event
 from typing import Tuple
 import copy
 import code

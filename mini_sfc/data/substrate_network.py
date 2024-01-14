@@ -33,7 +33,6 @@ class SubstrateNetwork(nx.Graph):
         self.__generate_node_attrs_data()
         self.__generate_link_attrs_data()
         self.__generate_intralink_attrs_data()
-        self.change_topology()
 
 
     def __generate_topology(self):

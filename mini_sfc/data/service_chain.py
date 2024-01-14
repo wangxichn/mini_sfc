@@ -39,7 +39,7 @@ class ServiceChain(nx.Graph):
 
         self.num_nodes: int = NumberOperator.generate_data_with_distribution(1,**self.num_nodes_setting)[0]
 
-        self.id = kwargs.get("id",0)
+        self.id: int = kwargs.get("id",0)
         self.arrivetime = kwargs.get("arrivetime",0)
         self.lifetime = kwargs.get("lifetime",0)
         self.endtime = self.arrivetime + self.lifetime
