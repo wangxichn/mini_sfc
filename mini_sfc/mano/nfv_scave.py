@@ -13,18 +13,21 @@
 import code
 import csv
 import os
+import math
 
 class NfvScaveSummaryDefine():
-    SUMMARY_DATA1 = 0
+    def __init__(self) -> None:
+        self.SUMMARY_DATA1 = None
 
 class NfvScaveSolverDefine():
-    EVENT_ID: 0
-    EVENT_TIME: 1
-    EVENT_TYPE: 2
+    def __init__(self) -> None:
+        self.EVENT_ID = None
+        self.EVENT_TIME = None
+        self.EVENT_TYPE = None
 
-    MANO_VNFFG_NUM: 3
-    MANO_VNFFG_LIST: 4
-
+        self.MANO_VNFFG_NUM = None
+        self.MANO_VNFFG_LIST = None
+    
 
 class NfvScave:
     def __init__(self,**kwargs) -> None:

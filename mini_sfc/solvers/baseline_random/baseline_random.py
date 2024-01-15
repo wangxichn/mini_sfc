@@ -13,16 +13,30 @@
 from solvers import SOLVER_REGISTRAR
 from solvers import Solver
 from solvers import Solution
+from data import ServiceChain
+from data import SubstrateNetwork
 
 @SOLVER_REGISTRAR.regist(solver_name='baseline_random')
 class BaselineRandom(Solver):
     def __init__(self) -> None:
         super().__init__()
 
-    def initialize(self):
+    def initialize(self,service_chain: ServiceChain,substrate_network: SubstrateNetwork) -> None:
         self.solution = Solution()
-        
-    def solve():
-        pass
+        self.service_chain = service_chain
+        self.substrate_network = substrate_network
+
+    def solve_embedding(self,service_chain: ServiceChain,substrate_network: SubstrateNetwork) -> Solution:
+        self.service_chain = service_chain
+        self.substrate_network = substrate_network
+
+        return self.solution
+    
+    def solve_migration(self,service_chain: ServiceChain,substrate_network: SubstrateNetwork) -> Solution:
+        self.service_chain = service_chain
+        self.substrate_network = substrate_network
+
+        return self.solution
+
         
 

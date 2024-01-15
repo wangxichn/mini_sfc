@@ -22,22 +22,39 @@ class VnffgManager:
     def __init__(self,service_chain:ServiceChain, substrate_network:SubstrateNetwork, **kwargs) -> None:
         self.setting = kwargs
         
+        # Service Function Chain Property
         self.service_chain = service_chain
         self.vnf_num = service_chain.num_nodes
         self.vnf_group:list[NfvManager] = [NfvManager(**service_chain.nodes[i]) for i in service_chain.nodes]
 
+        # Substrate Network Property
         self.substrate_network = substrate_network
 
+        # Solver Property
         self.solver_name = self.setting.get("solver_name","baseline_random")
-        self.solver = SOLVER_REGISTRAR.get(self.solver_name)
+        self.solver = SOLVER_REGISTRAR.get(self.solver_name)()
+        self.solver.initialize(self.service_chain,self.substrate_network)
+        self.solution = Solution()
 
-    def handle_arrive(self) -> Tuple[SubstrateNetwork,Solution]:
-        return self.substrate_network,Solution()
 
-    def handle_ending(self) -> Tuple[SubstrateNetwork,Solution]:
-        return self.substrate_network,Solution()
+    def handle_arrive(self, service_chain:ServiceChain, substrate_network:SubstrateNetwork) -> Tuple[SubstrateNetwork,Solution]:
+        self.solution = self.solver.solve_embedding(service_chain,substrate_network)
 
-    def handle_topochange(self) -> Tuple[SubstrateNetwork,Solution]:
-        return self.substrate_network,Solution()
+        # put the service_chain into substrate_network
+
+        return self.substrate_network,self.solution
+
+    def handle_ending(self, service_chain:ServiceChain, substrate_network:SubstrateNetwork) -> Tuple[SubstrateNetwork,Solution]:
+
+        # remove the service_chain from substrate_network
+
+        return self.substrate_network,self.solution
+
+    def handle_topochange(self, service_chain:ServiceChain, substrate_network:SubstrateNetwork) -> Tuple[SubstrateNetwork,Solution]:
+        self.solution = self.solver.solve_migration(service_chain,substrate_network)
+
+        # dealwith the service_chain migration
+
+        return self.substrate_network,self.solution
 
 

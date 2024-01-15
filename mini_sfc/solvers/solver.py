@@ -17,7 +17,7 @@ class SolverRegistrar:
     def __init__(self) -> None:
         self._solver_dict = {}
 
-    def get(self, solver_name: str) -> dict:
+    def get(self, solver_name: str) -> object:
         solver_name = solver_name.lower()
         if solver_name not in self._solver_dict.keys():
             raise KeyError(f'The solver {solver_name} is not in the registry')
