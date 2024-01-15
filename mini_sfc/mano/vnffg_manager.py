@@ -11,14 +11,33 @@
 '''
 
 from data import ServiceChain
+from data import SubstrateNetwork
 from mano import NfvManager
+from solvers import SOLVER_REGISTRAR
+from solvers import Solution
+from typing import Tuple
+import code
 
 class VnffgManager:
-    def __init__(self,service_chain:ServiceChain) -> None:
+    def __init__(self,service_chain:ServiceChain, substrate_network:SubstrateNetwork, **kwargs) -> None:
+        self.setting = kwargs
+        
         self.service_chain = service_chain
-
         self.vnf_num = service_chain.num_nodes
         self.vnf_group:list[NfvManager] = [NfvManager(**service_chain.nodes[i]) for i in service_chain.nodes]
 
+        self.substrate_network = substrate_network
+
+        self.solver_name = self.setting.get("solver_name","baseline_random")
+        self.solver = SOLVER_REGISTRAR.get(self.solver_name)
+
+    def handle_arrive(self) -> Tuple[SubstrateNetwork,Solution]:
+        return self.substrate_network,Solution()
+
+    def handle_ending(self) -> Tuple[SubstrateNetwork,Solution]:
+        return self.substrate_network,Solution()
+
+    def handle_topochange(self) -> Tuple[SubstrateNetwork,Solution]:
+        return self.substrate_network,Solution()
 
 

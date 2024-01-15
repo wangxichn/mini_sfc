@@ -1,11 +1,11 @@
 scenario_setting:
-  exp_repeat_time: 3
+  exp_repeat_time: 1
   
 mano_setting:
-  solver_name: algorithm1
+  solver_name: baseline_random
 
 substrate_network_setting:
-  num_nodes: 100
+  num_nodes: 10
   topology_setting:
     type: waxman
     wm_alpha: 0.5
@@ -75,7 +75,7 @@ substrate_network_setting:
         dtype: int
 
 service_group_setting:
-  num_sfc: 1000
+  num_sfc: 10
   arrival_rate_setting:
     dtype: float
     distribution: possion

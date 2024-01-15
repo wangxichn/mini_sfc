@@ -25,7 +25,7 @@ class NfvMano:
         self.config = config
 
         # init NfvOrchestrator
-        self.solver_name: str = self.config.mano_setting.get("solver_name","random")
+        self.solver_name: str = self.config.mano_setting.get("solver_name","baseline_random")
         self.nfv_orchestrator_setting = {"solver_name":self.solver_name}
         self.nfv_orchestrator = NfvOrchestrator(**self.nfv_orchestrator_setting)
 
