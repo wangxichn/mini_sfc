@@ -47,7 +47,7 @@ class Scenario:
         return scenario
 
     def rebuild(self):
-        logging.info("The experiment scenario is rebuilding")
+        logging.warning("The experiment scenario is rebuilding")
         substrate_network = SubstrateNetwork(self.config)
         service_group = ServiceGroup(self.config)
         self.schedule = Schedule(self.config,substrate_network,service_group)
@@ -66,7 +66,7 @@ class Scenario:
             logging.info(f"The {exp_id}-th experiment is underway")
             if exp_id != 0: self.rebuild()
             self.nfv_mano.ready(copy.deepcopy(self.schedule.substrate_network))
-            # pbar = tqdm.tqdm(desc=f'INFO:root:Experiment with Solver {self.nfv_mano.solver_name}', total=len(self.schedule.events))
+            pbar = tqdm.tqdm(desc=f'INFO:root:Experiment with Solver {self.nfv_mano.solver_name}', total=len(self.schedule.events))
 
             # loop with event list
             while True:
@@ -86,11 +86,11 @@ class Scenario:
                 #     plt.set_loglevel("error")
                 #     fig.savefig(f"{self.config.save_path}+{event.id}.png")
 
-                # pbar.update(1)
-                # pbar.set_postfix({
-                #     'event_id': f'{event.id}',
-                #     'event_type': f'{event.type}',
-                # })
+                pbar.update(1)
+                pbar.set_postfix({
+                    'event_id': f'{event.id}',
+                    'event_type': f'{event.type}',
+                })
 
                 # end show ----------------------------------------------------------------------------------------------------------------
                 self.nfv_mano.handle(event)
@@ -98,7 +98,7 @@ class Scenario:
                 self.__update_from_nfv_mano(self.nfv_mano)
                 
             # end this experiment
-            # pbar.close()
+            pbar.close()
 
     def __update_from_nfv_mano(self,nfv_mano:NfvMano):
         self.schedule.substrate_network = copy.deepcopy(nfv_mano.substrate_network)

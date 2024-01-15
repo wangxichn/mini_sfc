@@ -10,8 +10,42 @@
 @Desc    :   None
 '''
 
+import code
+import csv
+import os
+
+class NfvScaveSummaryDefine():
+    SUMMARY_DATA1 = 0
+
+class NfvScaveSolverDefine():
+    EVENT_ID: 0
+    EVENT_TIME: 1
+    EVENT_TYPE: 2
+
+    MANO_VNFFG_NUM: 3
+    MANO_VNFFG_LIST: 4
+
+
 class NfvScave:
-    def __init__(self) -> None:
+    def __init__(self,**kwargs) -> None:
+        self.save_file_summary = kwargs.get("save_file_summary")
+        self.save_file_solver = kwargs.get("save_file_solver")
+
+        self.record_summary: dict[NfvScaveSummaryDefine:] = {}
+        self.record_solver: dict[NfvScaveSolverDefine:] = {}
+
+    def save_summary_record(self):
         pass
 
+    def save_solver_record(self,save_data:NfvScaveSolverDefine):
+        head = None if os.path.exists(self.save_file_solver) else list(save_data.__dict__.keys())
+        with open(self.save_file_solver, 'a+', newline='') as csv_file:
+            writer = csv.writer(csv_file, dialect='excel', delimiter=',')
+            if head is not None: writer.writerow(head)
+            writer.writerow(list(save_data.__dict__.values()))
 
+    def update_save_file_setting(self,**kwargs):
+        if "save_file_summary" in kwargs:
+            self.save_file_summary = kwargs.get("save_file_summary")
+        if "save_file_solver" in kwargs:
+            self.save_file_solver = kwargs.get("save_file_solver")

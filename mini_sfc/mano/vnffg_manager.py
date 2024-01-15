@@ -11,9 +11,14 @@
 '''
 
 from data import ServiceChain
+from mano import NfvManager
 
 class VnffgManager:
     def __init__(self,service_chain:ServiceChain) -> None:
         self.service_chain = service_chain
+
+        self.vnf_num = service_chain.num_nodes
+        self.vnf_group:list[NfvManager] = [NfvManager(**service_chain.nodes[i]) for i in service_chain.nodes]
+
 
 

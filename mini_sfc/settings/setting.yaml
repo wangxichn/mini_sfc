@@ -1,17 +1,17 @@
 scenario_setting:
-  exp_repeat_time: 1
+  exp_repeat_time: 3
   
 mano_setting:
   solver_name: algorithm1
 
 substrate_network_setting:
-  num_nodes: 10
+  num_nodes: 100
   topology_setting:
     type: waxman
     wm_alpha: 0.5
     wm_beta: 0.2
   topology_change_setting:
-    type: static
+    type: random
     break_prob: 0.2
     connect_prob: 0.2
     change_times: 10
@@ -75,16 +75,16 @@ substrate_network_setting:
         dtype: int
 
 service_group_setting:
-  num_sfc: 10
+  num_sfc: 1000
   arrival_rate_setting:
     dtype: float
     distribution: possion
-    lam: 0.04
+    lam: 0.4
     reciprocal: true
   lifetime_setting:
     dtype: float
     distribution: uniform
-    low: 1
+    low: 5
     high: 10
 
 service_chain_setting:

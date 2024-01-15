@@ -19,14 +19,12 @@ import logging
 import code
 
 
-@dataclass
 class Config:
-    setting_path: str = os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")),"settings\setting.yaml")
-    save_path: str = os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")),"save/")
+    def __init__(self):
+        self.setting_path: str = os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")),"settings\setting.yaml")
+        self.save_path: str = os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")),f"save\{self.get_run_id()}/")
 
-    def __post_init__(self):
         self.read_settings(self.setting_path)
-        self.get_run_id()
         self.ready_for_directory(self.save_path)
 
     def read_settings(self,filepath):
@@ -41,10 +39,12 @@ class Config:
 
         # code.interact(banner="",local=locals())
 
-    def get_run_id(self):
-        self.run_time = time.strftime('%Y%m%dT%H%M%S')
-        self.host_name = socket.gethostname()
-        self.run_id = f'{self.host_name}-{self.run_time}'
+    @staticmethod
+    def get_run_id() -> str:
+        run_time = time.strftime('%Y%m%dT%H%M%S')
+        host_name = socket.gethostname()
+        run_id = f'{host_name}-{run_time}'
+        return run_id
         
     def __read_settings_from_yaml(self,filepath):
         with open(filepath, 'r', encoding='utf-8') as f:
@@ -55,9 +55,10 @@ class Config:
         return setting_dict
 
     @staticmethod
-    def ready_for_directory(path:str):
+    def ready_for_directory(path:str) -> str:
         if not os.path.exists(path):
-            os.mkdir(path)
+            os.makedirs(path)
+        return path
 
 
 

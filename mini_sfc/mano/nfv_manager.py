@@ -11,6 +11,6 @@
 '''
 
 class NfvManager:
-    def __init__(self) -> None:
-        pass
+    def __init__(self,**kwargs) -> None:
+        self.attrs = kwargs
 
