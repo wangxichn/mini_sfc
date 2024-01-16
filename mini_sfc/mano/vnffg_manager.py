@@ -12,6 +12,7 @@
 
 from data import ServiceChain
 from data import SubstrateNetwork
+from base import Event
 from mano import NfvManager
 from solvers import SOLVER_REGISTRAR
 from solvers import Solution,SolutionGroup
@@ -19,41 +20,41 @@ from typing import Tuple
 import code
 
 class VnffgManager:
-    def __init__(self,service_chain:ServiceChain, substrate_network:SubstrateNetwork, **kwargs) -> None:
+    def __init__(self, event:Event, **kwargs) -> None:
         self.setting = kwargs
         
         # Service Function Chain Property
-        self.service_chain = service_chain
-        self.vnf_num = service_chain.num_nodes
-        self.vnf_group:list[NfvManager] = [NfvManager(**service_chain.nodes[i]) for i in service_chain.nodes]
+        self.service_chain = event.sfc
+        self.vnf_num = event.sfc.num_nodes
+        self.vnf_group:list[NfvManager] = [NfvManager(**event.sfc.nodes[i]) for i in event.sfc.nodes]
 
         # Substrate Network Property
-        self.substrate_network = substrate_network
+        self.substrate_network = event.current_substrate
 
         # Solver Property
         self.solver_name = self.setting.get("solver_name","baseline_random")
         self.solver = SOLVER_REGISTRAR.get(self.solver_name)()
-        self.solver.initialize(self.service_chain,self.substrate_network)
+        self.solver.initialize(event)
         self.solution_group = SolutionGroup()
 
 
-    def handle_arrive(self, service_chain:ServiceChain, substrate_network:SubstrateNetwork) -> Tuple[SubstrateNetwork,Solution]:
-        self.solution_group.append(self.solver.solve_embedding(service_chain,substrate_network))
+    def handle_arrive(self, event:Event) -> Tuple[SubstrateNetwork,Solution]:
+        self.solution_group.append(self.solver.solve_embedding(event))
 
         # put the service_chain into substrate_network
 
         return self.substrate_network,self.solution_group[-1]
 
-    def handle_ending(self, service_chain:ServiceChain, substrate_network:SubstrateNetwork) -> Tuple[SubstrateNetwork,Solution]:
+    def handle_ending(self, event:Event) -> Tuple[SubstrateNetwork,Solution]:
         solution = Solution() # ending solution
         self.solution_group.append(solution)
-        
+
         # remove the service_chain from substrate_network
 
         return self.substrate_network,self.solution_group[-1]
 
-    def handle_topochange(self, service_chain:ServiceChain, substrate_network:SubstrateNetwork) -> Tuple[SubstrateNetwork,Solution]:
-        self.solution_group.append(self.solver.solve_migration(service_chain,substrate_network))
+    def handle_topochange(self, event:Event) -> Tuple[SubstrateNetwork,Solution]:
+        self.solution_group.append(self.solver.solve_migration(event))
 
         # dealwith the service_chain migration
 

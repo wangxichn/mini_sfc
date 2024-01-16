@@ -10,15 +10,15 @@
 @Desc    :   None
 '''
 
-from enum import Enum
+from enum import Enum, auto
 from data import ServiceChain
 from data import SubstrateNetwork
 
 class EventType(Enum):
-    NOTHING = 0
-    SFC_ARRIVE = 1
-    SFC_ENDING = 2
-    TOPO_CHANGE = 3
+    NOTHING = auto()
+    SFC_ARRIVE = auto()
+    SFC_ENDING = auto()
+    TOPO_CHANGE = auto()
 
 class Event():
     def __init__(self,**kwargs) -> None:

@@ -29,22 +29,30 @@ class NfvOrchestrator:
 
     def handle(self,event:Event):
         if event.type == EventType.SFC_ARRIVE:
-            # update network state
+            # Update network state before solve
             self.substrate_network = event.current_substrate
             # Create SFC manager
-            vnffg_manager = VnffgManager(event.sfc,copy.deepcopy(self.substrate_network),**self.vnffg_manager_setting)
-            self.substrate_network, _ = vnffg_manager.handle_arrive(event.sfc,copy.deepcopy(self.substrate_network)) # solution to do------------------------
+            vnffg_manager = VnffgManager(event,**self.vnffg_manager_setting)
+            # Update network state after solve
+            self.substrate_network, _ = vnffg_manager.handle_arrive(event) # solution to do------------------------
+            # Save SFC manager
             self.vnffg_group.append(vnffg_manager)
             
         elif event.type == EventType.SFC_ENDING:
-            # update network state
+            # Update network state before solve
             self.substrate_network = event.current_substrate
             # Find SFC manager related
             vnffg_manager = list(filter(lambda x: x.service_chain.id == event.sfc.id, self.vnffg_group))
             if vnffg_manager != []:
+                # SFC ending normally
                 vnffg_manager = vnffg_manager[0]
-                self.substrate_network, _ = vnffg_manager.handle_ending(event.sfc,copy.deepcopy(self.substrate_network)) # solution to do--------------------
+                # Update network state after solve
+                self.substrate_network, _ = vnffg_manager.handle_ending(event) # solution to do--------------------
+                # Remove SFC manager
                 self.vnffg_group = list(filter(lambda x: x.service_chain.id != event.sfc.id, self.vnffg_group))
+            else:
+                # SFC has been forcibly ended
+                pass
 
         elif event.type == EventType.TOPO_CHANGE:
             # update network state

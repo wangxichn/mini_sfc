@@ -12,29 +12,64 @@
 
 from solvers import SOLVER_REGISTRAR
 from solvers import Solver
-from solvers import Solution
-from data import ServiceChain
-from data import SubstrateNetwork
+from solvers import Solution, SOLUTION_TYPE
+from base import Event
+import networkx as nx
+import random
+import code
 
 @SOLVER_REGISTRAR.regist(solver_name='baseline_random')
 class BaselineRandom(Solver):
     def __init__(self) -> None:
         super().__init__()
 
-    def initialize(self,service_chain: ServiceChain,substrate_network: SubstrateNetwork) -> None:
+    def initialize(self,event: Event) -> None:
         self.solution = Solution()
-        self.service_chain = service_chain
-        self.substrate_network = substrate_network
+        self.service_chain = event.sfc
+        self.substrate_network = event.current_substrate
 
-    def solve_embedding(self,service_chain: ServiceChain,substrate_network: SubstrateNetwork) -> Solution:
-        self.service_chain = service_chain
-        self.substrate_network = substrate_network
+    def solve_embedding(self,event: Event) -> Solution:
+        self.service_chain = event.sfc
+        self.substrate_network = event.current_substrate
+
+        # algorithm begin
+        self.solution.current_time = event.time
+        self.solution.current_service_chain = event.sfc
+        self.solution.current_substrate_net = event.current_substrate
+        
+        for v_node in self.service_chain.nodes:
+            self.solution.map_node[v_node] = random.sample(range(self.substrate_network.num_nodes),1)[0]
+
+        for v_link in self.service_chain.edges():
+            map_path = nx.dijkstra_path(self.substrate_network,
+                                        self.solution.map_node[v_link[0]],
+                                        self.solution.map_node[v_link[1]])
+            if len(map_path) == 1: 
+                self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
+            else:
+                self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
+
+        self.solution.current_description = SOLUTION_TYPE.SET_SUCCESS
+        self.solution.current_result = True
+
+        self.solution.perform_revenue = 0
+        self.solution.perform_revenue_longterm = 0
+        self.solution.perform_latency = 0
+        self.solution.cost_real_time = 0
+        self.solution.cost_node_resource = 0
+        self.solution.cost_node_resource_percentage = 0
+        self.solution.cost_link_resource = 0
+        self.solution.cost_link_resource_percentage = 0
+
+        # algorithm end
+
+        code.interact(banner="",local=locals())
 
         return self.solution
     
-    def solve_migration(self,service_chain: ServiceChain,substrate_network: SubstrateNetwork) -> Solution:
-        self.service_chain = service_chain
-        self.substrate_network = substrate_network
+    def solve_migration(self,event: Event) -> Solution:
+        self.service_chain = event.sfc
+        self.substrate_network = event.current_substrate
 
         return self.solution
 
