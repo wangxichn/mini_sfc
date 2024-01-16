@@ -14,7 +14,7 @@ from data import ServiceChain
 from data import SubstrateNetwork
 from mano import NfvManager
 from solvers import SOLVER_REGISTRAR
-from solvers import Solution
+from solvers import Solution,SolutionGroup
 from typing import Tuple
 import code
 
@@ -34,27 +34,29 @@ class VnffgManager:
         self.solver_name = self.setting.get("solver_name","baseline_random")
         self.solver = SOLVER_REGISTRAR.get(self.solver_name)()
         self.solver.initialize(self.service_chain,self.substrate_network)
-        self.solution = Solution()
+        self.solution_group = SolutionGroup()
 
 
     def handle_arrive(self, service_chain:ServiceChain, substrate_network:SubstrateNetwork) -> Tuple[SubstrateNetwork,Solution]:
-        self.solution = self.solver.solve_embedding(service_chain,substrate_network)
+        self.solution_group.append(self.solver.solve_embedding(service_chain,substrate_network))
 
         # put the service_chain into substrate_network
 
-        return self.substrate_network,self.solution
+        return self.substrate_network,self.solution_group[-1]
 
     def handle_ending(self, service_chain:ServiceChain, substrate_network:SubstrateNetwork) -> Tuple[SubstrateNetwork,Solution]:
-
+        solution = Solution() # ending solution
+        self.solution_group.append(solution)
+        
         # remove the service_chain from substrate_network
 
-        return self.substrate_network,self.solution
+        return self.substrate_network,self.solution_group[-1]
 
     def handle_topochange(self, service_chain:ServiceChain, substrate_network:SubstrateNetwork) -> Tuple[SubstrateNetwork,Solution]:
-        self.solution = self.solver.solve_migration(service_chain,substrate_network)
+        self.solution_group.append(self.solver.solve_migration(service_chain,substrate_network))
 
         # dealwith the service_chain migration
 
-        return self.substrate_network,self.solution
+        return self.substrate_network,self.solution_group[-1]
 
 

@@ -39,16 +39,25 @@ class NfvMano:
     def ready(self,substrate_network:SubstrateNetwork):
         logging.info("Nfv Mano is initializing")
 
+        # ready for nfv scave
         self.save_file_solver = Config.ready_for_directory(self.config.save_path + f"{self.solver_name}/")+ f"{Config.get_run_id()}.csv"
         self.nfv_scave_setting = {"save_file_solver":self.save_file_solver}
         self.nfv_scave.update_save_file_setting(**self.nfv_scave_setting)
+        self.nfv_scave.record_solver.clear()
 
+        # update substate network
         self.substrate_network = substrate_network
+
+        # ready for vims
         self.nfv_vim_group:list[NfvVim] = [NfvVim(**substrate_network.nodes[i]) for i in substrate_network.nodes]
+
+        # ready for nfv orchestrator
         self.nfv_orchestrator.ready(substrate_network)
 
     
     def handle(self,event:Event):
+        self.substrate_network = event.current_substrate
+
         self.nfv_orchestrator.handle(event)
         data_save = NfvScaveSolverDefine()
         data_save.EVENT_ID = event.id
@@ -56,6 +65,12 @@ class NfvMano:
         data_save.EVENT_TIME = event.time
         data_save.MANO_VNFFG_NUM = len(self.nfv_orchestrator.vnffg_group)
         data_save.MANO_VNFFG_LIST = [i.service_chain.id for i in self.nfv_orchestrator.vnffg_group]
+
+        if event.type == EventType.SFC_ARRIVE:
+            data_save.SFC_LENGTH = event.sfc.num_nodes
+            data_save.SFC_QOS_LATENCY = event.sfc.qos_latency
+
         self.nfv_scave.save_solver_record(data_save)
+        self.nfv_scave.record_solver.append(data_save)
 
 

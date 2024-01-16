@@ -25,6 +25,9 @@ class NfvScaveSolverDefine():
         self.EVENT_TIME = None
         self.EVENT_TYPE = None
 
+        self.SFC_LENGTH = None
+        self.SFC_QOS_LATENCY = None
+
         self.MANO_VNFFG_NUM = None
         self.MANO_VNFFG_LIST = None
     
@@ -34,8 +37,8 @@ class NfvScave:
         self.save_file_summary = kwargs.get("save_file_summary")
         self.save_file_solver = kwargs.get("save_file_solver")
 
-        self.record_summary: dict[NfvScaveSummaryDefine:] = {}
-        self.record_solver: dict[NfvScaveSolverDefine:] = {}
+        self.record_summary: list[NfvScaveSummaryDefine] = []
+        self.record_solver: list[NfvScaveSolverDefine] = []
 
     def save_summary_record(self):
         pass

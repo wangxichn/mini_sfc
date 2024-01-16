@@ -1,5 +1,5 @@
 scenario_setting:
-  exp_repeat_time: 1
+  exp_repeat_time: 3
   
 mano_setting:
   solver_name: baseline_random
@@ -82,6 +82,11 @@ service_group_setting:
     lam: 0.4
     reciprocal: true
   lifetime_setting:
+    dtype: float
+    distribution: uniform
+    low: 5
+    high: 10
+  qos_latency_setting:
     dtype: float
     distribution: uniform
     low: 5

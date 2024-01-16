@@ -10,7 +10,14 @@
 @Desc    :   None
 '''
 
+
 class Solution:
     def __init__(self) -> None:
         pass
 
+class SolutionGroup(list[Solution]):
+    def __init_subclass__(cls) -> None:
+        return super().__init_subclass__()
+    
+    def append(self, __object: Solution) -> None:
+        return super().append(__object)

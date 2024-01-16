@@ -27,6 +27,7 @@ from utils import NumberOperator
 import numpy as np
 import code
 import copy
+import math
 
 class ServiceChain(nx.Graph):
     def __init__(self, config:Config, **kwargs):
@@ -43,6 +44,7 @@ class ServiceChain(nx.Graph):
         self.arrivetime = kwargs.get("arrivetime",0)
         self.lifetime = kwargs.get("lifetime",0)
         self.endtime = self.arrivetime + self.lifetime
+        self.qos_latency: float = kwargs.get("qos_latency",math.inf)
 
         # set the ap nodes mapping relationship with the physical nodes
         self.ap_map = np.random.choice(range(config.substrate_network_setting["num_nodes"]),2)

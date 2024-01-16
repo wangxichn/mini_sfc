@@ -24,17 +24,19 @@ class ServiceGroup(list[ServiceChain]):
         self.num_sfc = config.service_group_setting["num_sfc"]
         self.arrival_rate_setting = config.service_group_setting["arrival_rate_setting"]
         self.lifetime_setting = config.service_group_setting["lifetime_setting"]
+        self.qos_latency_setting = config.service_group_setting["qos_latency_setting"]
 
         self.__generate_service_chains()
 
 
     def __generate_service_chains(self):
-
-        lifetime_value = NumberOperator.generate_data_with_distribution(self.num_sfc,**self.lifetime_setting)
         arrivetime_interval = NumberOperator.generate_data_with_distribution(size=self.num_sfc, **self.arrival_rate_setting)
         arrivetime_value = np.cumsum(arrivetime_interval)
+        lifetime_value = NumberOperator.generate_data_with_distribution(self.num_sfc,**self.lifetime_setting)
+        qos_latency_value = NumberOperator.generate_data_with_distribution(self.num_sfc,**self.qos_latency_setting)
+
         for i in range(self.num_sfc):
-            service_chain = ServiceChain(self.config,**{"id":i,"arrivetime":arrivetime_value[i],"lifetime":lifetime_value[i]})
+            service_chain = ServiceChain(self.config,**{"id":i,"arrivetime":arrivetime_value[i],"lifetime":lifetime_value[i],"qos_latency":qos_latency_value[i]})
             self.append(service_chain)
             
     def append(self, __object: ServiceChain) -> None:

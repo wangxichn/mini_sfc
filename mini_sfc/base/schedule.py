@@ -37,16 +37,13 @@ class Schedule:
             return None, True
         else:
             event = self.events[self.current_event_id]
-            if event.type == EventType.SFC_ARRIVE or event.type == EventType.SFC_ENDING:
-                event.sfc = copy.deepcopy(self.service_group[event.sfc_id])
-            elif event.type == EventType.TOPO_CHANGE:
+            if event.type == EventType.TOPO_CHANGE:
                 self.substrate_network.change_topology()
-                event.current_topo = copy.deepcopy(self.substrate_network)
+            event.current_substrate = copy.deepcopy(self.substrate_network)
             self.current_event_id += 1
             return event, False
 
     def __generate_event_list(self):
-        
         topo_mode = self.substrate_network.topology_change_setting.get("type","static")
         if topo_mode == "static":
             event_list = self.__generate_sfc_event_list()
@@ -62,11 +59,11 @@ class Schedule:
     def __generate_sfc_event_list(self) -> list[Event]:
         arrive_event_list = [Event(**{'type':EventType.SFC_ARRIVE,
                                       'time':float(service_chain.arrivetime),
-                                      'sfc_id':int(service_chain.id)})
+                                      'sfc':service_chain})
                                       for service_chain in self.service_group]
         end_event_list = [Event(**{'type':EventType.SFC_ENDING,
                                    'time':float(service_chain.endtime),
-                                   'sfc_id':int(service_chain.id)})
+                                   'sfc':service_chain})
                                    for service_chain in self.service_group]
         return arrive_event_list + end_event_list
     

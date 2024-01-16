@@ -29,18 +29,26 @@ class NfvOrchestrator:
 
     def handle(self,event:Event):
         if event.type == EventType.SFC_ARRIVE:
+            # update network state
+            self.substrate_network = event.current_substrate
+            # Create SFC manager
             vnffg_manager = VnffgManager(event.sfc,copy.deepcopy(self.substrate_network),**self.vnffg_manager_setting)
             self.substrate_network, _ = vnffg_manager.handle_arrive(event.sfc,copy.deepcopy(self.substrate_network)) # solution to do------------------------
             self.vnffg_group.append(vnffg_manager)
             
         elif event.type == EventType.SFC_ENDING:
-            vnffg_manager = list(filter(lambda x: x.service_chain.id == event.sfc_id, self.vnffg_group))
+            # update network state
+            self.substrate_network = event.current_substrate
+            # Find SFC manager related
+            vnffg_manager = list(filter(lambda x: x.service_chain.id == event.sfc.id, self.vnffg_group))
             if vnffg_manager != []:
                 vnffg_manager = vnffg_manager[0]
                 self.substrate_network, _ = vnffg_manager.handle_ending(event.sfc,copy.deepcopy(self.substrate_network)) # solution to do--------------------
-                self.vnffg_group = list(filter(lambda x: x.service_chain.id != event.sfc_id, self.vnffg_group))
+                self.vnffg_group = list(filter(lambda x: x.service_chain.id != event.sfc.id, self.vnffg_group))
 
         elif event.type == EventType.TOPO_CHANGE:
+            # update network state
+            self.substrate_network = event.current_substrate
             # find the vnffg_manager will be affected to do---------------------------------------------------
             pass
 

@@ -22,13 +22,10 @@ class EventType(Enum):
 
 class Event():
     def __init__(self,**kwargs) -> None:
-        self.id:int = kwargs.get("id",0)
+        self.id:int = kwargs.get("id",None)
         self.type:EventType = kwargs.get("type",EventType.NOTHING)
-        self.time:float = kwargs.get("time",0.0)
+        self.time:float = kwargs.get("time",None)
 
-        if self.type == EventType.SFC_ARRIVE or self.type == EventType.SFC_ENDING:
-            self.sfc_id:int = kwargs.get("sfc_id",0)
-            self.sfc:ServiceChain = None
-        elif self.type == EventType.TOPO_CHANGE:
-            self.current_topo:SubstrateNetwork = None
+        self.sfc:ServiceChain = kwargs.get("sfc",None)
+        self.current_substrate:SubstrateNetwork = kwargs.get("substrate_network",None)
         
