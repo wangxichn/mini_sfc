@@ -68,8 +68,9 @@ class VnffgManager:
         # Update substrate network
         self.substrate_network = event.current_substrate
         # Obtain a solution and apply it
-        solution = self.solver.solve_embedding(event)
-
+        solution = self.solver.solve_migration(event)
+        self.__action_release(self.solution_group[-1]) # use last one solution release resource
+        self.__action_embedding(solution)
         # Save the solution
         self.solution_group.append(solution)
 
@@ -96,7 +97,7 @@ class VnffgManager:
 
             # ENG
             remain_eng_of_node = self.substrate_network.get_node_attrs_value(phy_node,"energy_setting","remain_setting")
-            request_eng_of_node = request_cpu_of_node * (self.service_chain.lifetime)
+            request_eng_of_node = request_cpu_of_node * (self.service_chain.endtime - solution.current_time)
             self.substrate_network.set_node_attrs_value(phy_node,"energy_setting","remain_setting",remain_eng_of_node-request_eng_of_node)
 
         # second embed links
@@ -126,13 +127,16 @@ class VnffgManager:
 
             # ENG
             remain_eng_of_node = self.substrate_network.get_node_attrs_value(phy_node,"energy_setting","remain_setting")
-            unused_eng_of_node = used_cpu_of_node * (self.service_chain.lifetime-(solution.current_time-self.service_chain.arrivetime))
+            unused_eng_of_node = used_cpu_of_node * (self.service_chain.lifetime - (solution.current_time - self.service_chain.arrivetime))
             self.substrate_network.set_node_attrs_value(phy_node,"energy_setting","remain_setting",remain_eng_of_node+unused_eng_of_node)
 
         # second release links
         for sfd_link, phy_links in solution.map_link.items():
             used_band_of_link = self.service_chain.get_link_attrs_value(sfd_link,"band_setting")
             for phy_link in phy_links:
-                remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")
-                self.substrate_network.set_link_attrs_value(phy_link,"band_setting","remain_setting",remain_band_of_link+used_band_of_link)
+                try: # the link may have been break
+                    remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")
+                    self.substrate_network.set_link_attrs_value(phy_link,"band_setting","remain_setting",remain_band_of_link+used_band_of_link)
+                except:
+                    continue
 

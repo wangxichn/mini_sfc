@@ -18,6 +18,7 @@ from base import Event
 import networkx as nx
 import random
 import code
+import copy 
 
 @SOLVER_REGISTRAR.regist(solver_name='baseline_random')
 class BaselineRandom(Solver):
@@ -36,7 +37,7 @@ class BaselineRandom(Solver):
         # algorithm begin
         self.solution.current_time = event.time
         self.solution.current_service_chain = event.sfc
-        self.solution.current_substrate_net = event.current_substrate
+        self.solution.current_substrate_net = copy.deepcopy(event.current_substrate)
         
         for v_node in self.service_chain.nodes:
             self.solution.map_node[v_node] = random.sample(range(self.substrate_network.num_nodes),1)[0]
@@ -68,6 +69,10 @@ class BaselineRandom(Solver):
         self.service_chain = event.sfc
         self.substrate_network = event.current_substrate
 
+        self.solution = self.solve_embedding(event) # random migaration
+
+        self.solution.current_description = SOLUTION_TYPE.CHANGE_SUCCESS
+
         return self.solution
 
     def solve_ending(self,event: Event) -> Solution:
@@ -76,8 +81,9 @@ class BaselineRandom(Solver):
 
         self.solution.current_time = event.time
         self.solution.current_service_chain = event.sfc
-        self.solution.current_substrate_net = event.current_substrate
+        self.solution.current_substrate_net = copy.deepcopy(event.current_substrate)
         
+        # continue using the last map solution
         self.solution.map_node = self.solution.map_node
         self.solution.map_link = self.solution.map_link
 
