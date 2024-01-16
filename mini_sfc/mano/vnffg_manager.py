@@ -51,16 +51,18 @@ class VnffgManager:
 
         return self.substrate_network,self.solution_group
 
+
     def handle_ending(self, event:Event) -> Tuple[SubstrateNetwork,SolutionGroup]:
         # Update substrate network
         self.substrate_network = event.current_substrate
         # Obtain a solution and apply it
-        solution = Solution() 
-
+        solution = self.solver.solve_ending(event)
+        self.__action_release(solution)
         # Save the solution
         self.solution_group.append(solution)
 
         return self.substrate_network,self.solution_group
+
 
     def handle_topochange(self, event:Event) -> Tuple[SubstrateNetwork,SolutionGroup]:
         # Update substrate network
@@ -104,5 +106,33 @@ class VnffgManager:
                 remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")
                 self.substrate_network.set_link_attrs_value(phy_link,"band_setting","remain_setting",remain_band_of_link-request_band_of_link)
         
+    def __action_release(self, solution:Solution):
+        # first release nodes
+        for sfc_node, phy_node in solution.map_node.items():
+            # CPU
+            remain_cpu_of_node = self.substrate_network.get_node_attrs_value(phy_node,"cpu_setting","remain_setting")
+            used_cpu_of_node = self.service_chain.get_node_attrs_value(sfc_node,"cpu_setting")
+            self.substrate_network.set_node_attrs_value(phy_node,"cpu_setting","remain_setting",remain_cpu_of_node+used_cpu_of_node)
 
+            # RAM
+            remain_ram_of_node = self.substrate_network.get_node_attrs_value(phy_node,"ram_setting","remain_setting")
+            used_ram_of_node = self.service_chain.get_node_attrs_value(sfc_node,"ram_setting")
+            self.substrate_network.set_node_attrs_value(phy_node,"ram_setting","remain_setting",remain_ram_of_node+used_ram_of_node)
+
+            # DISK
+            remain_disk_of_node = self.substrate_network.get_node_attrs_value(phy_node,"disk_setting","remain_setting")
+            used_disk_of_node = self.service_chain.get_node_attrs_value(sfc_node,"disk_setting")
+            self.substrate_network.set_node_attrs_value(phy_node,"disk_setting","remain_setting",remain_disk_of_node+used_disk_of_node)
+
+            # ENG
+            remain_eng_of_node = self.substrate_network.get_node_attrs_value(phy_node,"energy_setting","remain_setting")
+            unused_eng_of_node = used_cpu_of_node * (self.service_chain.lifetime-(solution.current_time-self.service_chain.arrivetime))
+            self.substrate_network.set_node_attrs_value(phy_node,"energy_setting","remain_setting",remain_eng_of_node+unused_eng_of_node)
+
+        # second release links
+        for sfd_link, phy_links in solution.map_link.items():
+            used_band_of_link = self.service_chain.get_link_attrs_value(sfd_link,"band_setting")
+            for phy_link in phy_links:
+                remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")
+                self.substrate_network.set_link_attrs_value(phy_link,"band_setting","remain_setting",remain_band_of_link+used_band_of_link)
 

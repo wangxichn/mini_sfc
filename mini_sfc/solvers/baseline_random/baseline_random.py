@@ -10,6 +10,7 @@
 @Desc    :   None
 '''
 
+from solvers import Solution
 from solvers import SOLVER_REGISTRAR
 from solvers import Solver
 from solvers import Solution, SOLUTION_TYPE
@@ -69,5 +70,28 @@ class BaselineRandom(Solver):
 
         return self.solution
 
+    def solve_ending(self,event: Event) -> Solution:
+        self.service_chain = event.sfc
+        self.substrate_network = event.current_substrate
+
+        self.solution.current_time = event.time
+        self.solution.current_service_chain = event.sfc
+        self.solution.current_substrate_net = event.current_substrate
         
+        self.solution.map_node = self.solution.map_node
+        self.solution.map_link = self.solution.map_link
+
+        self.solution.current_description = SOLUTION_TYPE.END_SUCCESS
+        self.solution.current_result = True
+
+        self.solution.perform_revenue = 0
+        self.solution.perform_revenue_longterm = 0
+        self.solution.perform_latency = 0
+        self.solution.cost_real_time = 0
+        self.solution.cost_node_resource = 0
+        self.solution.cost_node_resource_percentage = 0
+        self.solution.cost_link_resource = 0
+        self.solution.cost_link_resource_percentage = 0
+
+        return self.solution
 
