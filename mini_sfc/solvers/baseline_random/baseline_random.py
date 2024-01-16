@@ -61,10 +61,6 @@ class BaselineRandom(Solver):
         self.solution.cost_link_resource = 0
         self.solution.cost_link_resource_percentage = 0
 
-        # algorithm end
-
-        code.interact(banner="",local=locals())
-
         return self.solution
     
     def solve_migration(self,event: Event) -> Solution:

@@ -14,6 +14,8 @@ from data import SubstrateNetwork
 from data import ServiceChain
 from base import EventType,Event
 from mano import VnffgManager
+from typing import Tuple
+from solvers import SolutionGroup
 import copy
 import code
 
@@ -26,17 +28,21 @@ class NfvOrchestrator:
     def ready(self,substrate_network:SubstrateNetwork):
         self.substrate_network = substrate_network
         self.vnffg_group:list[VnffgManager] = []
+        self.vnffg_group_log:dict[int,SolutionGroup] = {}
 
-    def handle(self,event:Event):
+    def handle(self,event:Event) -> Tuple[SubstrateNetwork,dict[int,SolutionGroup]]:
         if event.type == EventType.SFC_ARRIVE:
             # Update network state before solve
             self.substrate_network = event.current_substrate
             # Create SFC manager
             vnffg_manager = VnffgManager(event,**self.vnffg_manager_setting)
             # Update network state after solve
-            self.substrate_network, _ = vnffg_manager.handle_arrive(event) # solution to do------------------------
+            self.substrate_network, solution_group = vnffg_manager.handle_arrive(event)
             # Save SFC manager
             self.vnffg_group.append(vnffg_manager)
+            self.vnffg_group_log[vnffg_manager.id] = solution_group
+
+            return self.substrate_network, self.vnffg_group_log
             
         elif event.type == EventType.SFC_ENDING:
             # Update network state before solve
@@ -47,18 +53,23 @@ class NfvOrchestrator:
                 # SFC ending normally
                 vnffg_manager = vnffg_manager[0]
                 # Update network state after solve
-                self.substrate_network, _ = vnffg_manager.handle_ending(event) # solution to do--------------------
+                self.substrate_network, solution_group = vnffg_manager.handle_ending(event) # solution to do--------------------
                 # Remove SFC manager
+                self.vnffg_group_log[vnffg_manager.id] = solution_group
                 self.vnffg_group = list(filter(lambda x: x.service_chain.id != event.sfc.id, self.vnffg_group))
             else:
                 # SFC has been forcibly ended
                 pass
 
+            return self.substrate_network, self.vnffg_group_log
+
         elif event.type == EventType.TOPO_CHANGE:
             # update network state
             self.substrate_network = event.current_substrate
             # find the vnffg_manager will be affected to do---------------------------------------------------
-            pass
+            
+
+            return self.substrate_network, self.vnffg_group_log
 
 
 

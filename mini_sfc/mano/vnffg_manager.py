@@ -23,6 +23,8 @@ class VnffgManager:
     def __init__(self, event:Event, **kwargs) -> None:
         self.setting = kwargs
         
+        self.id = event.sfc.id
+
         # Service Function Chain Property
         self.service_chain = event.sfc
         self.vnf_num = event.sfc.num_nodes
@@ -38,26 +40,69 @@ class VnffgManager:
         self.solution_group = SolutionGroup()
 
 
-    def handle_arrive(self, event:Event) -> Tuple[SubstrateNetwork,Solution]:
-        self.solution_group.append(self.solver.solve_embedding(event))
-
-        # put the service_chain into substrate_network
-
-        return self.substrate_network,self.solution_group[-1]
-
-    def handle_ending(self, event:Event) -> Tuple[SubstrateNetwork,Solution]:
-        solution = Solution() # ending solution
+    def handle_arrive(self, event:Event) -> Tuple[SubstrateNetwork,SolutionGroup]:
+        # Update substrate network
+        self.substrate_network = event.current_substrate
+        # Obtain a solution and apply it
+        solution = self.solver.solve_embedding(event)
+        self.__action_embedding(solution)
+        # Save the solution
         self.solution_group.append(solution)
 
-        # remove the service_chain from substrate_network
+        return self.substrate_network,self.solution_group
 
-        return self.substrate_network,self.solution_group[-1]
+    def handle_ending(self, event:Event) -> Tuple[SubstrateNetwork,SolutionGroup]:
+        # Update substrate network
+        self.substrate_network = event.current_substrate
+        # Obtain a solution and apply it
+        solution = Solution() 
 
-    def handle_topochange(self, event:Event) -> Tuple[SubstrateNetwork,Solution]:
-        self.solution_group.append(self.solver.solve_migration(event))
+        # Save the solution
+        self.solution_group.append(solution)
 
-        # dealwith the service_chain migration
+        return self.substrate_network,self.solution_group
 
-        return self.substrate_network,self.solution_group[-1]
+    def handle_topochange(self, event:Event) -> Tuple[SubstrateNetwork,SolutionGroup]:
+        # Update substrate network
+        self.substrate_network = event.current_substrate
+        # Obtain a solution and apply it
+        solution = self.solver.solve_embedding(event)
+
+        # Save the solution
+        self.solution_group.append(solution)
+
+        return self.substrate_network,self.solution_group
+
+
+    def __action_embedding(self, solution:Solution):
+        # first embed nodes
+        for sfc_node, phy_node in solution.map_node.items():
+            # CPU
+            remain_cpu_of_node = self.substrate_network.get_node_attrs_value(phy_node,"cpu_setting","remain_setting")
+            request_cpu_of_node = self.service_chain.get_node_attrs_value(sfc_node,"cpu_setting")
+            self.substrate_network.set_node_attrs_value(phy_node,"cpu_setting","remain_setting",remain_cpu_of_node-request_cpu_of_node)
+
+            # RAM
+            remain_ram_of_node = self.substrate_network.get_node_attrs_value(phy_node,"ram_setting","remain_setting")
+            request_ram_of_node = self.service_chain.get_node_attrs_value(sfc_node,"ram_setting")
+            self.substrate_network.set_node_attrs_value(phy_node,"ram_setting","remain_setting",remain_ram_of_node-request_ram_of_node)
+
+            # DISK
+            remain_disk_of_node = self.substrate_network.get_node_attrs_value(phy_node,"disk_setting","remain_setting")
+            request_disk_of_node = self.service_chain.get_node_attrs_value(sfc_node,"disk_setting")
+            self.substrate_network.set_node_attrs_value(phy_node,"disk_setting","remain_setting",remain_disk_of_node-request_disk_of_node)
+
+            # ENG
+            remain_eng_of_node = self.substrate_network.get_node_attrs_value(phy_node,"energy_setting","remain_setting")
+            request_eng_of_node = request_cpu_of_node * (self.service_chain.lifetime)
+            self.substrate_network.set_node_attrs_value(phy_node,"energy_setting","remain_setting",remain_eng_of_node-request_eng_of_node)
+
+        # second embed links
+        for sfd_link, phy_links in solution.map_link.items():
+            request_band_of_link = self.service_chain.get_link_attrs_value(sfd_link,"band_setting")
+            for phy_link in phy_links:
+                remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")
+                self.substrate_network.set_link_attrs_value(phy_link,"band_setting","remain_setting",remain_band_of_link-request_band_of_link)
+        
 
 

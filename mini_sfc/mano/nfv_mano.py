@@ -17,6 +17,7 @@ from mano import NfvOrchestrator
 from base import EventType, Event
 from mano import NfvVim
 from mano import NfvScave, NfvScaveSolverDefine, NfvScaveSummaryDefine
+from solvers import SolutionGroup
 
 import logging
 
@@ -56,19 +57,20 @@ class NfvMano:
 
     
     def handle(self,event:Event):
-        self.substrate_network = event.current_substrate
-
-        self.nfv_orchestrator.handle(event)
         data_save = NfvScaveSolverDefine()
         data_save.EVENT_ID = event.id
         data_save.EVENT_TYPE = event.type
         data_save.EVENT_TIME = event.time
         data_save.MANO_VNFFG_NUM = len(self.nfv_orchestrator.vnffg_group)
         data_save.MANO_VNFFG_LIST = [i.service_chain.id for i in self.nfv_orchestrator.vnffg_group]
+        data_save.PHYNODE_ALL_CPU = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","remain_setting"))
 
         if event.type == EventType.SFC_ARRIVE:
             data_save.SFC_LENGTH = event.sfc.num_nodes
             data_save.SFC_QOS_LATENCY = event.sfc.qos_latency
+            data_save.VIRNODE_ALL_CPU = sum(event.sfc.get_all_nodes_attrs_values("cpu_setting"))
+
+        self.substrate_network, solutions_log = self.nfv_orchestrator.handle(event)
 
         self.nfv_scave.save_solver_record(data_save)
         self.nfv_scave.record_solver.append(data_save)

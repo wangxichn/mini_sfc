@@ -93,7 +93,7 @@ class Scenario:
                 })
 
                 # end show ----------------------------------------------------------------------------------------------------------------
-                self.nfv_mano.handle(event)
+                self.nfv_mano.handle(copy.deepcopy(event))
 
                 self.__update_from_nfv_mano(self.nfv_mano)
                 

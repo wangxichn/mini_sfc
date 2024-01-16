@@ -114,6 +114,17 @@ class ServiceChain(nx.Graph):
 
         return self.nodes[node_id][node_attrs_name]["value"]
     
+    def get_all_nodes_attrs_values(self, node_attrs_name:str) -> list[int]:
+        """Get the attribute values of all nodes in the chain
+
+        Args:
+            node_attrs_name (str): "cpu_setting","ram_setting","disk_setting"
+
+        Returns:
+            list[int]: values
+        """
+
+        return [self.nodes[node_id][node_attrs_name]["value"] for node_id in self.nodes]
 
     def get_link_attrs_value(self, link_id:tuple[int,int], link_attrs_name:str) -> int:
         """Get the attribute values of a link

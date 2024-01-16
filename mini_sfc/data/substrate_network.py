@@ -110,7 +110,21 @@ class SubstrateNetwork(nx.Graph):
         """
 
         return self.nodes[node_id][node_attrs_name][value_type]["value"]
-    
+
+
+    def get_all_nodes_attrs_values(self, node_attrs_name:str, value_type:str) -> list[int]:
+        """Get the attribute values of all nodes in network
+
+        Args:
+            node_attrs_name (str): "cpu_setting","ram_setting","disk_setting","energy_setting"
+            value_type (str): "max_setting","remain_setting"
+
+        Returns:
+            list[int]: values
+        """
+
+        return [self.nodes[node_id][node_attrs_name][value_type]["value"] for node_id in self.nodes]
+
 
     def get_link_attrs_value(self, link_id:tuple[int,int], link_attrs_name:str, value_type:str) -> int:
         """Get the attribute values of a link
