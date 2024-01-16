@@ -27,6 +27,8 @@ class NfvScaveSolverDefine():
 
         self.SFC_LENGTH = None
         self.SFC_QOS_LATENCY = None
+        self.SFC_SET_SOLVE_TIME = None
+        self.SFC_REVENUE = None
 
         self.MANO_VNFFG_NUM = None
         self.MANO_VNFFG_LIST = None

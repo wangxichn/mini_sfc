@@ -18,7 +18,7 @@ from base import EventType, Event
 from mano import NfvVim
 from mano import NfvScave, NfvScaveSolverDefine, NfvScaveSummaryDefine
 from solvers import SolutionGroup
-
+import code
 import logging
 
 class NfvMano:
@@ -61,6 +61,7 @@ class NfvMano:
         data_save = NfvScaveSolverDefine()
         data_save.PHYNODE_ALL_CPU_BEFORE = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","remain_setting"))
         data_save.PHYNODE_ALL_ENG_BEFORE = sum(self.substrate_network.get_all_nodes_attrs_values("energy_setting","remain_setting"))
+
         self.substrate_network, solutions_log = self.nfv_orchestrator.handle(event)
 
         
@@ -72,10 +73,13 @@ class NfvMano:
         data_save.PHYNODE_ALL_CPU_AFTER = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","remain_setting"))
         data_save.PHYNODE_ALL_ENG_AFTER = sum(self.substrate_network.get_all_nodes_attrs_values("energy_setting","remain_setting"))
 
-        if event.type == EventType.SFC_ARRIVE or event.type == EventType.SFC_ENDING:
+        if event.type == EventType.SFC_ARRIVE:
             data_save.SFC_LENGTH = event.sfc.num_nodes
             data_save.SFC_QOS_LATENCY = event.sfc.qos_latency
-            data_save.VIRNODE_ALL_CPU = sum(event.sfc.get_all_nodes_attrs_values("cpu_setting"))
+            data_save.SFC_SET_SOLVE_TIME = solutions_log.get(event.sfc.id)[-1].cost_real_time
+        
+        if event.type == EventType.SFC_ENDING:
+            data_save.SFC_REVENUE = solutions_log.get(event.sfc.id)[-1].perform_revenue
 
         self.nfv_scave.save_solver_record(data_save)
         self.nfv_scave.record_solver.append(data_save)

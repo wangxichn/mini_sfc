@@ -19,6 +19,7 @@ import networkx as nx
 import random
 import code
 import copy 
+import time
 
 @SOLVER_REGISTRAR.regist(solver_name='baseline_random')
 class BaselineRandom(Solver):
@@ -34,10 +35,13 @@ class BaselineRandom(Solver):
         self.service_chain = event.sfc
         self.substrate_network = event.current_substrate
 
-        # algorithm begin
         self.solution.current_time = event.time
         self.solution.current_service_chain = event.sfc
         self.solution.current_substrate_net = copy.deepcopy(event.current_substrate)
+
+        solve_start_time = time.time()
+
+        # algorithm begin ---------------------------------------------
         
         for v_node in self.service_chain.nodes:
             self.solution.map_node[v_node] = random.sample(range(self.substrate_network.num_nodes),1)[0]
@@ -51,17 +55,21 @@ class BaselineRandom(Solver):
             else:
                 self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
 
+        
         self.solution.current_description = SOLUTION_TYPE.SET_SUCCESS
         self.solution.current_result = True
-
         self.solution.perform_revenue = 0
-        self.solution.perform_revenue_longterm = 0
         self.solution.perform_latency = 0
-        self.solution.cost_real_time = 0
         self.solution.cost_node_resource = 0
         self.solution.cost_node_resource_percentage = 0
         self.solution.cost_link_resource = 0
         self.solution.cost_link_resource_percentage = 0
+        
+        # algorithm end ----------------------------------------------
+                
+        solve_end_time = time.time()
+
+        self.solution.cost_real_time = solve_end_time-solve_start_time
 
         return self.solution
     
@@ -90,8 +98,14 @@ class BaselineRandom(Solver):
         self.solution.current_description = SOLUTION_TYPE.END_SUCCESS
         self.solution.current_result = True
 
-        self.solution.perform_revenue = 0
-        self.solution.perform_revenue_longterm = 0
+
+        perform_revenue = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting")) * self.substrate_network.get_node_attrs_price("cpu_setting") + \
+                          sum(self.service_chain.get_all_nodes_attrs_values("ram_setting")) * self.substrate_network.get_node_attrs_price("ram_setting") + \
+                          sum(self.service_chain.get_all_nodes_attrs_values("disk_setting")) * self.substrate_network.get_node_attrs_price("disk_setting") + \
+                          sum(self.service_chain.get_all_links_attrs_values("band_setting")) * self.substrate_network.get_link_attrs_price("band_setting")
+        perform_revenue = perform_revenue * (event.time-event.sfc.arrivetime)
+
+        self.solution.perform_revenue = perform_revenue
         self.solution.perform_latency = 0
         self.solution.cost_real_time = 0
         self.solution.cost_node_resource = 0

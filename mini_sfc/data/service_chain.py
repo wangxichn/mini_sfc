@@ -139,3 +139,14 @@ class ServiceChain(nx.Graph):
 
         return self.edges[link_id][link_attrs_name]["value"]
     
+    def get_all_links_attrs_values(self, link_attrs_name:str) -> list[int]:
+        """Get the attribute values of all links in the chain
+
+        Args:
+            link_attrs_name (str): "band_setting"
+
+        Returns:
+            list[int]: values
+        """
+
+        return [self.edges[edge][link_attrs_name]["value"] for edge in self.edges]

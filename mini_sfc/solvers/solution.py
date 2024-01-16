@@ -44,7 +44,6 @@ class Solution:
         """
 
         self.perform_revenue = None
-        self.perform_revenue_longterm = None
         self.perform_latency = None
         self.cost_real_time = None
         self.cost_node_resource = None

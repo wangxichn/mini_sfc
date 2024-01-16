@@ -124,6 +124,19 @@ class SubstrateNetwork(nx.Graph):
         """
 
         return [self.nodes[node_id][node_attrs_name][value_type]["value"] for node_id in self.nodes]
+    
+
+    def get_node_attrs_price(self, node_attrs_name:str) -> int:
+        """Get the attribute price of a node
+
+        Args:
+            node_attrs_name (str): "cpu_setting","ram_setting","disk_setting","energy_setting"
+
+        Returns:
+            int: price
+        """
+
+        return self.node_attrs_setting[node_attrs_name]["price"]
 
 
     def get_link_attrs_value(self, link_id:tuple[int,int], link_attrs_name:str, value_type:str) -> int:
@@ -140,6 +153,19 @@ class SubstrateNetwork(nx.Graph):
 
         return self.edges[link_id][link_attrs_name][value_type]["value"]
     
+
+    def get_link_attrs_price(self, link_attrs_name:str) -> int:
+        """Get the attribute price of a link
+
+        Args:
+            link_attrs_name (str): "band_setting"
+
+        Returns:
+            int: price
+        """
+
+        return self.link_attrs_setting[link_attrs_name]["price"]
+
 
     def set_node_attrs_value(self, node_id:int, node_attrs_name:str, value_type:str, value:int):
         """Set the attribute values of a node
