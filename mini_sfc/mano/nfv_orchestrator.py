@@ -30,7 +30,7 @@ class NfvOrchestrator:
         self.vnffg_group:list[VnffgManager] = []
         self.vnffg_group_log:dict[int,SolutionGroup] = {}
 
-    def handle(self,event:Event) -> Tuple[SubstrateNetwork,dict[int,SolutionGroup]]:
+    def handle(self,event:Event) -> SubstrateNetwork:
         if event.type == EventType.SFC_ARRIVE:
             return self.__handle_arrive(event)
         elif event.type == EventType.SFC_ENDING:
@@ -38,7 +38,7 @@ class NfvOrchestrator:
         elif event.type == EventType.TOPO_CHANGE:
             return self.__handle_topochange(event)
 
-    def __handle_arrive(self,event:Event) -> Tuple[SubstrateNetwork,dict[int,SolutionGroup]]:
+    def __handle_arrive(self,event:Event) -> SubstrateNetwork:
         # Update network state before solve
         self.substrate_network = event.current_substrate
         # Create SFC manager
@@ -49,10 +49,10 @@ class NfvOrchestrator:
         self.vnffg_group.append(vnffg_manager)
         self.vnffg_group_log[vnffg_manager.id] = solution_group
 
-        return self.substrate_network, self.vnffg_group_log
+        return self.substrate_network
 
 
-    def __handle_ending(self,event:Event) -> Tuple[SubstrateNetwork,dict[int,SolutionGroup]]:
+    def __handle_ending(self,event:Event) -> SubstrateNetwork:
         # Update network state before solve
         self.substrate_network = event.current_substrate
         # Find SFC manager related
@@ -69,9 +69,9 @@ class NfvOrchestrator:
             # SFC has been forcibly ended
             pass
 
-        return self.substrate_network, self.vnffg_group_log
+        return self.substrate_network
 
-    def __handle_topochange(self,event:Event) -> Tuple[SubstrateNetwork,dict[int,SolutionGroup]]:
+    def __handle_topochange(self,event:Event) -> SubstrateNetwork:
         # update network state
         self.substrate_network = event.current_substrate
         # find the vnffg_manager will be affected to do---------------------------------------------------
@@ -91,4 +91,4 @@ class NfvOrchestrator:
                     event.current_substrate = self.substrate_network
                     break # check next vnffg_manager
 
-        return self.substrate_network, self.vnffg_group_log
+        return self.substrate_network
