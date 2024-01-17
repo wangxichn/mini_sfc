@@ -17,7 +17,7 @@ from mano import NfvOrchestrator
 from base import EventType, Event
 from mano import NfvVim
 from mano import NfvScave, NfvScaveSolverDefine, NfvScaveSummaryDefine
-from solvers import SolutionGroup
+from solvers import SolutionGroup, SOLUTION_TYPE
 import code
 import logging
 
@@ -59,27 +59,37 @@ class NfvMano:
     def handle(self,event:Event):
 
         data_save = NfvScaveSolverDefine()
-        data_save.PHYNODE_ALL_CPU_BEFORE = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","remain_setting"))
-        data_save.PHYNODE_ALL_ENG_BEFORE = sum(self.substrate_network.get_all_nodes_attrs_values("energy_setting","remain_setting"))
+        # data_save.PHYNODE_ALL_CPU_BEFORE = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","remain_setting"))
+        # data_save.PHYNODE_ALL_ENG_BEFORE = sum(self.substrate_network.get_all_nodes_attrs_values("energy_setting","remain_setting"))
 
         self.substrate_network, solutions_log = self.nfv_orchestrator.handle(event)
 
-        
         data_save.EVENT_ID = event.id
         data_save.EVENT_TYPE = event.type
-        data_save.EVENT_TIME = event.time
+        # data_save.EVENT_TIME = event.time
         data_save.MANO_VNFFG_NUM = len(self.nfv_orchestrator.vnffg_group)
         data_save.MANO_VNFFG_LIST = [i.service_chain.id for i in self.nfv_orchestrator.vnffg_group]
-        data_save.PHYNODE_ALL_CPU_AFTER = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","remain_setting"))
-        data_save.PHYNODE_ALL_ENG_AFTER = sum(self.substrate_network.get_all_nodes_attrs_values("energy_setting","remain_setting"))
+        # data_save.PHYNODE_ALL_CPU_AFTER = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","remain_setting"))
+        # data_save.PHYNODE_ALL_ENG_AFTER = sum(self.substrate_network.get_all_nodes_attrs_values("energy_setting","remain_setting"))
 
         if event.type == EventType.SFC_ARRIVE:
             data_save.SFC_LENGTH = event.sfc.num_nodes
-            data_save.SFC_QOS_LATENCY = event.sfc.qos_latency
-            data_save.SFC_SET_SOLVE_TIME = solutions_log.get(event.sfc.id)[-1].cost_real_time
+            # data_save.SFC_QOS_LATENCY = event.sfc.qos_latency
+            # data_save.SFC_SOLVE_TIME = solutions_log.get(event.sfc.id)[-1].cost_real_time
         
         if event.type == EventType.SFC_ENDING:
-            data_save.SFC_REVENUE = solutions_log.get(event.sfc.id)[-1].perform_revenue
+            data_save.SFC_PERFORM_REVENUE = solutions_log.get(event.sfc.id)[-1].perform_revenue
+
+        if event.type in (EventType.SFC_ARRIVE, EventType.SFC_ENDING):
+            data_save.MANO_VNFFG_RELATED = [event.sfc.id]
+            # data_save.SFC_PERFORM_NODE_RESOURCE = solutions_log.get(event.sfc.id)[-1].cost_node_resource
+            # data_save.SFC_PERFORM_NODE_RESOURCE_PER = solutions_log.get(event.sfc.id)[-1].cost_node_resource_percentage
+            # data_save.SFC_PERFORM_LINK_RESOURCE = solutions_log.get(event.sfc.id)[-1].cost_link_resource
+            # data_save.SFC_PERFORM_LINK_RESOURCE_PER = solutions_log.get(event.sfc.id)[-1].cost_link_resource_percentage
+
+        if event.type == EventType.TOPO_CHANGE:
+            data_save.MANO_VNFFG_RELATED = [id for id in solutions_log.keys() 
+                                            if solutions_log.get(id)[-1].current_description == SOLUTION_TYPE.CHANGE_SUCCESS]
 
         self.nfv_scave.save_solver_record(data_save)
         self.nfv_scave.record_solver.append(data_save)

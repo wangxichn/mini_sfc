@@ -12,9 +12,9 @@ substrate_network_setting:
     wm_beta: 0.2
   topology_change_setting:
     type: random
-    break_prob: 0.2
-    connect_prob: 0.2
-    change_times: 10
+    break_prob: 0.1
+    connect_prob: 0.1
+    change_times: 20
   node_attrs_setting:
     cpu_setting:
       price: 1

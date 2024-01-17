@@ -58,12 +58,8 @@ class BaselineRandom(Solver):
         
         self.solution.current_description = SOLUTION_TYPE.SET_SUCCESS
         self.solution.current_result = True
-        self.solution.perform_revenue = 0
-        self.solution.perform_latency = 0
-        self.solution.cost_node_resource = 0
-        self.solution.cost_node_resource_percentage = 0
-        self.solution.cost_link_resource = 0
-        self.solution.cost_link_resource_percentage = 0
+        
+        self.__perform_measure(event)
         
         # algorithm end ----------------------------------------------
                 
@@ -77,9 +73,36 @@ class BaselineRandom(Solver):
         self.service_chain = event.sfc
         self.substrate_network = event.current_substrate
 
-        self.solution = self.solve_embedding(event) # random migaration
+        self.solution.current_time = event.time
+        self.solution.current_service_chain = event.sfc
+        self.solution.current_substrate_net = copy.deepcopy(event.current_substrate)
+
+        solve_start_time = time.time()
+
+        # algorithm begin ---------------------------------------------
+        
+        for v_node in self.service_chain.nodes:
+            self.solution.map_node[v_node] = random.sample(range(self.substrate_network.num_nodes),1)[0]
+
+        for v_link in self.service_chain.edges():
+            map_path = nx.dijkstra_path(self.substrate_network,
+                                        self.solution.map_node[v_link[0]],
+                                        self.solution.map_node[v_link[1]])
+            if len(map_path) == 1: 
+                self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
+            else:
+                self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
 
         self.solution.current_description = SOLUTION_TYPE.CHANGE_SUCCESS
+        self.solution.current_result = True
+
+        self.__perform_measure(event)
+        
+        # algorithm end ----------------------------------------------
+                
+        solve_end_time = time.time()
+
+        self.solution.cost_real_time = solve_end_time-solve_start_time
 
         return self.solution
 
@@ -90,28 +113,61 @@ class BaselineRandom(Solver):
         self.solution.current_time = event.time
         self.solution.current_service_chain = event.sfc
         self.solution.current_substrate_net = copy.deepcopy(event.current_substrate)
+
+        solve_start_time = time.time()
+
+        # algorithm begin ---------------------------------------------
         
-        # continue using the last map solution
-        self.solution.map_node = self.solution.map_node
-        self.solution.map_link = self.solution.map_link
+        self.solution.map_node = self.solution.map_node # Get previous data 
+        self.solution.map_link = self.solution.map_link # Get previous data 
 
         self.solution.current_description = SOLUTION_TYPE.END_SUCCESS
         self.solution.current_result = True
 
+        self.__perform_measure(event)
 
-        perform_revenue = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting")) * self.substrate_network.get_node_attrs_price("cpu_setting") + \
-                          sum(self.service_chain.get_all_nodes_attrs_values("ram_setting")) * self.substrate_network.get_node_attrs_price("ram_setting") + \
-                          sum(self.service_chain.get_all_nodes_attrs_values("disk_setting")) * self.substrate_network.get_node_attrs_price("disk_setting") + \
-                          sum(self.service_chain.get_all_links_attrs_values("band_setting")) * self.substrate_network.get_link_attrs_price("band_setting")
-        perform_revenue = perform_revenue * (event.time-event.sfc.arrivetime)
+        # algorithm end ----------------------------------------------
+                
+        solve_end_time = time.time()
+
+        self.solution.cost_real_time = solve_end_time-solve_start_time
+
+        return self.solution
+
+    def __perform_measure(self,event: Event):
+
+        perform_all_use_cpu_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
+        perform_all_use_ram_resource = sum(self.service_chain.get_all_nodes_attrs_values("ram_setting"))
+        perform_all_use_disk_resource = sum(self.service_chain.get_all_nodes_attrs_values("disk_setting"))
+        perform_all_use_energy_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
+
+        perform_all_use_link_resource = 0
+        for sfd_link, phy_links in self.solution.map_link.items():
+            perform_all_use_link_resource += self.service_chain.get_link_attrs_value(sfd_link,"band_setting") * len(phy_links)
+
+        perform_all_phy_cpu_resource = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))
+        perform_all_phy_ram_resource = sum(self.substrate_network.get_all_nodes_attrs_values("ram_setting","max_setting"))
+        perform_all_phy_disk_resource = sum(self.substrate_network.get_all_nodes_attrs_values("disk_setting","max_setting"))
+        perform_all_phy_energy_resource = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))
+        perform_all_phy_link_resource = sum(self.substrate_network.get_all_links_attrs_values("band_setting","max_setting"))
+
+        perform_revenue = (perform_all_use_cpu_resource * self.substrate_network.get_node_attrs_price("cpu_setting") + \
+                           perform_all_use_ram_resource * self.substrate_network.get_node_attrs_price("ram_setting") + \
+                           perform_all_use_disk_resource * self.substrate_network.get_node_attrs_price("disk_setting") + \
+                           perform_all_use_energy_resource * self.substrate_network.get_node_attrs_price("energy_setting") + \
+                           perform_all_use_link_resource * self.substrate_network.get_link_attrs_price("band_setting")) \
+                           * (event.time-event.sfc.arrivetime)
 
         self.solution.perform_revenue = perform_revenue
         self.solution.perform_latency = 0
-        self.solution.cost_real_time = 0
-        self.solution.cost_node_resource = 0
-        self.solution.cost_node_resource_percentage = 0
-        self.solution.cost_link_resource = 0
-        self.solution.cost_link_resource_percentage = 0
+        self.solution.cost_node_resource = [perform_all_use_cpu_resource, perform_all_use_ram_resource, 
+                                            perform_all_use_disk_resource, perform_all_use_energy_resource]
+        self.solution.cost_node_resource_percentage = [perform_all_use_cpu_resource/perform_all_phy_cpu_resource, 
+                                                       perform_all_use_ram_resource/perform_all_phy_ram_resource, 
+                                                       perform_all_use_disk_resource/perform_all_phy_disk_resource, 
+                                                       perform_all_use_energy_resource/perform_all_phy_energy_resource]
+        self.solution.cost_link_resource = [perform_all_use_link_resource]
+        self.solution.cost_link_resource_percentage = [perform_all_use_link_resource/perform_all_phy_link_resource]
 
-        return self.solution
+
 
