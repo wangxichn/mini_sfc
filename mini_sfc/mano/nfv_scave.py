@@ -21,7 +21,7 @@ from solvers import SolutionGroup, SOLUTION_TYPE
 
 class NfvScaveSummaryData():
     def __init__(self) -> None:
-        self.SUMMARY_DATA1 = None
+        self.COMPLETION_RATE = None 
 
 class NfvScaveSolverData():
     def __init__(self) -> None:
@@ -81,6 +81,10 @@ class NfvScave:
         data_save.MANO_RESOURSE_NODE_DISK = sum(event.current_substrate.get_all_nodes_attrs_values("disk_setting","remain_setting"))
         data_save.MANO_RESOURSE_NODE_ENG = sum(event.current_substrate.get_all_nodes_attrs_values("energy_setting","remain_setting"))
 
+        # The proportion of energy consumed needs to be calculated separately 
+        data_save.MANO_RESOURSE_NODE_PER[-1] = '%.5f'% (data_save.MANO_RESOURSE_NODE_ENG/
+                                                        sum(event.current_substrate.get_all_nodes_attrs_values("energy_setting","max_setting")))
+
         if event.type == EventType.SFC_ARRIVE:
             data_save.SFC_LENGTH = event.sfc.num_nodes
             data_save.SFC_SOLVE_TIME = '%.3f'% nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].cost_real_time
@@ -102,12 +106,26 @@ class NfvScave:
         self.record_solver.append(data_save)
 
 
-    def handle_summary_data(self, vnffg_group_log:dict[int,SolutionGroup]):
+    def handle_summary_data(self, nfv_orchestrator:NfvOrchestrator):
+        data_save = NfvScaveSummaryData()
 
-        pass
+        sfc_num = len(nfv_orchestrator.vnffg_group_log.keys())
+        sfc_complete_num = 0
+        for id in nfv_orchestrator.vnffg_group_log.keys():
+            if nfv_orchestrator.vnffg_group_log[id][-1].current_description == SOLUTION_TYPE.END_SUCCESS:
+                sfc_complete_num += 1
+        data_save.COMPLETION_RATE = '%.2f'% (sfc_complete_num/sfc_num)
 
-    def save_summary_record(self):
-        pass
+        self.save_summary_record(data_save)
+        self.record_summary.append(data_save)
+        
+
+    def save_summary_record(self,save_data:NfvScaveSummaryData):
+        head = None if os.path.exists(self.save_file_summary) else list(save_data.__dict__.keys())
+        with open(self.save_file_summary, 'a+', newline='') as csv_file:
+            writer = csv.writer(csv_file, dialect='excel', delimiter=',')
+            if head is not None: writer.writerow(head)
+            writer.writerow(list(save_data.__dict__.values()))
 
     def save_solver_record(self,save_data:NfvScaveSolverData):
         head = None if os.path.exists(self.save_file_solver) else list(save_data.__dict__.keys())

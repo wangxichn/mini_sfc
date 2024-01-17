@@ -45,14 +45,14 @@ class NfvOrchestrator:
         vnffg_manager = VnffgManager(event,**self.vnffg_manager_setting)
         # Update network state after solve
         self.substrate_network, solution_group = vnffg_manager.handle_arrive(event)
+        self.vnffg_group_log[vnffg_manager.id] = solution_group
+        
         if solution_group[-1].current_result == True:
             # Embed successfully into management queue 
             self.vnffg_group.append(vnffg_manager)
         else:
             # Embedding failed and did not enter the administrative queue 
             pass
-
-        self.vnffg_group_log[vnffg_manager.id] = solution_group
 
         return self.substrate_network
 
@@ -80,7 +80,7 @@ class NfvOrchestrator:
         # update network state
         self.substrate_network = event.current_substrate
         # find the vnffg_manager will be affected to do---------------------------------------------------
-        for vnffg_manager in self.vnffg_group:
+        for vnffg_manager in self.vnffg_group[:]:
             # Combine all the mapped physical links in the solution into a list using the sum function
             # And then use set to deduplicate, because we don't care about the order of these links
             all_used_phy_edge = list(set(sum(vnffg_manager.solution_group[-1].map_link.values(),[])))
@@ -92,6 +92,14 @@ class NfvOrchestrator:
                     event.sfc = vnffg_manager.service_chain
                     self.substrate_network, solution_group = vnffg_manager.handle_topochange(event)
                     self.vnffg_group_log[vnffg_manager.id] = solution_group
+
+                    if solution_group[-1].current_result == True:
+                        # Migrate successfully
+                        pass
+                    else:
+                        # Migrate failed and delete it 
+                        self.vnffg_group.remove(vnffg_manager)
+                    
                     # After processing this SFC migration, need to update the current substrate network state in the event 
                     event.current_substrate = self.substrate_network
                     break # check next vnffg_manager

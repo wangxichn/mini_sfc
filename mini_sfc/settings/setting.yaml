@@ -1,5 +1,5 @@
 scenario_setting:
-  exp_repeat_time: 1
+  exp_repeat_time: 2
   
 mano_setting:
   solver_name: baseline_random
@@ -11,7 +11,7 @@ substrate_network_setting:
     wm_alpha: 0.5
     wm_beta: 0.2
   topology_change_setting:
-    type: static
+    type: random
     break_prob: 0.1
     connect_prob: 0.1
     change_times: 10

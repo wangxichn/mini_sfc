@@ -65,6 +65,7 @@ class BaselineRandom(Solver):
             else:
                 self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
         
+        # algorithm end ---------------------------------------------
         
         self.solution.current_description = self.__check_constraints(event)
 
@@ -101,17 +102,18 @@ class BaselineRandom(Solver):
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
             else:
                 self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
+        
+        # algorithm end ---------------------------------------------
 
-        self.solution.current_description = SOLUTION_TYPE.CHANGE_SUCCESS
-        self.solution.current_result = True
+        self.solution.current_description = self.__check_constraints(event)
+
+        if self.solution.current_description != SOLUTION_TYPE.CHANGE_SUCCESS:
+            self.solution.current_result = False
+        else:
+            self.solution.current_result = True
 
         self.__perform_measure(event)
-        
-        # algorithm end ----------------------------------------------
-                
-        solve_end_time = time.time()
-
-        self.solution.cost_real_time = solve_end_time-solve_start_time
+        self.solution.cost_real_time = time.time()-solve_start_time
 
         return self.solution
 
@@ -187,7 +189,11 @@ class BaselineRandom(Solver):
                 return SOLUTION_TYPE.CHANGE_LATENCY_FAILED
         
         # All check passed
-        return SOLUTION_TYPE.SET_SUCCESS
+        if event.type == EventType.SFC_ARRIVE:
+            return SOLUTION_TYPE.SET_SUCCESS
+        elif event.type == EventType.TOPO_CHANGE:
+            return SOLUTION_TYPE.CHANGE_SUCCESS
+
 
     def __perform_measure(self,event: Event):
 

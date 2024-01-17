@@ -64,7 +64,7 @@ class VnffgManager:
         # Update substrate network
         self.substrate_network = event.current_substrate
         # Obtain a solution and apply it
-        solution = self.solver.solve_ending(event)
+        solution:Solution = self.solver.solve_ending(event)
         self.__action_release(solution)
         # Save the solution
         self.solution_group.append(copy.deepcopy(solution))
@@ -76,9 +76,16 @@ class VnffgManager:
         # Update substrate network
         self.substrate_network = event.current_substrate
         # Obtain a solution and apply it
-        solution = self.solver.solve_migration(event)
-        self.__action_release(self.solution_group[-1]) # use last one solution release resource
-        self.__action_embedding(solution)
+        solution:Solution = self.solver.solve_migration(event)
+
+        if solution.current_result == True:
+            # Migration successful
+            self.__action_release(self.solution_group[-1]) # use last one solution release resource
+            self.__action_embedding(solution)
+        else:
+            # Migration failed
+            self.__action_release(self.solution_group[-1])
+
         # Save the solution
         self.solution_group.append(copy.deepcopy(solution))
 
