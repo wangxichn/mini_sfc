@@ -14,7 +14,7 @@ substrate_network_setting:
     type: random
     break_prob: 0.1
     connect_prob: 0.1
-    change_times: 20
+    change_times: 10
   node_attrs_setting:
     cpu_setting:
       price: 1
@@ -75,7 +75,7 @@ substrate_network_setting:
         dtype: int
 
 service_group_setting:
-  num_sfc: 100
+  num_sfc: 50
   arrival_rate_setting:
     dtype: float
     distribution: possion
@@ -89,8 +89,8 @@ service_group_setting:
   qos_latency_setting:
     dtype: float
     distribution: uniform
-    low: 5
-    high: 10
+    low: 0.5
+    high: 1
 
 service_chain_setting:
   num_nodes_setting:

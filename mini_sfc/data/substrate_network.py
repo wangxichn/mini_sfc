@@ -205,6 +205,27 @@ class SubstrateNetwork(nx.Graph):
         """
 
         self.edges[link_id][link_attrs_name][value_type]["value"] = value
+    
+    def get_node_latency_from_mat(self, node_id:int, mat:np.ndarray):
+        """ Get the wait time required to deploy VNF on this node with wait-matrix
+
+        Args:
+            node_id (int): 
+            mat (np.ndarray): wait-matrix
+
+        Returns:
+            wait_time (Any): the entry of the matrix 
+
+        Description:
+            This function prepares algorithms that use a device 
+            latency matrix, where the vertical matrix is the number 
+            of CPU resources remaining in the device, the horizontal 
+            matrix is the number of RAM resources remaining, and the 
+            elements of the matrix are delay times 
+        """
+
+        return mat[self.get_node_attrs_value(node_id,"cpu_setting","remain_setting"),
+                   self.get_node_attrs_value(node_id,"ram_setting","remain_setting")]
 
 
     def get_adjacency_matrix(self):

@@ -31,6 +31,7 @@ class NfvScaveSolverData():
 
         self.SFC_LENGTH = None
         self.SFC_QOS_LATENCY = None
+        self.SFC_LATENCY = None
         self.SFC_SOLVE_TIME = None
         self.SFC_REVENUE = None
 
@@ -39,7 +40,10 @@ class NfvScaveSolverData():
         self.MANO_VNFFG_RELATED = None
         self.MANO_RESOURSE_NODE_PER = [0,0,0,0]
         self.MANO_RESOURSE_LINK_PER = [0]
-    
+        self.MANO_RESOURSE_NODE_CPU = None
+        self.MANO_RESOURSE_NODE_RAM = None
+        self.MANO_RESOURSE_NODE_DISK = None
+        self.MANO_RESOURSE_NODE_ENG = None
 
 class NfvScave:
     def __init__(self,**kwargs) -> None:
@@ -71,21 +75,22 @@ class NfvScave:
         data_save.MANO_RESOURSE_NODE_PER = ['%.5f'% data for data in data_save.MANO_RESOURSE_NODE_PER]
         data_save.MANO_RESOURSE_LINK_PER = ['%.5f'% data for data in data_save.MANO_RESOURSE_LINK_PER]
 
+        data_save.MANO_RESOURSE_NODE_CPU = sum(event.current_substrate.get_all_nodes_attrs_values("cpu_setting","remain_setting"))
+        data_save.MANO_RESOURSE_NODE_RAM = sum(event.current_substrate.get_all_nodes_attrs_values("ram_setting","remain_setting"))
+        data_save.MANO_RESOURSE_NODE_DISK = sum(event.current_substrate.get_all_nodes_attrs_values("disk_setting","remain_setting"))
+        data_save.MANO_RESOURSE_NODE_ENG = sum(event.current_substrate.get_all_nodes_attrs_values("energy_setting","remain_setting"))
 
         if event.type == EventType.SFC_ARRIVE:
             data_save.SFC_LENGTH = event.sfc.num_nodes
-            data_save.SFC_QOS_LATENCY = '%.3f'% event.sfc.qos_latency
             data_save.SFC_SOLVE_TIME = '%.3f'% nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].cost_real_time
         
         if event.type == EventType.SFC_ENDING:
             data_save.SFC_REVENUE = '%.3f'% nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_revenue
-
+            
         if event.type in (EventType.SFC_ARRIVE, EventType.SFC_ENDING):
             data_save.MANO_VNFFG_RELATED = [event.sfc.id]
-            # data_save.SFC_PERFORM_NODE_RESOURCE = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].cost_node_resource
-            # data_save.SFC_PERFORM_NODE_RESOURCE_PER = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].cost_node_resource_percentage
-            # data_save.SFC_PERFORM_LINK_RESOURCE = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].cost_link_resource
-            # data_save.SFC_PERFORM_LINK_RESOURCE_PER = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].cost_link_resource_percentage
+            data_save.SFC_QOS_LATENCY = '%.3f'% event.sfc.qos_latency
+            data_save.SFC_LATENCY = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_latency
 
         if event.type == EventType.TOPO_CHANGE:
             data_save.MANO_VNFFG_RELATED = [id for id in nfv_orchestrator.vnffg_group_log.keys() 

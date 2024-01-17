@@ -12,6 +12,7 @@
 
 import logging
 import code
+import numpy as np
 
 from data import Config
 from base import Scenario

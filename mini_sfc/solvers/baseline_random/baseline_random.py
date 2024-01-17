@@ -20,6 +20,7 @@ import random
 import code
 import copy 
 import time
+import numpy as np
 
 @SOLVER_REGISTRAR.regist(solver_name='baseline_random')
 class BaselineRandom(Solver):
@@ -30,6 +31,15 @@ class BaselineRandom(Solver):
         self.solution = Solution()
         self.service_chain = event.sfc
         self.substrate_network = event.current_substrate
+
+        MAX_CPU_Y = max(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))+1
+        MAX_RAM_X = max(self.substrate_network.get_all_nodes_attrs_values("ram_setting","max_setting"))+1
+        MIN_DEVISE_LATENCY = 0.01
+        MAX_DEVISE_LATENCY = MIN_DEVISE_LATENCY + MIN_DEVISE_LATENCY * (MAX_CPU_Y-1+MAX_RAM_X-1)
+        self.DEVISE_LATENCY_MAT = np.zeros((MAX_CPU_Y,MAX_RAM_X))
+        for i in range(MAX_CPU_Y):
+            for j in range(MAX_RAM_X):
+                self.DEVISE_LATENCY_MAT[i,j] = MAX_DEVISE_LATENCY-(i+j)*MIN_DEVISE_LATENCY
 
     def solve_embedding(self,event: Event) -> Solution:
         self.service_chain = event.sfc
@@ -159,7 +169,9 @@ class BaselineRandom(Solver):
                            * (event.time-event.sfc.arrivetime)
 
         self.solution.perform_revenue = perform_revenue
-        self.solution.perform_latency = 0
+
+        self.solution.perform_latency = self.__get_latency_running()
+
         self.solution.cost_node_resource = [perform_all_use_cpu_resource, perform_all_use_ram_resource, 
                                             perform_all_use_disk_resource, perform_all_use_energy_resource]
         self.solution.cost_node_resource_percentage = [perform_all_use_cpu_resource/perform_all_phy_cpu_resource, 
@@ -169,5 +181,11 @@ class BaselineRandom(Solver):
         self.solution.cost_link_resource = [perform_all_use_link_resource]
         self.solution.cost_link_resource_percentage = [perform_all_use_link_resource/perform_all_phy_link_resource]
 
+    def __get_latency_running(self) -> float:
+        latency_list = []
+        for phy_node in self.solution.map_node.values():
+            latency_list.append(self.substrate_network.get_node_latency_from_mat(phy_node,self.DEVISE_LATENCY_MAT))
+
+        return max(latency_list)
 
 

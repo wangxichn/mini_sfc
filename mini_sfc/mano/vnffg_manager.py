@@ -18,6 +18,7 @@ from solvers import SOLVER_REGISTRAR
 from solvers import Solution,SolutionGroup
 from typing import Tuple
 import code
+import copy
 
 class VnffgManager:
     def __init__(self, event:Event, **kwargs) -> None:
@@ -47,7 +48,7 @@ class VnffgManager:
         solution = self.solver.solve_embedding(event)
         self.__action_embedding(solution)
         # Save the solution
-        self.solution_group.append(solution)
+        self.solution_group.append(copy.deepcopy(solution))
 
         return self.substrate_network,self.solution_group
 
@@ -59,7 +60,7 @@ class VnffgManager:
         solution = self.solver.solve_ending(event)
         self.__action_release(solution)
         # Save the solution
-        self.solution_group.append(solution)
+        self.solution_group.append(copy.deepcopy(solution))
 
         return self.substrate_network,self.solution_group
 
@@ -72,7 +73,7 @@ class VnffgManager:
         self.__action_release(self.solution_group[-1]) # use last one solution release resource
         self.__action_embedding(solution)
         # Save the solution
-        self.solution_group.append(solution)
+        self.solution_group.append(copy.deepcopy(solution))
 
         return self.substrate_network,self.solution_group
 
