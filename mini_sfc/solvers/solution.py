@@ -19,9 +19,11 @@ class SOLUTION_TYPE(Enum):
     SET_SUCCESS = auto()
     SET_NODE_FAILED = auto()
     SET_LINK_FAILED = auto()
+    SET_LATENCY_FAILED = auto()
     CHANGE_SUCCESS = auto()
     CHANGE_NODE_FAILED = auto()
     CHANGE_LINK_FAILED = auto()
+    CHANGE_LATENCY_FAILED = auto()
     END_SUCCESS = auto()
     END_FAILED = auto()
 

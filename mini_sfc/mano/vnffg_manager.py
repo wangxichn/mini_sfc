@@ -45,8 +45,15 @@ class VnffgManager:
         # Update substrate network
         self.substrate_network = event.current_substrate
         # Obtain a solution and apply it
-        solution = self.solver.solve_embedding(event)
-        self.__action_embedding(solution)
+        solution:Solution = self.solver.solve_embedding(event)
+
+        if solution.current_result == True:
+            # Embedding successful
+            self.__action_embedding(solution)
+        else:
+            # Embedding failed
+            pass
+
         # Save the solution
         self.solution_group.append(copy.deepcopy(solution))
 
@@ -102,8 +109,8 @@ class VnffgManager:
             self.substrate_network.set_node_attrs_value(phy_node,"energy_setting","remain_setting",remain_eng_of_node-request_eng_of_node)
 
         # second embed links
-        for sfd_link, phy_links in solution.map_link.items():
-            request_band_of_link = self.service_chain.get_link_attrs_value(sfd_link,"band_setting")
+        for sfc_link, phy_links in solution.map_link.items():
+            request_band_of_link = self.service_chain.get_link_attrs_value(sfc_link,"band_setting")
             for phy_link in phy_links:
                 remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")
                 self.substrate_network.set_link_attrs_value(phy_link,"band_setting","remain_setting",remain_band_of_link-request_band_of_link)
@@ -132,8 +139,8 @@ class VnffgManager:
             self.substrate_network.set_node_attrs_value(phy_node,"energy_setting","remain_setting",remain_eng_of_node+unused_eng_of_node)
 
         # second release links
-        for sfd_link, phy_links in solution.map_link.items():
-            used_band_of_link = self.service_chain.get_link_attrs_value(sfd_link,"band_setting")
+        for sfc_link, phy_links in solution.map_link.items():
+            used_band_of_link = self.service_chain.get_link_attrs_value(sfc_link,"band_setting")
             for phy_link in phy_links:
                 try: # the link may have been break
                     remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")

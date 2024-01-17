@@ -45,8 +45,13 @@ class NfvOrchestrator:
         vnffg_manager = VnffgManager(event,**self.vnffg_manager_setting)
         # Update network state after solve
         self.substrate_network, solution_group = vnffg_manager.handle_arrive(event)
-        # Save SFC manager
-        self.vnffg_group.append(vnffg_manager)
+        if solution_group[-1].current_result == True:
+            # Embed successfully into management queue 
+            self.vnffg_group.append(vnffg_manager)
+        else:
+            # Embedding failed and did not enter the administrative queue 
+            pass
+
         self.vnffg_group_log[vnffg_manager.id] = solution_group
 
         return self.substrate_network

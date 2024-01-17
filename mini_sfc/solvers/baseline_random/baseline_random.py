@@ -14,7 +14,7 @@ from solvers import Solution
 from solvers import SOLVER_REGISTRAR
 from solvers import Solver
 from solvers import Solution, SOLUTION_TYPE
-from base import Event
+from base import Event,EventType
 import networkx as nx
 import random
 import code
@@ -64,18 +64,17 @@ class BaselineRandom(Solver):
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
             else:
                 self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
+        
+        
+        self.solution.current_description = self.__check_constraints(event)
 
-        
-        self.solution.current_description = SOLUTION_TYPE.SET_SUCCESS
-        self.solution.current_result = True
-        
+        if self.solution.current_description != SOLUTION_TYPE.SET_SUCCESS:
+            self.solution.current_result = False
+        else:
+            self.solution.current_result = True
+
         self.__perform_measure(event)
-        
-        # algorithm end ----------------------------------------------
-                
-        solve_end_time = time.time()
-
-        self.solution.cost_real_time = solve_end_time-solve_start_time
+        self.solution.cost_real_time = time.time()-solve_start_time
 
         return self.solution
     
@@ -143,6 +142,52 @@ class BaselineRandom(Solver):
         self.solution.cost_real_time = solve_end_time-solve_start_time
 
         return self.solution
+
+    def __check_constraints(self, event: Event) -> SOLUTION_TYPE:
+        # Node Resource Constraint Check
+        for sfc_node, phy_node in self.solution.map_node.items():
+            remain_cpu_of_node = self.substrate_network.get_node_attrs_value(phy_node,"cpu_setting","remain_setting")
+            request_cpu_of_node = self.service_chain.get_node_attrs_value(sfc_node,"cpu_setting")
+            remain_ram_of_node = self.substrate_network.get_node_attrs_value(phy_node,"ram_setting","remain_setting")
+            request_ram_of_node = self.service_chain.get_node_attrs_value(sfc_node,"ram_setting")
+            remain_disk_of_node = self.substrate_network.get_node_attrs_value(phy_node,"disk_setting","remain_setting")
+            request_disk_of_node = self.service_chain.get_node_attrs_value(sfc_node,"disk_setting")
+            remain_eng_of_node = self.substrate_network.get_node_attrs_value(phy_node,"energy_setting","remain_setting")
+            request_eng_of_node = request_cpu_of_node * (self.service_chain.endtime - self.solution.current_time)
+
+            if True in (request_cpu_of_node > remain_cpu_of_node, request_ram_of_node > remain_ram_of_node,
+                        request_disk_of_node > remain_disk_of_node, request_eng_of_node > remain_eng_of_node):
+                if event.type == EventType.SFC_ARRIVE:
+                    return SOLUTION_TYPE.SET_NODE_FAILED
+                elif event.type == EventType.TOPO_CHANGE:
+                    return SOLUTION_TYPE.CHANGE_NODE_FAILED
+            
+        # Link Resource Constraint Check
+        CHECK_FLAG = True
+        for sfc_link, phy_links in self.solution.map_link.items():
+            if CHECK_FLAG == False: break
+            request_band_of_link = self.service_chain.get_link_attrs_value(sfc_link,"band_setting")
+            for phy_link in phy_links:
+                remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")
+                if request_band_of_link > remain_band_of_link:
+                    CHECK_FLAG = False
+                    break
+        if CHECK_FLAG == False:
+            if event.type == EventType.SFC_ARRIVE:
+                return SOLUTION_TYPE.SET_LINK_FAILED
+            elif event.type == EventType.TOPO_CHANGE:
+                return SOLUTION_TYPE.CHANGE_LINK_FAILED
+        
+        # Qos Constraint Check
+        latency = self.__get_latency_running()
+        if latency > event.sfc.qos_latency:
+            if event.type == EventType.SFC_ARRIVE:
+                return SOLUTION_TYPE.SET_LATENCY_FAILED
+            elif event.type == EventType.TOPO_CHANGE:
+                return SOLUTION_TYPE.CHANGE_LATENCY_FAILED
+        
+        # All check passed
+        return SOLUTION_TYPE.SET_SUCCESS
 
     def __perform_measure(self,event: Event):
 

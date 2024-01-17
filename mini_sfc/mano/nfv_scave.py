@@ -34,6 +34,7 @@ class NfvScaveSolverData():
         self.SFC_LATENCY = None
         self.SFC_SOLVE_TIME = None
         self.SFC_REVENUE = None
+        self.SFC_DESCRIPRION = None
 
         self.MANO_VNFFG_NUM = None
         self.MANO_VNFFG_LIST = None
@@ -91,6 +92,7 @@ class NfvScave:
             data_save.MANO_VNFFG_RELATED = [event.sfc.id]
             data_save.SFC_QOS_LATENCY = '%.3f'% event.sfc.qos_latency
             data_save.SFC_LATENCY = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_latency
+            data_save.SFC_DESCRIPRION = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].current_description
 
         if event.type == EventType.TOPO_CHANGE:
             data_save.MANO_VNFFG_RELATED = [id for id in nfv_orchestrator.vnffg_group_log.keys() 

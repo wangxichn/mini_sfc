@@ -11,7 +11,7 @@ substrate_network_setting:
     wm_alpha: 0.5
     wm_beta: 0.2
   topology_change_setting:
-    type: random
+    type: static
     break_prob: 0.1
     connect_prob: 0.1
     change_times: 10
