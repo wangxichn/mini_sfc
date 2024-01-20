@@ -14,22 +14,36 @@ import code
 import csv
 import os
 import numpy as np
+import copy
 
 from base import Event, EventType
 from mano import NfvOrchestrator
 from solvers import SolutionGroup, SOLUTION_TYPE
 
 class NfvScaveSummaryData():
+    """ Scave while an experiment ending
+    """
     def __init__(self) -> None:
-        self.COMPLETION_RATE = None 
+        self.EXP_ID = None
+        self.SUBSTRATE_NODE = None
+        self.SERVICE_NUM = None
+        self.SOLVER_NAME = None
+        self.SOLVER_AVER_TIME = None
+        self.COMPLETION_RATE = None
+        self.SUM_REVENUE = None
+        self.LANGTERM_REVENUE = None
+        
 
 class NfvScaveSolverData():
+    """ Scave while an event ending
+    """
     def __init__(self) -> None:
         self.EVENT_ID = None
         self.EVENT_TIME = None
         self.EVENT_TYPE = None
 
         self.SFC_LENGTH = None
+        self.SFC_LIFETIME = None
         self.SFC_QOS_LATENCY = None
         self.SFC_LATENCY = None
         self.SFC_SOLVE_TIME = None
@@ -70,12 +84,15 @@ class NfvScave:
         data_save.MANO_VNFFG_NUM = len(nfv_orchestrator.vnffg_group)
         data_save.MANO_VNFFG_LIST = [i.service_chain.id for i in nfv_orchestrator.vnffg_group]
         
+        # Percentage of resources used to obtain all presence services
         for vnffg in nfv_orchestrator.vnffg_group:
             data_save.MANO_RESOURSE_NODE_PER = np.sum([data_save.MANO_RESOURSE_NODE_PER, vnffg.solution_group[-1].cost_node_resource_percentage], axis=0).tolist()
             data_save.MANO_RESOURSE_LINK_PER = np.sum([data_save.MANO_RESOURSE_LINK_PER, vnffg.solution_group[-1].cost_link_resource_percentage], axis=0).tolist()
-        data_save.MANO_RESOURSE_NODE_PER = ['%.5f'% data for data in data_save.MANO_RESOURSE_NODE_PER]
-        data_save.MANO_RESOURSE_LINK_PER = ['%.5f'% data for data in data_save.MANO_RESOURSE_LINK_PER]
+        # Calculate the proportion of remaining network resources
+        data_save.MANO_RESOURSE_NODE_PER = ['%.5f'% (1-data) for data in data_save.MANO_RESOURSE_NODE_PER]
+        data_save.MANO_RESOURSE_LINK_PER = ['%.5f'% (1-data) for data in data_save.MANO_RESOURSE_LINK_PER]
 
+        # Calculate total remaining resources
         data_save.MANO_RESOURSE_NODE_CPU = sum(event.current_substrate.get_all_nodes_attrs_values("cpu_setting","remain_setting"))
         data_save.MANO_RESOURSE_NODE_RAM = sum(event.current_substrate.get_all_nodes_attrs_values("ram_setting","remain_setting"))
         data_save.MANO_RESOURSE_NODE_DISK = sum(event.current_substrate.get_all_nodes_attrs_values("disk_setting","remain_setting"))
@@ -95,29 +112,42 @@ class NfvScave:
         if event.type in (EventType.SFC_ARRIVE, EventType.SFC_ENDING):
             data_save.MANO_VNFFG_RELATED = [event.sfc.id]
             data_save.SFC_QOS_LATENCY = '%.3f'% event.sfc.qos_latency
+            data_save.SFC_LIFETIME = event.sfc.lifetime
             data_save.SFC_LATENCY = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_latency
             data_save.SFC_DESCRIPRION = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].current_description
 
         if event.type == EventType.TOPO_CHANGE:
             data_save.MANO_VNFFG_RELATED = [id for id in nfv_orchestrator.vnffg_group_log.keys() 
-                                            if nfv_orchestrator.vnffg_group_log.get(id)[-1].current_description == SOLUTION_TYPE.CHANGE_SUCCESS]
+                                            if nfv_orchestrator.vnffg_group_log.get(id)[-1].current_description in 
+                                            (SOLUTION_TYPE.CHANGE_SUCCESS, SOLUTION_TYPE.CHANGE_NODE_FAILED,
+                                             SOLUTION_TYPE.CHANGE_LATENCY_FAILED, SOLUTION_TYPE.CHANGE_LINK_FAILED)]
 
         self.save_solver_record(data_save)
-        self.record_solver.append(data_save)
+        self.record_solver.append(copy.deepcopy(data_save))
 
 
     def handle_summary_data(self, nfv_orchestrator:NfvOrchestrator):
         data_save = NfvScaveSummaryData()
 
-        sfc_num = len(nfv_orchestrator.vnffg_group_log.keys())
+        data_save.EXP_ID = len(self.record_summary)
+        data_save.SUBSTRATE_NODE = nfv_orchestrator.substrate_network.num_nodes
+        data_save.SERVICE_NUM = len(nfv_orchestrator.vnffg_group_log)
+        data_save.SOLVER_NAME = nfv_orchestrator.solver_name
+
         sfc_complete_num = 0
+        sfc_revenue = []
+        sfc_longterm_revenue = []
         for id in nfv_orchestrator.vnffg_group_log.keys():
             if nfv_orchestrator.vnffg_group_log[id][-1].current_description == SOLUTION_TYPE.END_SUCCESS:
                 sfc_complete_num += 1
-        data_save.COMPLETION_RATE = '%.2f'% (sfc_complete_num/sfc_num)
+                sfc_revenue.append(nfv_orchestrator.vnffg_group_log[id][-1].perform_revenue)
+                sfc_longterm_revenue.append(sfc_revenue[-1]/nfv_orchestrator.vnffg_group_log[id][-1].current_time)
+        data_save.COMPLETION_RATE = '%.2f'% (sfc_complete_num/data_save.SERVICE_NUM)
+        data_save.SUM_REVENUE = sum(sfc_revenue)
+        data_save.LANGTERM_REVENUE = sum(sfc_longterm_revenue)
 
         self.save_summary_record(data_save)
-        self.record_summary.append(data_save)
+        self.record_summary.append(copy.deepcopy(data_save))
         
 
     def save_summary_record(self,save_data:NfvScaveSummaryData):

@@ -42,7 +42,17 @@ class Solution:
 
         self.map_link: dict[tuple[int,int]:list[tuple[int,int]]] = {}
         """dict[ServiceChain.link:list[SubstrateNetwork.link]]
-        Description: map from ServiceChain nodes to SubstrateNetwork nodes
+        Description: map from ServiceChain links to SubstrateNetwork links
+        """
+
+        self.map_node_last: dict[int:int] = {}
+        """dict[ServiceChain.node:SubstrateNetwork.node]
+        Description: map from ServiceChain nodes to SubstrateNetwork nodes last time 
+        """
+
+        self.map_link_last: dict[tuple[int,int]:list[tuple[int,int]]] = {}
+        """dict[ServiceChain.link:list[SubstrateNetwork.link]]
+        Description: map from ServiceChain links to SubstrateNetwork links last time
         """
 
         self.perform_revenue = None

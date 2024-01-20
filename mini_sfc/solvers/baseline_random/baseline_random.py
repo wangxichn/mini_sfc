@@ -52,14 +52,16 @@ class BaselineRandom(Solver):
         solve_start_time = time.time()
 
         # algorithm begin ---------------------------------------------
-        
         for v_node in self.service_chain.nodes:
+            self.solution.map_node_last[v_node] = None
             self.solution.map_node[v_node] = random.sample(range(self.substrate_network.num_nodes),1)[0]
 
         for v_link in self.service_chain.edges():
             map_path = nx.dijkstra_path(self.substrate_network,
                                         self.solution.map_node[v_link[0]],
                                         self.solution.map_node[v_link[1]])
+            
+            self.solution.map_link_last[v_link] = []
             if len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
             else:
@@ -90,6 +92,8 @@ class BaselineRandom(Solver):
         solve_start_time = time.time()
 
         # algorithm begin ---------------------------------------------
+        self.solution.map_node_last = copy.deepcopy(self.solution.map_node) # Save previous data
+        self.solution.map_link_last = copy.deepcopy(self.solution.map_link) # Save previous data
         
         for v_node in self.service_chain.nodes:
             self.solution.map_node[v_node] = random.sample(range(self.substrate_network.num_nodes),1)[0]
@@ -129,19 +133,17 @@ class BaselineRandom(Solver):
 
         # algorithm begin ---------------------------------------------
         
-        self.solution.map_node = self.solution.map_node # Get previous data 
-        self.solution.map_link = self.solution.map_link # Get previous data 
+        self.solution.map_node_last = copy.deepcopy(self.solution.map_node) # Save previous data but not use
+        self.solution.map_link_last = copy.deepcopy(self.solution.map_link) # Save previous data but not use
+
+        # algorithm end ----------------------------------------------
 
         self.solution.current_description = SOLUTION_TYPE.END_SUCCESS
         self.solution.current_result = True
 
         self.__perform_measure(event)
 
-        # algorithm end ----------------------------------------------
-                
-        solve_end_time = time.time()
-
-        self.solution.cost_real_time = solve_end_time-solve_start_time
+        self.solution.cost_real_time =  time.time()-solve_start_time
 
         return self.solution
 
@@ -181,8 +183,7 @@ class BaselineRandom(Solver):
                 return SOLUTION_TYPE.CHANGE_LINK_FAILED
         
         # Qos Constraint Check
-        latency = self.__get_latency_running()
-        if latency > event.sfc.qos_latency:
+        if self.__get_latency_running() > event.sfc.qos_latency:
             if event.type == EventType.SFC_ARRIVE:
                 return SOLUTION_TYPE.SET_LATENCY_FAILED
             elif event.type == EventType.TOPO_CHANGE:
@@ -221,7 +222,7 @@ class BaselineRandom(Solver):
 
         self.solution.perform_revenue = perform_revenue
 
-        self.solution.perform_latency = self.__get_latency_running()
+        self.solution.perform_latency = self.__get_latency_running() + self.__get_latency_remap() + self.__get_latency_reroute()
 
         self.solution.cost_node_resource = [perform_all_use_cpu_resource, perform_all_use_ram_resource, 
                                             perform_all_use_disk_resource, perform_all_use_energy_resource]
@@ -239,4 +240,20 @@ class BaselineRandom(Solver):
 
         return max(latency_list)
 
+    def __get_latency_remap(self) -> float:
+        latency_list = []
+        for vnf_node in self.solution.map_node.keys():
+            if self.solution.map_node[vnf_node] != self.solution.map_node_last[vnf_node]:
+                if vnf_node == 0:
+                    latency_list.append(0)
+                else:
+                    latency_list.append(self.service_chain.get_node_attrs_value(vnf_node,"ram_setting") / self.service_chain.get_link_attrs_value((vnf_node-1,vnf_node),"band_setting"))
+        return sum(latency_list)
 
+    def __get_latency_reroute(self) -> float:
+        REROUTE_TIME_UNIT = 0.01
+        latency_list = []
+        for vnf_link in self.solution.map_link.keys():
+            vnf_link_diff = set(self.solution.map_link[vnf_link]) ^ set(self.solution.map_link_last[vnf_link])
+            latency_list.append(len(vnf_link_diff)*REROUTE_TIME_UNIT)
+        return sum(latency_list)
