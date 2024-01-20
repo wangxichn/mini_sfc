@@ -1,11 +1,11 @@
 scenario_setting:
-  exp_repeat_time: 3
+  exp_repeat_time: 10
   
 mano_setting:
   solver_name: baseline_random
 
 substrate_network_setting:
-  num_nodes: 100
+  num_nodes: 30
   topology_setting:
     type: waxman
     wm_alpha: 0.5
@@ -20,8 +20,8 @@ substrate_network_setting:
       price: 1
       max_setting:
         dtype: int
-        high: 80
-        low: 80
+        high: 20
+        low: 20
         distribution: uniform
       remain_setting:
         dtype: int
@@ -29,8 +29,8 @@ substrate_network_setting:
       price: 1
       max_setting:
         dtype: int
-        high: 80
-        low: 80
+        high: 20
+        low: 20
         distribution: uniform
       remain_setting:
         dtype: int
@@ -39,8 +39,8 @@ substrate_network_setting:
       max_setting:
         type: limit
         dtype: int
-        high: 80
-        low: 80
+        high: 20
+        low: 20
         distribution: uniform
       remain_setting:
         dtype: int
@@ -48,8 +48,8 @@ substrate_network_setting:
       price: 1
       max_setting:
         dtype: int
-        high: 80
-        low: 80
+        high: 200
+        low: 200
         distribution: uniform
       remain_setting:
         dtype: int
@@ -58,8 +58,8 @@ substrate_network_setting:
       price: 1
       max_setting:
         dtype: int
-        high: 500
-        low: 400
+        high: 200
+        low: 200
         distribution: uniform
       remain_setting:
         dtype: int
@@ -84,19 +84,19 @@ service_group_setting:
   lifetime_setting:
     dtype: float
     distribution: uniform
-    low: 5
     high: 10
+    low: 5
   qos_latency_setting:
     dtype: float
     distribution: uniform
-    low: 0.6
-    high: 1
+    high: 0.3
+    low: 0.2
 
 service_chain_setting:
   num_nodes_setting:
     dtype: int
-    low: 8
     high: 10
+    low: 8
     distribution: uniform
   topology_setting:
     type: path

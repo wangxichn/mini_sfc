@@ -159,12 +159,29 @@ class BaselineRandom(Solver):
             remain_eng_of_node = self.substrate_network.get_node_attrs_value(phy_node,"energy_setting","remain_setting")
             request_eng_of_node = request_cpu_of_node * (self.service_chain.endtime - self.solution.current_time)
 
-            if True in (request_cpu_of_node > remain_cpu_of_node, request_ram_of_node > remain_ram_of_node,
-                        request_disk_of_node > remain_disk_of_node, request_eng_of_node > remain_eng_of_node):
+            if request_cpu_of_node > remain_cpu_of_node:
                 if event.type == EventType.SFC_ARRIVE:
-                    return SOLUTION_TYPE.SET_NODE_FAILED
+                    return SOLUTION_TYPE.SET_NODE_FAILED_FOR_CPU
                 elif event.type == EventType.TOPO_CHANGE:
-                    return SOLUTION_TYPE.CHANGE_NODE_FAILED
+                    return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_CPU
+            
+            if request_ram_of_node > remain_ram_of_node:
+                if event.type == EventType.SFC_ARRIVE:
+                    return SOLUTION_TYPE.SET_NODE_FAILED_FOR_RAM
+                elif event.type == EventType.TOPO_CHANGE:
+                    return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_RAM
+            
+            if request_disk_of_node > remain_disk_of_node:
+                if event.type == EventType.SFC_ARRIVE:
+                    return SOLUTION_TYPE.SET_NODE_FAILED_FOR_DISK
+                elif event.type == EventType.TOPO_CHANGE:
+                    return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_DISK
+            
+            if request_eng_of_node > remain_eng_of_node:
+                if event.type == EventType.SFC_ARRIVE:
+                    return SOLUTION_TYPE.SET_NODE_FAILED_FOR_ENG
+                elif event.type == EventType.TOPO_CHANGE:
+                    return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_ENG
             
         # Link Resource Constraint Check
         CHECK_FLAG = True
