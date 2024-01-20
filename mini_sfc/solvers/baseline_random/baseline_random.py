@@ -13,7 +13,7 @@
 from solvers import Solution
 from solvers import SOLVER_REGISTRAR
 from solvers import Solver
-from solvers import Solution, SOLUTION_TYPE
+from solvers import Solution, SOLUTION_TYPE, SolutionGroup
 from base import Event,EventType
 import networkx as nx
 import random
@@ -46,7 +46,7 @@ class BaselineRandom(Solver):
         self.substrate_network = event.current_substrate
 
         self.solution.current_time = event.time
-        self.solution.current_service_chain = event.sfc
+        self.solution.current_service_chain = copy.deepcopy(event.sfc)
         self.solution.current_substrate_net = copy.deepcopy(event.current_substrate)
 
         solve_start_time = time.time()
@@ -86,7 +86,7 @@ class BaselineRandom(Solver):
         self.substrate_network = event.current_substrate
 
         self.solution.current_time = event.time
-        self.solution.current_service_chain = event.sfc
+        self.solution.current_service_chain = copy.deepcopy(event.sfc)
         self.solution.current_substrate_net = copy.deepcopy(event.current_substrate)
 
         solve_start_time = time.time()
@@ -126,7 +126,7 @@ class BaselineRandom(Solver):
         self.substrate_network = event.current_substrate
 
         self.solution.current_time = event.time
-        self.solution.current_service_chain = event.sfc
+        self.solution.current_service_chain = copy.deepcopy(event.sfc)
         self.solution.current_substrate_net = copy.deepcopy(event.current_substrate)
 
         solve_start_time = time.time()
@@ -213,16 +213,17 @@ class BaselineRandom(Solver):
         perform_all_phy_energy_resource = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))
         perform_all_phy_link_resource = sum(self.substrate_network.get_all_links_attrs_values("band_setting","max_setting"))
 
-        perform_revenue = (perform_all_use_cpu_resource * self.substrate_network.get_node_attrs_price("cpu_setting") + \
-                           perform_all_use_ram_resource * self.substrate_network.get_node_attrs_price("ram_setting") + \
-                           perform_all_use_disk_resource * self.substrate_network.get_node_attrs_price("disk_setting") + \
-                           perform_all_use_energy_resource * self.substrate_network.get_node_attrs_price("energy_setting") + \
-                           perform_all_use_link_resource * self.substrate_network.get_link_attrs_price("band_setting")) \
-                           * (event.time-event.sfc.arrivetime)
+        
+        self.solution.perform_latency_run = self.__get_latency_running()
+        self.solution.perform_latency_map = self.__get_latency_remap()
+        self.solution.perform_latency_route = self.__get_latency_reroute()
+        self.solution.perform_latency = self.solution.perform_latency_run + self.solution.perform_latency_map + self.solution.perform_latency_route
 
-        self.solution.perform_revenue = perform_revenue
-
-        self.solution.perform_latency = self.__get_latency_running() + self.__get_latency_remap() + self.__get_latency_reroute()
+        self.solution.perform_revenue_unit = perform_all_use_cpu_resource * self.substrate_network.get_node_attrs_price("cpu_setting") + \
+                                             perform_all_use_ram_resource * self.substrate_network.get_node_attrs_price("ram_setting") + \
+                                             perform_all_use_disk_resource * self.substrate_network.get_node_attrs_price("disk_setting") + \
+                                             perform_all_use_energy_resource * self.substrate_network.get_node_attrs_price("energy_setting") + \
+                                             perform_all_use_link_resource * self.substrate_network.get_link_attrs_price("band_setting")
 
         self.solution.cost_node_resource = [perform_all_use_cpu_resource, perform_all_use_ram_resource, 
                                             perform_all_use_disk_resource, perform_all_use_energy_resource]
@@ -257,3 +258,17 @@ class BaselineRandom(Solver):
             vnf_link_diff = set(self.solution.map_link[vnf_link]) ^ set(self.solution.map_link_last[vnf_link])
             latency_list.append(len(vnf_link_diff)*REROUTE_TIME_UNIT)
         return sum(latency_list)
+
+    @staticmethod
+    def get_revenue(solution_group:SolutionGroup):
+        revenue = 0
+        time_list = [solution.current_time for solution in solution_group]
+        for i in range(1,len(time_list),1):
+            calculate_flag = solution_group[i-1].perform_latency < solution_group[i-1].current_service_chain.qos_latency
+            calculate_time = time_list[i-1]+solution_group[i-1].perform_latency
+            if calculate_time > time_list[i]: calculate_time = time_list[i]
+            revenue = revenue + \
+                      solution_group[i-1].perform_revenue_unit * (calculate_time-time_list[i-1]) * int(calculate_flag) + \
+                      solution_group[i-1].perform_revenue_unit * (time_list[i]-calculate_time)
+        return revenue
+

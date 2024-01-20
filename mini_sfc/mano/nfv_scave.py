@@ -18,7 +18,7 @@ import copy
 
 from base import Event, EventType
 from mano import NfvOrchestrator
-from solvers import SolutionGroup, SOLUTION_TYPE
+from solvers import SolutionGroup, SOLUTION_TYPE, SOLVER_REGISTRAR
 
 class NfvScaveSummaryData():
     """ Scave while an experiment ending
@@ -45,7 +45,10 @@ class NfvScaveSolverData():
         self.SFC_LENGTH = None
         self.SFC_LIFETIME = None
         self.SFC_QOS_LATENCY = None
-        self.SFC_LATENCY = None
+        self.SFC_LATENCY_ALL = None
+        self.SFC_LATENCY_RUN = None
+        self.SFC_LATENCY_MAP = None
+        self.SFC_LATENCY_ROUTE = None
         self.SFC_SOLVE_TIME = None
         self.SFC_REVENUE = None
         self.SFC_DESCRIPRION = None
@@ -61,11 +64,13 @@ class NfvScaveSolverData():
         self.MANO_RESOURSE_NODE_ENG = None
 
 class NfvScave:
+    count = 0
     def __init__(self,**kwargs) -> None:
+        NfvScave.count += 1
+
         self.save_file_summary = kwargs.get("save_file_summary")
         self.save_file_solver = kwargs.get("save_file_solver")
 
-        self.record_summary: list[NfvScaveSummaryData] = []
         self.record_solver: list[NfvScaveSolverData] = []
     
     def handle_solver_data(self, event:Event, nfv_orchestrator:NfvOrchestrator):
@@ -107,13 +112,21 @@ class NfvScave:
             data_save.SFC_SOLVE_TIME = '%.3f'% nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].cost_real_time
         
         if event.type == EventType.SFC_ENDING:
-            data_save.SFC_REVENUE = '%.3f'% nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_revenue
+            if nfv_orchestrator.vnffg_group_log[event.sfc.id][-1].current_description == SOLUTION_TYPE.END_SUCCESS:
+                # SFC normal end can calculate returns 
+                solver = SOLVER_REGISTRAR.get(nfv_orchestrator.solver_name)()
+                revenue = solver.get_revenue(nfv_orchestrator.vnffg_group_log[event.sfc.id])
+                data_save.SFC_REVENUE = '%.3f'% revenue
+                nfv_orchestrator.vnffg_group_log[event.sfc.id][-1].perform_revenue = revenue
             
         if event.type in (EventType.SFC_ARRIVE, EventType.SFC_ENDING):
             data_save.MANO_VNFFG_RELATED = [event.sfc.id]
             data_save.SFC_QOS_LATENCY = '%.3f'% event.sfc.qos_latency
             data_save.SFC_LIFETIME = event.sfc.lifetime
-            data_save.SFC_LATENCY = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_latency
+            data_save.SFC_LATENCY_RUN = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_latency_run
+            data_save.SFC_LATENCY_MAP = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_latency_map
+            data_save.SFC_LATENCY_ROUTE = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_latency_route
+            data_save.SFC_LATENCY_ALL = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].perform_latency
             data_save.SFC_DESCRIPRION = nfv_orchestrator.vnffg_group_log.get(event.sfc.id)[-1].current_description
 
         if event.type == EventType.TOPO_CHANGE:
@@ -129,7 +142,7 @@ class NfvScave:
     def handle_summary_data(self, nfv_orchestrator:NfvOrchestrator):
         data_save = NfvScaveSummaryData()
 
-        data_save.EXP_ID = len(self.record_summary)
+        data_save.EXP_ID = NfvScave.count
         data_save.SUBSTRATE_NODE = nfv_orchestrator.substrate_network.num_nodes
         data_save.SERVICE_NUM = len(nfv_orchestrator.vnffg_group_log)
         data_save.SOLVER_NAME = nfv_orchestrator.solver_name
@@ -147,7 +160,6 @@ class NfvScave:
         data_save.LANGTERM_REVENUE = sum(sfc_longterm_revenue)
 
         self.save_summary_record(data_save)
-        self.record_summary.append(copy.deepcopy(data_save))
         
 
     def save_summary_record(self,save_data:NfvScaveSummaryData):

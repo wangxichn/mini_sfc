@@ -55,8 +55,23 @@ class Solution:
         Description: map from ServiceChain links to SubstrateNetwork links last time
         """
 
+        self.perform_revenue_unit = None
+        """int
+        Description: Revenue units are calculated for each event, reflecting how much 
+            resources are used, regardless of the time of use 
+        """
+
         self.perform_revenue = None
+        """float
+        Description:  Only at the normal end of the service will be calculated by the 
+            embedded algorithm performed, by QoS decision specific revenue situation, 
+            related to the service time  
+        """
+
         self.perform_latency = None
+        self.perform_latency_run = None
+        self.perform_latency_map = None
+        self.perform_latency_route = None
         self.cost_real_time = None
         self.cost_node_resource = None
         self.cost_node_resource_percentage = None

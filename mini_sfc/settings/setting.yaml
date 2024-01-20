@@ -20,8 +20,8 @@ substrate_network_setting:
       price: 1
       max_setting:
         dtype: int
-        high: 100
-        low: 50
+        high: 80
+        low: 80
         distribution: uniform
       remain_setting:
         dtype: int
@@ -29,8 +29,8 @@ substrate_network_setting:
       price: 1
       max_setting:
         dtype: int
-        high: 100
-        low: 50
+        high: 80
+        low: 80
         distribution: uniform
       remain_setting:
         dtype: int
@@ -39,8 +39,8 @@ substrate_network_setting:
       max_setting:
         type: limit
         dtype: int
-        high: 100
-        low: 50
+        high: 80
+        low: 80
         distribution: uniform
       remain_setting:
         dtype: int
@@ -48,8 +48,8 @@ substrate_network_setting:
       price: 1
       max_setting:
         dtype: int
-        high: 1000
-        low: 500
+        high: 80
+        low: 80
         distribution: uniform
       remain_setting:
         dtype: int
@@ -58,8 +58,8 @@ substrate_network_setting:
       price: 1
       max_setting:
         dtype: int
-        high: 100
-        low: 50
+        high: 500
+        low: 400
         distribution: uniform
       remain_setting:
         dtype: int
@@ -79,7 +79,7 @@ service_group_setting:
   arrival_rate_setting:
     dtype: float
     distribution: possion
-    lam: 0.4
+    lam: 1.2
     reciprocal: true
   lifetime_setting:
     dtype: float
@@ -89,7 +89,7 @@ service_group_setting:
   qos_latency_setting:
     dtype: float
     distribution: uniform
-    low: 0.5
+    low: 0.6
     high: 1
 
 service_chain_setting:
@@ -119,6 +119,6 @@ service_chain_setting:
   link_attrs_setting:
     band_setting:
       dtype: int
-      high: 10
-      low: 1
+      high: 100
+      low: 10
       distribution: uniform
