@@ -11,7 +11,8 @@
 '''
 
 import inspect
-from solvers import Solution
+from solvers import Solution, SolutionGroup
+from base import Event
 
 class SolverRegistrar:
     def __init__(self) -> None:
@@ -43,5 +44,18 @@ class Solver:
     def __init__(self) -> None:
         pass
 
-    def solve() -> Solution:
+    def initialize(self,event: Event) -> None:
+        return NotImplementedError
+    
+    def solve_embedding(self,event: Event) -> Solution:
+        return NotImplementedError
+    
+    def solve_migration(self,event: Event) -> Solution:
+        return NotImplementedError
+    
+    def solve_ending(self,event: Event) -> Solution:
+        return NotImplementedError
+    
+    @staticmethod
+    def get_revenue(solution_group:SolutionGroup):
         return NotImplementedError

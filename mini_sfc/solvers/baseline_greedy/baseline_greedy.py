@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 # -*-coding:utf-8 -*-
 '''
-@File    :   baseline_random.py
-@Time    :   2024/01/15 15:07:59
+@File    :   baseline_greedy.py
+@Time    :   2024/01/21 09:24:44
 @Author  :   Wang Xi
 @Version :   0.0
 @Contact :   wangxi_chn@foxmail.com
@@ -20,11 +20,11 @@ import copy
 import time
 import numpy as np
 
-@SOLVER_REGISTRAR.regist(solver_name='baseline_random')
-class BaselineRandom(Solver):
+@SOLVER_REGISTRAR.regist(solver_name='baseline_greedy')
+class BaselineGreedy(Solver):
     def __init__(self) -> None:
         super().__init__()
-
+    
     def initialize(self,event: Event) -> None:
         self.solution = Solution()
         self.service_chain = event.sfc
@@ -286,4 +286,3 @@ class BaselineRandom(Solver):
                       solution_group[i-1].perform_revenue_unit * (calculate_time-time_list[i-1]) * int(calculate_flag) + \
                       solution_group[i-1].perform_revenue_unit * (time_list[i]-calculate_time)
         return revenue
-

@@ -1,8 +1,8 @@
 scenario_setting:
-  exp_repeat_time: 10
+  exp_repeat_time: 1
   
 mano_setting:
-  solver_name: baseline_random
+  solver_name: baseline_greedy
 
 substrate_network_setting:
   num_nodes: 30
