@@ -193,6 +193,33 @@ class SubstrateNetwork(nx.Graph):
 
         self.nodes[node_id][node_attrs_name][value_type]["value"] = value
 
+    def reduce_node_attrs_value(self, node_id:int, node_attrs_name:str, value_type:str, value:int):
+        """Reduce the attribute values of a node
+
+        Args:
+            node_id (int): Networkx index of node
+            node_attrs_name (str): "cpu_setting","ram_setting","disk_setting","energy_setting"
+            value_type (str): "max_setting","remain_setting"
+            value (int): number
+        """
+
+        remain_value = self.get_node_attrs_value(node_id,node_attrs_name,value_type)
+        new_value = remain_value - value
+        self.set_node_attrs_value(node_id,node_attrs_name,value_type,new_value)
+    
+    def increase_node_attrs_value(self, node_id:int, node_attrs_name:str, value_type:str, value:int):
+        """Increase the attribute values of a node
+
+        Args:
+            node_id (int): Networkx index of node
+            node_attrs_name (str): "cpu_setting","ram_setting","disk_setting","energy_setting"
+            value_type (str): "max_setting","remain_setting"
+            value (int): number
+        """
+
+        remain_value = self.get_node_attrs_value(node_id,node_attrs_name,value_type)
+        new_value = remain_value + value
+        self.set_node_attrs_value(node_id,node_attrs_name,value_type,new_value)
     
     def set_link_attrs_value(self, link_id:tuple[int,int], link_attrs_name:str, value_type:str, value:int):
         """Set the attribute values of a link
@@ -227,6 +254,29 @@ class SubstrateNetwork(nx.Graph):
         return mat[self.get_node_attrs_value(node_id,"cpu_setting","remain_setting"),
                    self.get_node_attrs_value(node_id,"ram_setting","remain_setting")]
 
+    def get_node_rank_by_attrs(self, node_attrs_name:str, value_type:str) -> list[int]:
+        """Get the sequence sorted by the number of node resources in the network
+
+        Args:
+            node_attrs_name (str): "cpu_setting","ram_setting","disk_setting","energy_setting",
+                                   "sum_setting"
+            value_type (str): "max_setting","remain_setting"
+
+        Returns:
+            list[int]: Sorted node number sequence
+        """
+        
+        if node_attrs_name == "sum_setting":
+            nodes_value = (np.array(self.get_all_nodes_attrs_values("cpu_setting",value_type)) + \
+                           np.array(self.get_all_nodes_attrs_values("ram_setting",value_type)) + \
+                           np.array(self.get_all_nodes_attrs_values("disk_setting",value_type)) + \
+                           np.array(self.get_all_nodes_attrs_values("energy_setting",value_type))).tolist()
+        else:
+            nodes_value = self.get_all_nodes_attrs_values(node_attrs_name,value_type)
+
+        sorted_id = sorted(range(len(nodes_value)), key=lambda k: nodes_value[k], reverse=True)
+
+        return sorted_id
 
     def get_adjacency_matrix(self):
 

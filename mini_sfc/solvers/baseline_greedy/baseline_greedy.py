@@ -50,16 +50,26 @@ class BaselineGreedy(Solver):
         solve_start_time = time.time()
 
         # algorithm begin ---------------------------------------------
+        temp_substrate_network = copy.deepcopy(event.current_substrate)
+
         for v_node in self.service_chain.nodes:
             self.solution.map_node_last[v_node] = None
-            self.solution.map_node[v_node] = random.sample(range(self.substrate_network.num_nodes),1)[0]
+            nodes_rank = temp_substrate_network.get_node_rank_by_attrs("sum_setting","remain_setting")
+            self.solution.map_node[v_node] = nodes_rank[0]
+            used_cpu = event.sfc.get_node_attrs_value(v_node,"cpu_setting")
+            temp_substrate_network.reduce_node_attrs_value(nodes_rank[0],"cpu_setting","remain_setting",used_cpu)
+            used_ram = event.sfc.get_node_attrs_value(v_node,"ram_setting")
+            temp_substrate_network.reduce_node_attrs_value(nodes_rank[0],"ram_setting","remain_setting",used_ram)
+            used_disk = event.sfc.get_node_attrs_value(v_node,"disk_setting")
+            temp_substrate_network.reduce_node_attrs_value(nodes_rank[0],"disk_setting","remain_setting",used_disk)
+            used_eng = used_cpu*(event.sfc.endtime - event.time)
+            temp_substrate_network.reduce_node_attrs_value(nodes_rank[0],"energy_setting","remain_setting",used_eng)
 
         for v_link in self.service_chain.edges():
+            self.solution.map_link_last[v_link] = []
             map_path = nx.dijkstra_path(self.substrate_network,
                                         self.solution.map_node[v_link[0]],
                                         self.solution.map_node[v_link[1]])
-            
-            self.solution.map_link_last[v_link] = []
             if len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
             else:
@@ -93,8 +103,20 @@ class BaselineGreedy(Solver):
         self.solution.map_node_last = copy.deepcopy(self.solution.map_node) # Save previous data
         self.solution.map_link_last = copy.deepcopy(self.solution.map_link) # Save previous data
         
+        temp_substrate_network = copy.deepcopy(event.current_substrate)
+
         for v_node in self.service_chain.nodes:
-            self.solution.map_node[v_node] = random.sample(range(self.substrate_network.num_nodes),1)[0]
+            self.solution.map_node_last[v_node] = None
+            nodes_rank = temp_substrate_network.get_node_rank_by_attrs("sum_setting","remain_setting")
+            self.solution.map_node[v_node] = nodes_rank[0]
+            used_cpu = event.sfc.get_node_attrs_value(v_node,"cpu_setting")
+            temp_substrate_network.reduce_node_attrs_value(nodes_rank[0],"cpu_setting","remain_setting",used_cpu)
+            used_ram = event.sfc.get_node_attrs_value(v_node,"ram_setting")
+            temp_substrate_network.reduce_node_attrs_value(nodes_rank[0],"ram_setting","remain_setting",used_ram)
+            used_disk = event.sfc.get_node_attrs_value(v_node,"disk_setting")
+            temp_substrate_network.reduce_node_attrs_value(nodes_rank[0],"disk_setting","remain_setting",used_disk)
+            used_eng = used_cpu*(event.sfc.endtime - event.time)
+            temp_substrate_network.reduce_node_attrs_value(nodes_rank[0],"energy_setting","remain_setting",used_eng)
 
         for v_link in self.service_chain.edges():
             map_path = nx.dijkstra_path(self.substrate_network,

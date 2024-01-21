@@ -1,5 +1,5 @@
 scenario_setting:
-  exp_repeat_time: 1
+  exp_repeat_time: 10
   
 mano_setting:
   solver_name: baseline_greedy
@@ -14,7 +14,7 @@ substrate_network_setting:
     type: random
     break_prob: 0.1
     connect_prob: 0.1
-    change_times: 10
+    change_times: 50
   node_attrs_setting:
     cpu_setting:
       price: 1
