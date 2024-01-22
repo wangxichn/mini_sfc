@@ -12,6 +12,7 @@
 
 from dataclasses import dataclass
 import os
+import shutil
 import yaml
 import time
 import socket
@@ -20,12 +21,14 @@ import code
 
 
 class Config:
-    def __init__(self):
-        self.setting_path: str = os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")),"settings\setting.yaml")
+    def __init__(self,**kwargs):
+        setting_file_name = kwargs.get("setting_file_name","setting.yaml")
+        self.setting_path: str = os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")),f"settings\{setting_file_name}")
         self.save_path: str = os.path.join(os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")),f"save\{self.get_run_id()}/")
 
         self.read_settings(self.setting_path)
         self.ready_for_directory(self.save_path)
+        shutil.copy(self.setting_path,self.save_path)
 
     def read_settings(self,filepath):
         logging.info(f"Try to read seting from file: {filepath}")

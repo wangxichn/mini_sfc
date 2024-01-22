@@ -32,7 +32,10 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     logging.info(f"{'-' * 20}   Hello Mini-SFC!   {'-' * 20}")
 
-    config = Config()
-    
-    run(config)
+    setting_files = ["setting_changetimes_10.yaml","setting_changetimes_20.yaml","setting_changetimes_30.yaml",
+                     "setting_changetimes_40.yaml","setting_changetimes_50.yaml"]
+
+    for file in setting_files:
+        config = Config(**{"setting_file_name":file})
+        run(config)
 

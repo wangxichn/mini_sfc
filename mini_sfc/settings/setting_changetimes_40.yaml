@@ -14,7 +14,7 @@ substrate_network_setting:
     type: random
     break_prob: 0.1
     connect_prob: 0.1
-    change_times: 50
+    change_times: 40
   node_attrs_setting:
     cpu_setting:
       price: 1

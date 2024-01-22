@@ -232,6 +232,18 @@ class SubstrateNetwork(nx.Graph):
         """
 
         self.edges[link_id][link_attrs_name][value_type]["value"] = value
+
+    def get_node_candidates_list(self, request_cpu, request_ram, request_disk, request_eng) -> list[int]:
+        cpu_values = self.get_all_nodes_attrs_values("cpu_setting","remain_setting")
+        ram_values = self.get_all_nodes_attrs_values("ram_setting","remain_setting")
+        disk_values = self.get_all_nodes_attrs_values("disk_setting","remain_setting")
+        eng_values = self.get_all_nodes_attrs_values("eng_setting","remain_setting")
+        cadidates_node = []
+        for node in self.nodes():
+            if request_cpu <= cpu_values[node] and request_ram <= ram_values[node] and \
+               request_disk <= disk_values[node] and request_eng <= eng_values[node]:
+                cadidates_node.append(node)
+        return cadidates_node
     
     def get_node_latency_from_mat(self, node_id:int, mat:np.ndarray):
         """ Get the wait time required to deploy VNF on this node with wait-matrix
