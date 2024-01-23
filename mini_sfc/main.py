@@ -12,7 +12,7 @@
 
 import logging
 import code
-import numpy as np
+import os
 
 from data import Config
 from base import Scenario
@@ -32,10 +32,11 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     logging.info(f"{'-' * 20}   Hello Mini-SFC!   {'-' * 20}")
 
-    setting_files = ["setting_changetimes_10.yaml","setting_changetimes_20.yaml","setting_changetimes_30.yaml",
-                     "setting_changetimes_40.yaml","setting_changetimes_50.yaml"]
-
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    setting_files = os.listdir(current_dir+"/settings/")
+    
     for file in setting_files:
+        if file == "setting.yaml": continue
         config = Config(**{"setting_file_name":file})
         run(config)
 

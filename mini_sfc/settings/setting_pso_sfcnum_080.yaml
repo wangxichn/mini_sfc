@@ -1,0 +1,124 @@
+scenario_setting:
+  exp_repeat_time: 10
+  
+mano_setting:
+  solver_name: metaheuristic_pso
+
+substrate_network_setting:
+  num_nodes: 30
+  topology_setting:
+    type: waxman
+    wm_alpha: 0.5
+    wm_beta: 0.2
+  topology_change_setting:
+    type: random
+    break_prob: 0.1
+    connect_prob: 0.1
+    change_times: 10
+  node_attrs_setting:
+    cpu_setting:
+      price: 1
+      max_setting:
+        dtype: int
+        high: 20
+        low: 20
+        distribution: uniform
+      remain_setting:
+        dtype: int
+    ram_setting:
+      price: 1
+      max_setting:
+        dtype: int
+        high: 20
+        low: 20
+        distribution: uniform
+      remain_setting:
+        dtype: int
+    disk_setting:
+      price: 1
+      max_setting:
+        type: limit
+        dtype: int
+        high: 20
+        low: 20
+        distribution: uniform
+      remain_setting:
+        dtype: int
+    energy_setting:
+      price: 1
+      max_setting:
+        dtype: int
+        high: 200
+        low: 200
+        distribution: uniform
+      remain_setting:
+        dtype: int
+  link_attrs_setting:
+    band_setting:
+      price: 1
+      max_setting:
+        dtype: int
+        high: 200
+        low: 200
+        distribution: uniform
+      remain_setting:
+        dtype: int
+  intralink_attrs_setting:
+    band_setting:
+      price: 1
+      max_setting:
+        dtype: int
+        high: 10000
+        low: 10000
+        distribution: uniform
+      remain_setting:
+        dtype: int
+
+service_group_setting:
+  num_sfc: 80
+  arrival_rate_setting:
+    dtype: float
+    distribution: possion
+    lam: 1.2
+    reciprocal: true
+  lifetime_setting:
+    dtype: float
+    distribution: uniform
+    high: 10
+    low: 5
+  qos_latency_setting:
+    dtype: float
+    distribution: uniform
+    high: 0.3
+    low: 0.2
+
+service_chain_setting:
+  num_nodes_setting:
+    dtype: int
+    high: 10
+    low: 8
+    distribution: uniform
+  topology_setting:
+    type: path
+  node_attrs_setting:
+    cpu_setting:
+      dtype: int
+      high: 10
+      low: 1
+      distribution: uniform
+    ram_setting:
+      dtype: int
+      high: 10
+      low: 1
+      distribution: uniform
+    disk_setting:
+      dtype: int
+      high: 10
+      low: 1
+      distribution: uniform
+  link_attrs_setting:
+    band_setting:
+      dtype: int
+      high: 100
+      low: 10
+      distribution: uniform
