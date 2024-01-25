@@ -54,6 +54,12 @@ class MetaHeuristicPso(Solver):
         solve_start_time = time.time()
 
         # algorithm begin ---------------------------------------------
+        for v_node in self.service_chain.nodes:
+            self.solution.map_node_last[v_node] = None
+
+        for v_link in self.service_chain.edges():
+            self.solution.map_link_last[v_link] = []
+
         pso = PSO(
     	    func=self.calc_fitness, 
     	    dim=self.service_chain.num_nodes*self.substrate_network.num_nodes,
@@ -69,7 +75,6 @@ class MetaHeuristicPso(Solver):
         x = np.array(pso.gbest_x)
         x = x.reshape((self.service_chain.num_nodes,self.substrate_network.num_nodes))
         for v_node in self.service_chain.nodes:
-            self.solution.map_node_last[v_node] = None
             self.solution.map_node[v_node] = np.where(x[v_node,:]==np.max(x[v_node,:]))[0][0]
 
         for v_link in self.service_chain.edges():
@@ -197,22 +202,26 @@ class MetaHeuristicPso(Solver):
         self.solution.current_description = self.__check_constraints(self.event)
 
         if self.solution.current_description not in (SOLUTION_TYPE.SET_SUCCESS,SOLUTION_TYPE.CHANGE_SUCCESS):
-            return 0
+            return float("inf")
         else:
             perform_all_use_cpu_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
             perform_all_use_ram_resource = sum(self.service_chain.get_all_nodes_attrs_values("ram_setting"))
             perform_all_use_disk_resource = sum(self.service_chain.get_all_nodes_attrs_values("disk_setting"))
             perform_all_use_energy_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
-            perform_all_use_link_resource = 0
-            for sfd_link, phy_links in self.solution.map_link.items():
-                perform_all_use_link_resource += self.service_chain.get_link_attrs_value(sfd_link,"band_setting") * len(phy_links)
+            perform_all_use_link_resource = sum(self.service_chain.get_all_links_attrs_values("band_setting"))
             perform_revenue_unit = \
                 perform_all_use_cpu_resource * self.substrate_network.get_node_attrs_price("cpu_setting") + \
                 perform_all_use_ram_resource * self.substrate_network.get_node_attrs_price("ram_setting") + \
                 perform_all_use_disk_resource * self.substrate_network.get_node_attrs_price("disk_setting") + \
                 perform_all_use_energy_resource * self.substrate_network.get_node_attrs_price("energy_setting") + \
                 perform_all_use_link_resource * self.substrate_network.get_link_attrs_price("band_setting")
-            return -perform_revenue_unit
+            
+            perform_latency_run = self.__get_latency_running()
+            perform_latency_map = self.__get_latency_remap()
+            perform_latency_route = self.__get_latency_reroute()
+            perform_latency = perform_latency_run + perform_latency_map + perform_latency_route
+
+            return perform_revenue_unit * (perform_latency-self.service_chain.qos_latency)
 
 
     def __check_constraints(self, event: Event) -> SOLUTION_TYPE:
@@ -288,9 +297,9 @@ class MetaHeuristicPso(Solver):
             perform_all_use_disk_resource = sum(self.service_chain.get_all_nodes_attrs_values("disk_setting"))
             perform_all_use_energy_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
 
-            perform_all_use_link_resource = 0
-            for sfd_link, phy_links in self.solution.map_link.items():
-                perform_all_use_link_resource += self.service_chain.get_link_attrs_value(sfd_link,"band_setting") * len(phy_links)
+            perform_all_use_link_resource = sum(self.service_chain.get_all_links_attrs_values("band_setting"))
+            # for sfd_link, phy_links in self.solution.map_link.items():
+            #     perform_all_use_link_resource += self.service_chain.get_link_attrs_value(sfd_link,"band_setting") * len(phy_links)
 
             perform_all_phy_cpu_resource = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))
             perform_all_phy_ram_resource = sum(self.substrate_network.get_all_nodes_attrs_values("ram_setting","max_setting"))

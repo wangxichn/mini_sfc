@@ -240,9 +240,9 @@ class BaselineGreedy(Solver):
         perform_all_use_disk_resource = sum(self.service_chain.get_all_nodes_attrs_values("disk_setting"))
         perform_all_use_energy_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
 
-        perform_all_use_link_resource = 0
-        for sfd_link, phy_links in self.solution.map_link.items():
-            perform_all_use_link_resource += self.service_chain.get_link_attrs_value(sfd_link,"band_setting") * len(phy_links)
+        perform_all_use_link_resource = sum(self.service_chain.get_all_links_attrs_values("band_setting"))
+            # for sfd_link, phy_links in self.solution.map_link.items():
+            #     perform_all_use_link_resource += self.service_chain.get_link_attrs_value(sfd_link,"band_setting") * len(phy_links)
 
         perform_all_phy_cpu_resource = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))
         perform_all_phy_ram_resource = sum(self.substrate_network.get_all_nodes_attrs_values("ram_setting","max_setting"))
