@@ -154,7 +154,7 @@ class SubstrateNetwork(nx.Graph):
         return self.edges[link_id][link_attrs_name][value_type]["value"]
     
 
-    def get_all_links_attrs_values(self, link_attrs_name:str, value_type:str) -> list[int]:
+    def get_all_links_attrs_values(self, link_attrs_name:str, value_type:str) -> dict[tuple[int,int]:int]:
         """Get the attribute values of all links in network
 
         Args:
@@ -162,10 +162,13 @@ class SubstrateNetwork(nx.Graph):
             value_type (str): "max_setting","remain_setting"
 
         Returns:
-            list[int]: values
+            dict[tuple[int,int]:int]: edge:value
         """
+        link_dict = {}
+        for edge in self.edges:
+            link_dict[(edge[0],edge[1])] = link_dict[(edge[1],edge[0])] = self.edges[edge][link_attrs_name][value_type]["value"]
 
-        return [self.edges[link_id][link_attrs_name][value_type]["value"] for link_id in self.edges]
+        return link_dict
     
 
     def get_link_attrs_price(self, link_attrs_name:str) -> int:

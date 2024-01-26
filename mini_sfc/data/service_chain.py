@@ -139,14 +139,18 @@ class ServiceChain(nx.Graph):
 
         return self.edges[link_id][link_attrs_name]["value"]
     
-    def get_all_links_attrs_values(self, link_attrs_name:str) -> list[int]:
+    def get_all_links_attrs_values(self, link_attrs_name:str) -> dict[tuple[int,int]:int]:
         """Get the attribute values of all links in the chain
 
         Args:
             link_attrs_name (str): "band_setting"
 
         Returns:
-            list[int]: values
+            dict[tuple[int,int]:int]: edge:value
         """
 
-        return [self.edges[edge][link_attrs_name]["value"] for edge in self.edges]
+        link_dict = {}
+        for edge in self.edges:
+            link_dict[(edge[0],edge[1])] = link_dict[(edge[1],edge[0])] = self.edges[edge][link_attrs_name]["value"]
+            
+        return link_dict

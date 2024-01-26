@@ -147,10 +147,10 @@ class MetaHeuristicPso(Solver):
 
         self.solution.current_description = self.__check_constraints(event)
 
-        if self.solution.current_description != SOLUTION_TYPE.CHANGE_SUCCESS:
-            self.solution.current_result = False
-        else:
+        if self.solution.current_description == SOLUTION_TYPE.CHANGE_SUCCESS:
             self.solution.current_result = True
+        else:
+            self.solution.current_result = False
 
         self.__perform_measure(event)
         self.solution.cost_real_time = time.time()-solve_start_time
@@ -170,8 +170,8 @@ class MetaHeuristicPso(Solver):
 
         # algorithm begin ---------------------------------------------
         
-        self.solution.map_node_last = copy.deepcopy(self.solution.map_node) # Save previous data but not use
-        self.solution.map_link_last = copy.deepcopy(self.solution.map_link) # Save previous data but not use
+        # self.solution.map_node_last = copy.deepcopy(self.solution.map_node) # Save previous data but not use
+        # self.solution.map_link_last = copy.deepcopy(self.solution.map_link) # Save previous data but not use
 
         # algorithm end ----------------------------------------------
 
@@ -199,16 +199,14 @@ class MetaHeuristicPso(Solver):
             else:
                 self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
 
-        self.solution.current_description = self.__check_constraints(self.event)
-
-        if self.solution.current_description not in (SOLUTION_TYPE.SET_SUCCESS,SOLUTION_TYPE.CHANGE_SUCCESS):
+        if self.__check_constraints(self.event) not in (SOLUTION_TYPE.SET_SUCCESS,SOLUTION_TYPE.CHANGE_SUCCESS):
             return float("inf")
         else:
             perform_all_use_cpu_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
             perform_all_use_ram_resource = sum(self.service_chain.get_all_nodes_attrs_values("ram_setting"))
             perform_all_use_disk_resource = sum(self.service_chain.get_all_nodes_attrs_values("disk_setting"))
             perform_all_use_energy_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
-            perform_all_use_link_resource = sum(self.service_chain.get_all_links_attrs_values("band_setting"))
+            perform_all_use_link_resource = sum(self.service_chain.get_all_links_attrs_values("band_setting").values())/2
             perform_revenue_unit = \
                 perform_all_use_cpu_resource * self.substrate_network.get_node_attrs_price("cpu_setting") + \
                 perform_all_use_ram_resource * self.substrate_network.get_node_attrs_price("ram_setting") + \
@@ -226,48 +224,55 @@ class MetaHeuristicPso(Solver):
 
     def __check_constraints(self, event: Event) -> SOLUTION_TYPE:
         # Node Resource Constraint Check
-        for sfc_node, phy_node in self.solution.map_node.items():
-            remain_cpu_of_node = self.substrate_network.get_node_attrs_value(phy_node,"cpu_setting","remain_setting")
-            request_cpu_of_node = self.service_chain.get_node_attrs_value(sfc_node,"cpu_setting")
-            remain_ram_of_node = self.substrate_network.get_node_attrs_value(phy_node,"ram_setting","remain_setting")
-            request_ram_of_node = self.service_chain.get_node_attrs_value(sfc_node,"ram_setting")
-            remain_disk_of_node = self.substrate_network.get_node_attrs_value(phy_node,"disk_setting","remain_setting")
-            request_disk_of_node = self.service_chain.get_node_attrs_value(sfc_node,"disk_setting")
-            remain_eng_of_node = self.substrate_network.get_node_attrs_value(phy_node,"energy_setting","remain_setting")
-            request_eng_of_node = request_cpu_of_node * (self.service_chain.endtime - self.solution.current_time)
+        remain_cpu_of_nodes = self.substrate_network.get_all_nodes_attrs_values("cpu_setting","remain_setting")
+        remain_ram_of_nodes = self.substrate_network.get_all_nodes_attrs_values("ram_setting","remain_setting")
+        remain_disk_of_nodes = self.substrate_network.get_all_nodes_attrs_values("disk_setting","remain_setting")
+        remain_eng_of_nodes = self.substrate_network.get_all_nodes_attrs_values("energy_setting","remain_setting")
 
-            if request_cpu_of_node > remain_cpu_of_node:
+        for sfc_node, phy_node in self.solution.map_node.items():     
+            request_cpu_of_node = self.service_chain.get_node_attrs_value(sfc_node,"cpu_setting")
+            request_ram_of_node = self.service_chain.get_node_attrs_value(sfc_node,"ram_setting")
+            request_disk_of_node = self.service_chain.get_node_attrs_value(sfc_node,"disk_setting")
+            request_eng_of_node = request_cpu_of_node * (self.service_chain.endtime - self.solution.current_time)
+            
+            remain_cpu_of_nodes[phy_node] -= request_cpu_of_node
+            if remain_cpu_of_nodes[phy_node] < 0:
                 if event.type == EventType.SFC_ARRIVE:
                     return SOLUTION_TYPE.SET_NODE_FAILED_FOR_CPU
                 elif event.type == EventType.TOPO_CHANGE:
                     return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_CPU
             
-            if request_ram_of_node > remain_ram_of_node:
+            remain_ram_of_nodes[phy_node] -= request_ram_of_node
+            if remain_ram_of_nodes[phy_node] < 0:
                 if event.type == EventType.SFC_ARRIVE:
                     return SOLUTION_TYPE.SET_NODE_FAILED_FOR_RAM
                 elif event.type == EventType.TOPO_CHANGE:
                     return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_RAM
             
-            if request_disk_of_node > remain_disk_of_node:
+            remain_disk_of_nodes[phy_node] -= request_disk_of_node
+            if remain_disk_of_nodes[phy_node] < 0:
                 if event.type == EventType.SFC_ARRIVE:
                     return SOLUTION_TYPE.SET_NODE_FAILED_FOR_DISK
                 elif event.type == EventType.TOPO_CHANGE:
                     return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_DISK
             
-            if request_eng_of_node > remain_eng_of_node:
+            remain_eng_of_nodes[phy_node] -= request_eng_of_node
+            if remain_eng_of_nodes[phy_node] < 0:
                 if event.type == EventType.SFC_ARRIVE:
                     return SOLUTION_TYPE.SET_NODE_FAILED_FOR_ENG
                 elif event.type == EventType.TOPO_CHANGE:
                     return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_ENG
             
         # Link Resource Constraint Check
+        remain_band_of_links = self.substrate_network.get_all_links_attrs_values("band_setting","remain_setting")
+        # code.interact(banner="",local=locals())
         CHECK_FLAG = True
         for sfc_link, phy_links in self.solution.map_link.items():
             if CHECK_FLAG == False: break
             request_band_of_link = self.service_chain.get_link_attrs_value(sfc_link,"band_setting")
             for phy_link in phy_links:
-                remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")
-                if request_band_of_link > remain_band_of_link:
+                remain_band_of_links[phy_link] -= request_band_of_link
+                if remain_band_of_links[phy_link] < 0:
                     CHECK_FLAG = False
                     break
         if CHECK_FLAG == False:
@@ -289,46 +294,43 @@ class MetaHeuristicPso(Solver):
         elif event.type == EventType.TOPO_CHANGE:
             return SOLUTION_TYPE.CHANGE_SUCCESS
 
-
     def __perform_measure(self,event: Event):
-        try:
-            perform_all_use_cpu_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
-            perform_all_use_ram_resource = sum(self.service_chain.get_all_nodes_attrs_values("ram_setting"))
-            perform_all_use_disk_resource = sum(self.service_chain.get_all_nodes_attrs_values("disk_setting"))
-            perform_all_use_energy_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
+        perform_all_use_cpu_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
+        perform_all_use_ram_resource = sum(self.service_chain.get_all_nodes_attrs_values("ram_setting"))
+        perform_all_use_disk_resource = sum(self.service_chain.get_all_nodes_attrs_values("disk_setting"))
+        perform_all_use_energy_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
 
-            perform_all_use_link_resource = sum(self.service_chain.get_all_links_attrs_values("band_setting"))
-            # for sfd_link, phy_links in self.solution.map_link.items():
-            #     perform_all_use_link_resource += self.service_chain.get_link_attrs_value(sfd_link,"band_setting") * len(phy_links)
+        perform_all_use_link_resource = sum(self.service_chain.get_all_links_attrs_values("band_setting").values())/2
+        # for sfd_link, phy_links in self.solution.map_link.items():
+        #     perform_all_use_link_resource += self.service_chain.get_link_attrs_value(sfd_link,"band_setting") * len(phy_links)
 
-            perform_all_phy_cpu_resource = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))
-            perform_all_phy_ram_resource = sum(self.substrate_network.get_all_nodes_attrs_values("ram_setting","max_setting"))
-            perform_all_phy_disk_resource = sum(self.substrate_network.get_all_nodes_attrs_values("disk_setting","max_setting"))
-            perform_all_phy_energy_resource = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))
-            perform_all_phy_link_resource = sum(self.substrate_network.get_all_links_attrs_values("band_setting","max_setting"))
+        perform_all_phy_cpu_resource = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))
+        perform_all_phy_ram_resource = sum(self.substrate_network.get_all_nodes_attrs_values("ram_setting","max_setting"))
+        perform_all_phy_disk_resource = sum(self.substrate_network.get_all_nodes_attrs_values("disk_setting","max_setting"))
+        perform_all_phy_energy_resource = sum(self.substrate_network.get_all_nodes_attrs_values("cpu_setting","max_setting"))
+        perform_all_phy_link_resource = sum(self.substrate_network.get_all_links_attrs_values("band_setting","max_setting").values())/2
 
-            
-            self.solution.perform_latency_run = self.__get_latency_running()
-            self.solution.perform_latency_map = self.__get_latency_remap()
-            self.solution.perform_latency_route = self.__get_latency_reroute()
-            self.solution.perform_latency = self.solution.perform_latency_run + self.solution.perform_latency_map + self.solution.perform_latency_route
+        
+        self.solution.perform_latency_run = self.__get_latency_running()
+        self.solution.perform_latency_map = self.__get_latency_remap()
+        self.solution.perform_latency_route = self.__get_latency_reroute()
+        self.solution.perform_latency = self.solution.perform_latency_run + self.solution.perform_latency_map + self.solution.perform_latency_route
 
-            self.solution.perform_revenue_unit = perform_all_use_cpu_resource * self.substrate_network.get_node_attrs_price("cpu_setting") + \
-                                                perform_all_use_ram_resource * self.substrate_network.get_node_attrs_price("ram_setting") + \
-                                                perform_all_use_disk_resource * self.substrate_network.get_node_attrs_price("disk_setting") + \
-                                                perform_all_use_energy_resource * self.substrate_network.get_node_attrs_price("energy_setting") + \
-                                                perform_all_use_link_resource * self.substrate_network.get_link_attrs_price("band_setting")
+        self.solution.perform_revenue_unit = perform_all_use_cpu_resource * self.substrate_network.get_node_attrs_price("cpu_setting") + \
+                                            perform_all_use_ram_resource * self.substrate_network.get_node_attrs_price("ram_setting") + \
+                                            perform_all_use_disk_resource * self.substrate_network.get_node_attrs_price("disk_setting") + \
+                                            perform_all_use_energy_resource * self.substrate_network.get_node_attrs_price("energy_setting") + \
+                                            perform_all_use_link_resource * self.substrate_network.get_link_attrs_price("band_setting")
 
-            self.solution.cost_node_resource = [perform_all_use_cpu_resource, perform_all_use_ram_resource, 
-                                                perform_all_use_disk_resource, perform_all_use_energy_resource]
-            self.solution.cost_node_resource_percentage = [perform_all_use_cpu_resource/perform_all_phy_cpu_resource, 
-                                                        perform_all_use_ram_resource/perform_all_phy_ram_resource, 
-                                                        perform_all_use_disk_resource/perform_all_phy_disk_resource, 
-                                                        perform_all_use_energy_resource/perform_all_phy_energy_resource]
-            self.solution.cost_link_resource = [perform_all_use_link_resource]
-            self.solution.cost_link_resource_percentage = [perform_all_use_link_resource/perform_all_phy_link_resource]
-        except:
-            logging.warning("Conflicts in embedded results prevent complete performance measurements from being obtained")
+        self.solution.cost_node_resource = [perform_all_use_cpu_resource, perform_all_use_ram_resource, 
+                                            perform_all_use_disk_resource, perform_all_use_energy_resource]
+        self.solution.cost_node_resource_percentage = [perform_all_use_cpu_resource/perform_all_phy_cpu_resource, 
+                                                    perform_all_use_ram_resource/perform_all_phy_ram_resource, 
+                                                    perform_all_use_disk_resource/perform_all_phy_disk_resource, 
+                                                    perform_all_use_energy_resource/perform_all_phy_energy_resource]
+        self.solution.cost_link_resource = [perform_all_use_link_resource]
+        self.solution.cost_link_resource_percentage = [perform_all_use_link_resource/perform_all_phy_link_resource]
+
 
     def __get_latency_running(self) -> float:
         latency_list = []

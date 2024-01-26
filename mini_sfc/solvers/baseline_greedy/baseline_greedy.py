@@ -169,48 +169,54 @@ class BaselineGreedy(Solver):
 
     def __check_constraints(self, event: Event) -> SOLUTION_TYPE:
         # Node Resource Constraint Check
-        for sfc_node, phy_node in self.solution.map_node.items():
-            remain_cpu_of_node = self.substrate_network.get_node_attrs_value(phy_node,"cpu_setting","remain_setting")
-            request_cpu_of_node = self.service_chain.get_node_attrs_value(sfc_node,"cpu_setting")
-            remain_ram_of_node = self.substrate_network.get_node_attrs_value(phy_node,"ram_setting","remain_setting")
-            request_ram_of_node = self.service_chain.get_node_attrs_value(sfc_node,"ram_setting")
-            remain_disk_of_node = self.substrate_network.get_node_attrs_value(phy_node,"disk_setting","remain_setting")
-            request_disk_of_node = self.service_chain.get_node_attrs_value(sfc_node,"disk_setting")
-            remain_eng_of_node = self.substrate_network.get_node_attrs_value(phy_node,"energy_setting","remain_setting")
-            request_eng_of_node = request_cpu_of_node * (self.service_chain.endtime - self.solution.current_time)
+        remain_cpu_of_nodes = self.substrate_network.get_all_nodes_attrs_values("cpu_setting","remain_setting")
+        remain_ram_of_nodes = self.substrate_network.get_all_nodes_attrs_values("ram_setting","remain_setting")
+        remain_disk_of_nodes = self.substrate_network.get_all_nodes_attrs_values("disk_setting","remain_setting")
+        remain_eng_of_nodes = self.substrate_network.get_all_nodes_attrs_values("energy_setting","remain_setting")
 
-            if request_cpu_of_node > remain_cpu_of_node:
+        for sfc_node, phy_node in self.solution.map_node.items():     
+            request_cpu_of_node = self.service_chain.get_node_attrs_value(sfc_node,"cpu_setting")
+            request_ram_of_node = self.service_chain.get_node_attrs_value(sfc_node,"ram_setting")
+            request_disk_of_node = self.service_chain.get_node_attrs_value(sfc_node,"disk_setting")
+            request_eng_of_node = request_cpu_of_node * (self.service_chain.endtime - self.solution.current_time)
+            
+            remain_cpu_of_nodes[phy_node] -= request_cpu_of_node
+            if remain_cpu_of_nodes[phy_node] < 0:
                 if event.type == EventType.SFC_ARRIVE:
                     return SOLUTION_TYPE.SET_NODE_FAILED_FOR_CPU
                 elif event.type == EventType.TOPO_CHANGE:
                     return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_CPU
             
-            if request_ram_of_node > remain_ram_of_node:
+            remain_ram_of_nodes[phy_node] -= request_ram_of_node
+            if remain_ram_of_nodes[phy_node] < 0:
                 if event.type == EventType.SFC_ARRIVE:
                     return SOLUTION_TYPE.SET_NODE_FAILED_FOR_RAM
                 elif event.type == EventType.TOPO_CHANGE:
                     return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_RAM
             
-            if request_disk_of_node > remain_disk_of_node:
+            remain_disk_of_nodes[phy_node] -= request_disk_of_node
+            if remain_disk_of_nodes[phy_node] < 0:
                 if event.type == EventType.SFC_ARRIVE:
                     return SOLUTION_TYPE.SET_NODE_FAILED_FOR_DISK
                 elif event.type == EventType.TOPO_CHANGE:
                     return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_DISK
             
-            if request_eng_of_node > remain_eng_of_node:
+            remain_eng_of_nodes[phy_node] -= request_eng_of_node
+            if remain_eng_of_nodes[phy_node] < 0:
                 if event.type == EventType.SFC_ARRIVE:
                     return SOLUTION_TYPE.SET_NODE_FAILED_FOR_ENG
                 elif event.type == EventType.TOPO_CHANGE:
                     return SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_ENG
             
         # Link Resource Constraint Check
+        remain_band_of_links = self.substrate_network.get_all_links_attrs_values("band_setting","remain_setting")
         CHECK_FLAG = True
         for sfc_link, phy_links in self.solution.map_link.items():
             if CHECK_FLAG == False: break
             request_band_of_link = self.service_chain.get_link_attrs_value(sfc_link,"band_setting")
             for phy_link in phy_links:
-                remain_band_of_link = self.substrate_network.get_link_attrs_value(phy_link,"band_setting","remain_setting")
-                if request_band_of_link > remain_band_of_link:
+                remain_band_of_links[phy_link] -= request_band_of_link
+                if remain_band_of_links[phy_link] < 0:
                     CHECK_FLAG = False
                     break
         if CHECK_FLAG == False:
@@ -240,7 +246,7 @@ class BaselineGreedy(Solver):
         perform_all_use_disk_resource = sum(self.service_chain.get_all_nodes_attrs_values("disk_setting"))
         perform_all_use_energy_resource = sum(self.service_chain.get_all_nodes_attrs_values("cpu_setting"))
 
-        perform_all_use_link_resource = sum(self.service_chain.get_all_links_attrs_values("band_setting"))
+        perform_all_use_link_resource = sum(self.service_chain.get_all_links_attrs_values("band_setting").values())
             # for sfd_link, phy_links in self.solution.map_link.items():
             #     perform_all_use_link_resource += self.service_chain.get_link_attrs_value(sfd_link,"band_setting") * len(phy_links)
 

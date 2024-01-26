@@ -131,7 +131,8 @@ class NfvScave:
 
         if event.type == EventType.TOPO_CHANGE:
             data_save.MANO_VNFFG_RELATED = [id for id in nfv_orchestrator.vnffg_group_log.keys() 
-                                            if nfv_orchestrator.vnffg_group_log.get(id)[-1].current_description in 
+                                            if nfv_orchestrator.vnffg_group_log.get(id)[-1].current_time == event.time and
+                                            nfv_orchestrator.vnffg_group_log.get(id)[-1].current_description in 
                                             (SOLUTION_TYPE.CHANGE_SUCCESS, SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_CPU,
                                              SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_RAM, SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_ENG,
                                              SOLUTION_TYPE.CHANGE_NODE_FAILED_FOR_DISK, SOLUTION_TYPE.CHANGE_LATENCY_FAILED, 

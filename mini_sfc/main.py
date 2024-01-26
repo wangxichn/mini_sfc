@@ -35,8 +35,11 @@ if __name__ == '__main__':
     current_dir = os.path.dirname(os.path.abspath(__file__))
     setting_files = os.listdir(current_dir+"/settings/")
     
-    for file in setting_files:
-        if file == "setting.yaml": continue
-        config = Config(**{"setting_file_name":file})
-        run(config)
+    # for file in setting_files:
+    #     if file == "setting.yaml": continue
+    #     config = Config(**{"setting_file_name":file})
+    #     run(config)
+
+    config = Config(**{"setting_file_name":"setting_pso_sfcnum_050.yaml"})
+    run(config)
 
