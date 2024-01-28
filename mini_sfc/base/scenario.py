@@ -16,11 +16,8 @@ from data import Config
 from data import SubstrateNetwork
 from data import ServiceGroup
 from mano import NfvMano
-from base import EventType, Event
 
-import networkx as nx
-import matplotlib.pyplot as plt
-
+import os
 import copy
 import code
 import logging
@@ -33,6 +30,20 @@ class Scenario:
         self.nfv_mano = nfv_mano
 
         self.exp_repeat_time: int = self.config.scenario_setting.get("exp_repeat_time",1)
+        self.data_save: bool = self.config.scenario_setting.get("data_save",False)
+        self.data_load: bool = self.config.scenario_setting.get("data_load",False)
+
+        if self.data_load == True:
+            self.schedule_data_files = os.listdir(self.config.setting_path)
+            self.schedule_data_files = list(filter(lambda x: x[-4:] == ".pkl", self.schedule_data_files))
+            if self.schedule_data_files == []:
+                raise Exception("There is no 'schedule_data.pkl' file in setting director")
+            else:
+                self.schedule: Schedule = Schedule.load(self.config.setting_path + self.schedule_data_files[0])
+                self.schedule_data_files.pop(0)
+
+        if self.data_save == True:
+            Schedule.save(self.schedule,self.config.save_path+"schedule_data_"+Config.get_run_id()+".pkl")
 
 
     @classmethod
@@ -52,6 +63,16 @@ class Scenario:
         service_group = ServiceGroup(self.config)
         self.schedule = Schedule(self.config,substrate_network,service_group)
         self.nfv_mano = NfvMano(self.config)
+
+        if self.data_load == True:
+            if self.schedule_data_files == []:
+                raise Exception("There is not enough 'schedule_data.pkl' files in setting director")
+            else:
+                self.schedule: Schedule = Schedule.load(self.config.setting_path + self.schedule_data_files[0])
+                self.schedule_data_files.pop(0)
+
+        if self.data_save == True:
+            Schedule.save(self.schedule,self.config.save_path+"schedule_data_"+Config.get_run_id()+".pkl")
         
     
     def ready(self):

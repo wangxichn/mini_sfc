@@ -18,6 +18,7 @@ from base import EventType, Event
 from typing import Tuple
 import copy
 import code
+import pickle
 
 class Schedule:
     def __init__(self,config:Config,substrate_network:SubstrateNetwork,service_group:ServiceGroup) -> None:
@@ -42,6 +43,17 @@ class Schedule:
             event.current_substrate = copy.deepcopy(self.substrate_network)
             self.current_event_id += 1
             return event, False
+    
+    @staticmethod
+    def save(schedule_obj: object,path_file: str):
+        with open(path_file, "wb") as file:
+            pickle.dump(schedule_obj, file)
+    
+    @staticmethod
+    def load(path_file: str) -> object:
+        with open(path_file, "rb") as file:
+            loaded_data = pickle.load(file)
+        return loaded_data
 
     def __generate_event_list(self):
         topo_mode = self.substrate_network.topology_change_setting.get("type","static")

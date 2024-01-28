@@ -40,6 +40,7 @@ if __name__ == '__main__':
     #     config = Config(**{"setting_file_name":file})
     #     run(config)
 
-    config = Config(**{"setting_file_name":"setting_pso_sfcnum_050.yaml"})
+
+    config = Config()
     run(config)
 
