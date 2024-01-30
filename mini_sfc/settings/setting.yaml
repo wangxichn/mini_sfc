@@ -1,7 +1,7 @@
 scenario_setting:
-  exp_repeat_time: 2
-  data_save: True
-  data_load: True
+  exp_repeat_time: 1
+  data_save: False
+  data_load: False
   
 mano_setting:
   solver_name: metaheuristic_pso
@@ -77,7 +77,7 @@ substrate_network_setting:
         dtype: int
 
 service_group_setting:
-  num_sfc: 30
+  num_sfc: 100
   arrival_rate_setting:
     dtype: float
     distribution: possion

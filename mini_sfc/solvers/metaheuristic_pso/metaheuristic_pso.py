@@ -14,11 +14,11 @@ from solvers import SOLVER_REGISTRAR,Solver
 from solvers import Solution, SOLUTION_TYPE, SolutionGroup
 from base import Event,EventType
 import networkx as nx
-import random
 import code
 import copy 
 import time
 import numpy as np
+import csv
 import logging
 from sko.PSO import PSO
 
@@ -63,14 +63,19 @@ class MetaHeuristicPso(Solver):
         pso = PSO(
     	    func=self.calc_fitness, 
     	    dim=self.service_chain.num_nodes*self.substrate_network.num_nodes,
-            pop=10, 
-    	    max_iter=20, 
+            pop=50, 
+    	    max_iter=50, 
     	    lb=[0]*(self.service_chain.num_nodes*self.substrate_network.num_nodes), 
     	    ub=[1]*(self.service_chain.num_nodes*self.substrate_network.num_nodes), 
     	    w=0.8,
     	    c1=0.5, 
     	    c2=0.5)
         pso.run()
+
+        # ################################## PSO iterative observation part begin
+        # with open("pso_iteration_data.csv", 'a+', newline='') as csv_file:
+        #     csv.writer(csv_file,dialect='excel',delimiter=',').writerow(pso.gbest_y_hist)
+        # ################################## PSO iterative observation part end
 
         x = np.array(pso.gbest_x)
         x = x.reshape((self.service_chain.num_nodes,self.substrate_network.num_nodes))

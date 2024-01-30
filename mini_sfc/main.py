@@ -32,8 +32,8 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     logging.info(f"{'-' * 20}   Hello Mini-SFC!   {'-' * 20}")
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    setting_files = os.listdir(current_dir+"/settings/")
+    # current_dir = os.path.dirname(os.path.abspath(__file__))
+    # setting_files = os.listdir(current_dir+"/settings/")
     
     # for file in setting_files:
     #     if file == "setting.yaml": continue
