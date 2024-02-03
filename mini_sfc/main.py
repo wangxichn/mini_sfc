@@ -29,8 +29,8 @@ def run(config):
     # code.interact(banner="",local=locals())
 
 if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    logging.info(f"{'-' * 20}   Hello Mini-SFC!   {'-' * 20}")
+    # logging.basicConfig(level=logging.INFO)
+    # logging.info(f"{'-' * 20}   Hello Mini-SFC!   {'-' * 20}")
 
     # current_dir = os.path.dirname(os.path.abspath(__file__))
     # setting_files = os.listdir(current_dir+"/settings/")
@@ -43,4 +43,5 @@ if __name__ == '__main__':
 
     config = Config()
     run(config)
+
 
