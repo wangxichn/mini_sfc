@@ -16,6 +16,7 @@ from base import EventType,Event
 from mano import VnffgManager
 from typing import Tuple
 from solvers import SolutionGroup
+from solvers import SOLVER_REGISTRAR,SolverMode
 import copy
 import code
 
@@ -30,6 +31,10 @@ class NfvOrchestrator:
         self.vnffg_group:list[VnffgManager] = []
         self.vnffg_group_log:dict[int,SolutionGroup] = {}
 
+        self.solver = SOLVER_REGISTRAR.get(self.solver_name)()
+        if self.solver.mode == SolverMode.CENTRALIZED:
+            self.solver.initialize_centralized(**{"substrate_network":substrate_network})
+
     def handle(self,event:Event) -> SubstrateNetwork:
         if event.type == EventType.SFC_ARRIVE:
             return self.__handle_arrive(event)
@@ -37,6 +42,10 @@ class NfvOrchestrator:
             return self.__handle_ending(event)
         elif event.type == EventType.TOPO_CHANGE:
             return self.__handle_topochange(event)
+        
+    def ending(self):
+        if self.solver.mode == SolverMode.CENTRALIZED:
+            self.solver.ending_centralized()
 
     def __handle_arrive(self,event:Event) -> SubstrateNetwork:
         # Update network state before solve
@@ -105,3 +114,4 @@ class NfvOrchestrator:
                     break # check next vnffg_manager
 
         return self.substrate_network
+

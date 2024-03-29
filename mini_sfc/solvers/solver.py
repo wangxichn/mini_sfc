@@ -13,6 +13,11 @@
 import inspect
 from solvers import Solution, SolutionGroup
 from base import Event
+from enum import Enum, auto
+
+class SolverMode(Enum):
+    DISTRIBUTED = auto()
+    CENTRALIZED = auto()
 
 class SolverRegistrar:
     def __init__(self) -> None:
@@ -31,9 +36,10 @@ class SolverRegistrar:
             raise KeyError(f'{solver_name} is already registered')
         self._solver_dict[solver_name.lower()] = solver_cls
 
-    def regist(self, solver_name: str) -> object:
+    def regist(self, solver_name: str, solver_mode: SolverMode) -> object:
         def _regist(solver_cls):
             solver_cls.name = solver_name
+            solver_cls.mode = solver_mode
             self.__add(solver_name, solver_cls)
             return solver_cls
         return _regist
@@ -44,7 +50,16 @@ class Solver:
     def __init__(self) -> None:
         pass
 
-    def initialize(self,event: Event) -> None:
+    def initialize_centralized(self,**kwargs) -> None:
+        return NotImplementedError
+    
+    def ending_centralized(self) -> None:
+        return NotImplementedError
+
+    def initialize_distributed(self,event: Event) -> None:
+        return NotImplementedError
+    
+    def ending_distributed(self) -> None:
         return NotImplementedError
     
     def solve_embedding(self,event: Event) -> Solution:

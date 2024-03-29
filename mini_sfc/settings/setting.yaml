@@ -1,10 +1,10 @@
 scenario_setting:
-  exp_repeat_time: 1
+  exp_repeat_time: 5
   data_save: False
   data_load: False
   
 mano_setting:
-  solver_name: metaheuristic_pso
+  solver_name: baseline_greedy
 
 substrate_network_setting:
   num_nodes: 30
@@ -70,8 +70,8 @@ substrate_network_setting:
       price: 1
       max_setting:
         dtype: int
-        high: 10000
-        low: 10000
+        high: 200
+        low: 200
         distribution: uniform
       remain_setting:
         dtype: int

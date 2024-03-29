@@ -1,5 +1,5 @@
 from .solution import SOLUTION_TYPE, Solution, SolutionGroup
-from .solver import Solver, SolverRegistrar, SOLVER_REGISTRAR
+from .solver import Solver, SolverRegistrar, SOLVER_REGISTRAR, SolverMode
 
 import importlib
 import os
@@ -23,4 +23,5 @@ __all__ = {
     'Solver',
     'SolverRegistrar',
     'SOLVER_REGISTRAR',
+    'SolverMode'
 }

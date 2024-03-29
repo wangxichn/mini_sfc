@@ -10,7 +10,7 @@
 @Desc    :   None
 '''
 
-from solvers import SOLVER_REGISTRAR,Solver
+from solvers import SOLVER_REGISTRAR, Solver, SolverMode
 from solvers import Solution, SOLUTION_TYPE, SolutionGroup
 from base import Event,EventType
 import networkx as nx
@@ -20,12 +20,19 @@ import copy
 import time
 import numpy as np
 
-@SOLVER_REGISTRAR.regist(solver_name='baseline_greedy')
+@SOLVER_REGISTRAR.regist(solver_name='baseline_greedy',
+                         solver_mode=SolverMode.DISTRIBUTED)
 class BaselineGreedy(Solver):
     def __init__(self) -> None:
         super().__init__()
+
+    def initialize_centralized(self,**kwargs) -> None:
+        pass
+
+    def ending_centralized(self) -> None:
+        pass
     
-    def initialize(self,event: Event) -> None:
+    def initialize_distributed(self,event: Event) -> None:
         self.solution = Solution()
         self.service_chain = event.sfc
         self.substrate_network = event.current_substrate
@@ -39,7 +46,12 @@ class BaselineGreedy(Solver):
             for j in range(MAX_RAM_X):
                 self.DEVISE_LATENCY_MAT[i,j] = MAX_DEVISE_LATENCY-(i+j)*MIN_DEVISE_LATENCY
 
+    def ending_distributed(self):
+        pass
+
     def solve_embedding(self,event: Event) -> Solution:
+        self.event = event
+        self.solution = Solution()
         self.service_chain = event.sfc
         self.substrate_network = event.current_substrate
 
@@ -89,7 +101,9 @@ class BaselineGreedy(Solver):
 
         return self.solution
     
-    def solve_migration(self,event: Event) -> Solution:
+    def solve_migration(self,event: Event, solution_last: Solution) -> Solution:
+        self.event = event
+        self.solution = Solution()
         self.service_chain = event.sfc
         self.substrate_network = event.current_substrate
 
@@ -99,9 +113,10 @@ class BaselineGreedy(Solver):
 
         solve_start_time = time.time()
 
+        self.solution.map_node_last = copy.deepcopy(solution_last.map_node) # Save previous data
+        self.solution.map_link_last = copy.deepcopy(solution_last.map_link) # Save previous data
+        
         # algorithm begin ---------------------------------------------
-        self.solution.map_node_last = copy.deepcopy(self.solution.map_node) # Save previous data
-        self.solution.map_link_last = copy.deepcopy(self.solution.map_link) # Save previous data
         
         temp_substrate_network = copy.deepcopy(event.current_substrate)
 
@@ -141,7 +156,9 @@ class BaselineGreedy(Solver):
 
         return self.solution
 
-    def solve_ending(self,event: Event) -> Solution:
+    def solve_ending(self,event: Event,solution_last: Solution) -> Solution:
+        self.event = event
+        self.solution = Solution()
         self.service_chain = event.sfc
         self.substrate_network = event.current_substrate
 
@@ -151,10 +168,13 @@ class BaselineGreedy(Solver):
 
         solve_start_time = time.time()
 
-        # algorithm begin ---------------------------------------------
+        self.solution.map_node_last = copy.deepcopy(solution_last.map_node) # Save previous data but not use
+        self.solution.map_link_last = copy.deepcopy(solution_last.map_link) # Save previous data but not use
         
-        self.solution.map_node_last = copy.deepcopy(self.solution.map_node) # Save previous data but not use
-        self.solution.map_link_last = copy.deepcopy(self.solution.map_link) # Save previous data but not use
+        # algorithm begin ---------------------------------------------
+
+        self.solution.map_node = self.solution.map_node_last
+        self.solution.map_link = self.solution.map_link_last
 
         # algorithm end ----------------------------------------------
 

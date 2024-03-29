@@ -125,6 +125,28 @@ class ServiceChain(nx.Graph):
         """
 
         return [self.nodes[node_id][node_attrs_name]["value"] for node_id in self.nodes]
+    
+    def get_all_nodes_aggrlinks_attrs_values(self, link_attrs_name:str) -> list[int]:
+        """Get the attribute values ​​of the links around all node aggregates
+
+        Args:
+            link_attrs_name (str): "band_setting"
+
+        Returns:
+            list[int]: values
+        """
+
+        links_aggr_attrs_of_nodes = []
+        adjacency_mat = self.get_adjacency_matrix()
+
+        for i in range(self.num_nodes):
+            sum_temp = 0
+            for j in range(self.num_nodes):
+                if adjacency_mat[i,j] == 1:
+                    sum_temp += self.get_link_attrs_value((i,j),link_attrs_name)
+            links_aggr_attrs_of_nodes.append(sum_temp)
+
+        return links_aggr_attrs_of_nodes
 
     def get_link_attrs_value(self, link_id:tuple[int,int], link_attrs_name:str) -> int:
         """Get the attribute values of a link
@@ -154,3 +176,6 @@ class ServiceChain(nx.Graph):
             link_dict[(edge[0],edge[1])] = link_dict[(edge[1],edge[0])] = self.edges[edge][link_attrs_name]["value"]
             
         return link_dict
+
+    def get_adjacency_matrix(self):
+        return np.array(nx.adjacency_matrix(self).todense())

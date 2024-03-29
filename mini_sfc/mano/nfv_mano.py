@@ -60,6 +60,8 @@ class NfvMano:
         # Use Scave to analyze and document the handling of this event 
         self.nfv_scave.handle_solver_data(event,self.nfv_orchestrator)
 
-        
+    def ending(self):
+        self.nfv_orchestrator.ending()
+        self.nfv_scave.handle_summary_data(self.nfv_orchestrator)
 
 

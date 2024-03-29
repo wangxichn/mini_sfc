@@ -20,7 +20,7 @@ from base import Event, EventType
 from mano import NfvOrchestrator
 from solvers import SolutionGroup, SOLUTION_TYPE, SOLVER_REGISTRAR
 
-class NfvScaveSummaryData():
+class NfvScaveSummaryData:
     """ Scave while an experiment ending
     """
     def __init__(self) -> None:
@@ -34,7 +34,7 @@ class NfvScaveSummaryData():
         self.LANGTERM_REVENUE = None
         
 
-class NfvScaveSolverData():
+class NfvScaveSolverData:
     """ Scave while an event ending
     """
     def __init__(self) -> None:

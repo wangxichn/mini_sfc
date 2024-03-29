@@ -37,7 +37,7 @@ class VnffgManager:
         # Solver Property
         self.solver_name = self.setting.get("solver_name","baseline_random")
         self.solver = SOLVER_REGISTRAR.get(self.solver_name)()
-        self.solver.initialize(event)
+        self.solver.initialize_distributed(event)
         self.solution_group = SolutionGroup()
 
 
@@ -64,7 +64,8 @@ class VnffgManager:
         # Update substrate network
         self.substrate_network = event.current_substrate
         # Obtain a solution and apply it
-        solution:Solution = self.solver.solve_ending(event)
+        solution_last:Solution = self.solution_group[-1]
+        solution:Solution = self.solver.solve_ending(event,solution_last)
         self.__action_release(solution)
         # Save the solution
         self.solution_group.append(copy.deepcopy(solution))
@@ -76,7 +77,8 @@ class VnffgManager:
         # Update substrate network
         self.substrate_network = event.current_substrate
         # Obtain a solution and apply it
-        solution:Solution = self.solver.solve_migration(event)
+        solution_last:Solution = self.solution_group[-1]
+        solution:Solution = self.solver.solve_migration(event,solution_last)
 
         if solution.current_result == True:
             # Migration successful

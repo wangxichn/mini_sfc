@@ -121,7 +121,7 @@ class Scenario:
             # end this experiment
             pbar.close()
 
-            self.nfv_mano.nfv_scave.handle_summary_data(self.nfv_mano.nfv_orchestrator)
+            self.nfv_mano.ending()
 
     def __update_from_nfv_mano(self,nfv_mano:NfvMano):
         self.schedule.substrate_network = copy.deepcopy(nfv_mano.substrate_network)

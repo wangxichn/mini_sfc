@@ -125,6 +125,28 @@ class SubstrateNetwork(nx.Graph):
 
         return [self.nodes[node_id][node_attrs_name][value_type]["value"] for node_id in self.nodes]
     
+    def get_all_nodes_aggrlinks_attrs_values(self, link_attrs_name:str, value_type:str) -> list[int]:
+        """Get the attribute values ​​of the links around all node aggregates
+
+        Args:
+            link_attrs_name (str): "band_setting"
+            value_type (str): "max_setting","remain_setting"
+
+        Returns:
+            list[int]: values
+        """
+
+        links_aggr_attrs_of_nodes = []
+        adjacency_mat = self.get_adjacency_matrix()
+
+        for i in range(self.num_nodes):
+            sum_temp = 0
+            for j in range(self.num_nodes):
+                if adjacency_mat[i,j] == 1:
+                    sum_temp += self.get_link_attrs_value((i,j),link_attrs_name,value_type)
+            links_aggr_attrs_of_nodes.append(sum_temp)
+
+        return links_aggr_attrs_of_nodes
 
     def get_node_attrs_price(self, node_attrs_name:str) -> int:
         """Get the attribute price of a node
@@ -169,7 +191,7 @@ class SubstrateNetwork(nx.Graph):
             link_dict[(edge[0],edge[1])] = link_dict[(edge[1],edge[0])] = self.edges[edge][link_attrs_name][value_type]["value"]
 
         return link_dict
-    
+
 
     def get_link_attrs_price(self, link_attrs_name:str) -> int:
         """Get the attribute price of a link
@@ -240,7 +262,7 @@ class SubstrateNetwork(nx.Graph):
         cpu_values = self.get_all_nodes_attrs_values("cpu_setting","remain_setting")
         ram_values = self.get_all_nodes_attrs_values("ram_setting","remain_setting")
         disk_values = self.get_all_nodes_attrs_values("disk_setting","remain_setting")
-        eng_values = self.get_all_nodes_attrs_values("eng_setting","remain_setting")
+        eng_values = self.get_all_nodes_attrs_values("energy_setting","remain_setting")
         cadidates_node = []
         for node in self.nodes():
             if request_cpu <= cpu_values[node] and request_ram <= ram_values[node] and \
