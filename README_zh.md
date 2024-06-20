@@ -29,23 +29,23 @@ DOI = {10.3390/drones8040117}
 
 ## 整体架构设计
 
-![](resource/figures/structure.png)
+![](doc/figures/structure.png)
 
 
 ## 运行流程设计
 
-![](resource/figures/workflow.png)
+![](doc/figures/workflow.png)
 
 
 ## 依赖关系设计
 
-![](resource/figures/uml.png)
+![](doc/figures/uml.png)
 
 ## 场景示例
 
 ### 场景一：UAVs and Drones
 
-![](resource/figures/scenario_exp1.png)
+![](doc/figures/scenario_exp1.png)
 
 ## 致谢
 

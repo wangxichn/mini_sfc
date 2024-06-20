@@ -1,12 +1,17 @@
 
 # Mini-SFC: A simulation framework for SFC embedding algorithm with reference to MANO
 
+## Version note
+
+During the development of Mini-SFC, we have modified the simulation framework to different degrees through updated versions. When using the framework, please pay attention to the correspondence between different versions and the functions provided by them (especially the models, metrics, methods used in the paper). If you need past versions, please pay attention to the historical releases provided in the repository
+
 ## Citations
 
 If you find Mini-SFC helpful to your research, please feel free to cite our related papers.
 
 **[Drones, 2024] PSO**
 
+Under Version [V1.0]
 ```bibtex
 @Article{drones8040117,
 AUTHOR = {Wang, Xi and Shi, Shuo and Wu, Chenyu},
@@ -24,21 +29,21 @@ DOI = {10.3390/drones8040117}
 
 ## Overall Architecture
 
-![](resource/figures/structure.png)
+![](doc/figures/structure.png)
 
 ## Work Flow
 
-![](resource/figures/workflow.png)
+![](doc/figures/workflow.png)
 
 ## Class Diagram
 
-![](resource/figures/uml.png)
+![](doc/figures/uml.png)
 
 ## Scenario Gallery
 
 ### Scenario 1：UAVs and Drones
 
-![](resource/figures/scenario_exp1.png)
+![](doc/figures/scenario_exp1.png)
 
 ## Acknowledgments
 
