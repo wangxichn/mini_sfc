@@ -3,7 +3,7 @@ import sys
 sys.path.append("..//..//")
 from minisfc.topo import SubstrateTopo,ServiceTopo
 from minisfc.mano import NfvManager
-from minisfc.solver import RadomSolver
+from minisfc.solver import RadomSolver, GreedySolver
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
 from util import NumberGen, TopoGen, DataAnalysis
@@ -59,7 +59,7 @@ nfvManager = NfvManager(vnfParamDict)
 
 sfcSolver = RadomSolver(substrateTopo,serviceTopo)
 
-netTraceFile = 'multisfc_staticopo.csv'
+netTraceFile = f'multisfc_staticopo_{sfcSolver.__class__.__name__}_{TRACER.get_time_stamp()}.csv'
 TRACER.set(netTraceFile)
 
 net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver)

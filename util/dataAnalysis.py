@@ -55,7 +55,7 @@ class DataAnalysis:
                             'sfcCompleteRate':sfcCompleteNum/sfcNum
                             }
 
-        print(f'INFO:Analysis Trace| {resultReportDict}')
+        print(f'INFO:Analysis Trace {filename}| {resultReportDict}')
 
         return resultReportDict
             

@@ -72,25 +72,7 @@ class Solver:
     
     def solve_ending(self,event: Event) -> Solution:
         return NotImplementedError
-    
-class GreedySolver(Solver):
-    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
-        super().__init__(substrateTopo, serviceTopo)
 
-    def initialize(self, nfvManager: NfvManager):
-        super().initialize(nfvManager)
-    
-    def solve_embedding(self,event: Event) -> Solution:
-        solution = Solution()
-        return solution
-    
-    def solve_migration(self,event: Event) -> Solution:
-        solution = Solution()
-        return solution
-    
-    def solve_ending(self,event: Event) -> Solution:
-        solution = Solution()
-        return solution
 
 class RadomSolver(Solver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
@@ -138,7 +120,7 @@ class RadomSolver(Solver):
         # self.solution.resource['band'] = 
         # algorithm end ---------------------------------------------
 
-        self.solution.current_description = self.__check_constraints(event)
+        self.solution.current_description = self.check_constraints(event)
 
         if self.solution.current_description != SOLUTION_TYPE.SET_SUCCESS:
             self.solution.current_result = False
@@ -189,7 +171,7 @@ class RadomSolver(Solver):
         # self.solution.resource['band'] = 
         # algorithm end ---------------------------------------------
 
-        self.solution.current_description = self.__check_constraints(event)
+        self.solution.current_description = self.check_constraints(event)
 
         if self.solution.current_description != SOLUTION_TYPE.CHANGE_SUCCESS:
             self.solution.current_result = False
@@ -210,7 +192,7 @@ class RadomSolver(Solver):
 
         return self.solution
     
-    def __check_constraints(self, event: Event) -> SOLUTION_TYPE:
+    def check_constraints(self, event: Event) -> SOLUTION_TYPE:
 
         remain_cpu_of_nodes = self.substrateTopo.get_all_nodes_attrs_values('remain_cpu')
         remain_ram_of_nodes = self.substrateTopo.get_all_nodes_attrs_values('remain_ram')
@@ -245,7 +227,7 @@ class RadomSolver(Solver):
                         return SOLUTION_TYPE.CHANGE_FAILED_FOR_LINK_BAND
         
         # Qos Constraint Check
-        if self.__get_latency_running() > event.serviceTopo.plan_qosRequesDict[event.serviceTopoId]:
+        if self.get_latency_running() > event.serviceTopo.plan_qosRequesDict[event.serviceTopoId]:
             if event.type == EventType.SFC_ARRIVE:
                 return SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
             elif event.type == EventType.TOPO_CHANGE:
@@ -257,7 +239,7 @@ class RadomSolver(Solver):
         elif event.type == EventType.TOPO_CHANGE:
             return SOLUTION_TYPE.CHANGE_SUCCESS
 
-    def __get_latency_running(self) -> float:
+    def get_latency_running(self) -> float:
         latency_list = []
         for phy_link_list in self.solution.map_link.values():
             for phy_link in phy_link_list:
@@ -265,3 +247,110 @@ class RadomSolver(Solver):
 
         return sum(latency_list)
 
+
+class GreedySolver(RadomSolver):
+    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
+        super().__init__(substrateTopo, serviceTopo)
+    
+    def solve_embedding(self,event: Event) -> Solution:
+        self.event = event
+        self.solution = Solution()
+        
+        self.sfcGraph: Topo = event.serviceTopo.plan_sfcGraph[event.serviceTopoId]
+        self.substrateTopo = event.substrateTopo
+
+        # algorithm begin ---------------------------------------------
+        temp_subStrateTopo = copy.deepcopy(self.substrateTopo)
+
+        vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
+        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+                                          for i in range(len(vnfRequstList)-1)]
+
+        for v_node in self.sfcGraph.nodes:
+            if v_node == 0:
+                self.solution.map_node[v_node] = event.serviceTopo.plan_endPointDict[event.serviceTopoId][0]
+            elif v_node == (len(self.sfcGraph.nodes)-1):
+                self.solution.map_node[v_node] = event.serviceTopo.plan_endPointDict[event.serviceTopoId][1]
+            else:
+                subStrateResource_cpu = temp_subStrateTopo.get_all_nodes_attrs_values('remain_cpu')
+                subStrateResource_ram = temp_subStrateTopo.get_all_nodes_attrs_values('remain_ram')
+                subStrateResource = (np.array(subStrateResource_cpu)+np.array(subStrateResource_ram)).tolist()
+                self.solution.map_node[v_node] = subStrateResource.index(max(subStrateResource))
+                temp_subStrateTopo.opt_node_attrs_value(self.solution.map_node[v_node],'remain_cpu','decrease',self.solution.resource['cpu'][v_node])
+                temp_subStrateTopo.opt_node_attrs_value(self.solution.map_node[v_node],'remain_ram','decrease',self.solution.resource['ram'][v_node])
+
+        for v_link in self.sfcGraph.edges():
+            map_path = nx.dijkstra_path(self.substrateTopo,
+                                        self.solution.map_node[v_link[0]],
+                                        self.solution.map_node[v_link[1]])
+            
+            if len(map_path) == 1: 
+                self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
+            else:
+                self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
+        # algorithm end ---------------------------------------------
+
+        self.solution.current_description = self.check_constraints(event)
+
+        if self.solution.current_description != SOLUTION_TYPE.SET_SUCCESS:
+            self.solution.current_result = False
+        else:
+            self.solution.current_result = True
+        
+        self.record_solutions[self.event.serviceTopoId]=[self.solution]
+        
+        return self.solution
+    
+    def solve_migration(self,event: Event) -> Solution:
+        self.event = event
+        self.solution = Solution()
+        
+        self.sfcGraph: Topo = event.serviceTopo.plan_sfcGraph[event.serviceTopoId]
+        self.substrateTopo = event.substrateTopo
+
+        # algorithm begin ---------------------------------------------
+        temp_subStrateTopo = copy.deepcopy(self.substrateTopo)
+
+        vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
+        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+                                          for i in range(len(vnfRequstList)-1)]
+
+        for v_node in self.sfcGraph.nodes:
+            if v_node == 0:
+                self.solution.map_node[v_node] = event.serviceTopo.plan_endPointDict[event.serviceTopoId][0]
+            elif v_node == (len(self.sfcGraph.nodes)-1):
+                self.solution.map_node[v_node] = event.serviceTopo.plan_endPointDict[event.serviceTopoId][1]
+            else:
+                subStrateResource_cpu = temp_subStrateTopo.get_all_nodes_attrs_values('remain_cpu')
+                subStrateResource_ram = temp_subStrateTopo.get_all_nodes_attrs_values('remain_ram')
+                subStrateResource = (np.array(subStrateResource_cpu)+np.array(subStrateResource_ram)).tolist()
+                self.solution.map_node[v_node] = subStrateResource.index(max(subStrateResource))
+                temp_subStrateTopo.opt_node_attrs_value(subStrateResource,'remain_cpu','decrease',self.solution.resource['cpu'][v_node])
+                temp_subStrateTopo.opt_node_attrs_value(subStrateResource,'remain_ram','decrease',self.solution.resource['ram'][v_node])
+
+        for v_link in self.sfcGraph.edges():
+            map_path = nx.dijkstra_path(self.substrateTopo,
+                                        self.solution.map_node[v_link[0]],
+                                        self.solution.map_node[v_link[1]])
+            
+            if len(map_path) == 1: 
+                self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
+            else:
+                self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
+        # algorithm end ---------------------------------------------
+
+        self.solution.current_description = self.check_constraints(event)
+
+        if self.solution.current_description != SOLUTION_TYPE.CHANGE_SUCCESS:
+            self.solution.current_result = False
+        else:
+            self.solution.current_result = True
+        
+        self.record_solutions[self.event.serviceTopoId].append(self.solution)
+
+        return self.solution
+    

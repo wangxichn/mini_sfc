@@ -34,7 +34,8 @@ class Minisfc:
     def start(self):
         self.ready()
 
-        pbar = tqdm.tqdm(desc=f'INFO:Minisfc is running.', total=len(self.schedule.events))
+        pbar = tqdm.tqdm(desc=f'INFO:Minisfc is running with {self.nfvMano.sfcSolver.__class__.__name__}.', 
+                         total=len(self.schedule.events))
         while True: # loop with event list
             event, done = self.schedule.step()
 
