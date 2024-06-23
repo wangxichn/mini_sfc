@@ -72,7 +72,12 @@ class Solver:
     
     def solve_ending(self,event: Event) -> Solution:
         return NotImplementedError
+    
+    def saveParam():
+        pass
 
+    def loadParam():
+        pass
 
 class RadomSolver(Solver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:

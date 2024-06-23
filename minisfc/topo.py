@@ -53,6 +53,28 @@ class Topo(nx.Graph):
 
         return [self.nodes[node_id][node_attrs_name] for node_id in self.nodes]
     
+    def get_all_nodes_aggrlinks_attrs_values(self, link_attrs_name:str) -> list[int]:
+        """Get the attribute values ​​of the links around all node aggregates
+
+        Args:
+            link_attrs_name (str): "capacity/remain/request"+"_"+"band"
+
+        Returns:
+            list[int]: values
+        """
+
+        links_aggr_attrs_of_nodes = []
+        adjacency_mat = self.get_adjacency_matrix()
+
+        for i in range(len(self.nodes)):
+            sum_temp = 0
+            for j in range(len(self.nodes)):
+                if adjacency_mat[i,j] == 1:
+                    sum_temp += self.opt_link_attrs_value((i,j),link_attrs_name,'get')
+            links_aggr_attrs_of_nodes.append(sum_temp)
+
+        return links_aggr_attrs_of_nodes
+    
     def opt_link_attrs_value(self, link_id:tuple[int,int], link_attrs_name:str, opration:str, value=0) -> int:
         """Get the attribute values of a link
 

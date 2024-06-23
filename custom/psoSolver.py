@@ -28,18 +28,18 @@ class PsoSolver(RadomSolver):
 
         pso = PSO(
     	    func=self.fitness, 
-    	    dim=len(self.sfcGraph.nodes)*len(self.sfcGraph.nodes),
+    	    dim=len(self.sfcGraph.nodes)*len(self.substrateTopo.nodes),
             pop=100, 
-    	    max_iter=5, 
-    	    lb=[0]*(len(self.sfcGraph.nodes)*len(self.sfcGraph.nodes)), 
-    	    ub=[1]*(len(self.sfcGraph.nodes)*len(self.sfcGraph.nodes)), 
+    	    max_iter=10, 
+    	    lb=[0]*(len(self.sfcGraph.nodes)*len(self.substrateTopo.nodes)), 
+    	    ub=[1]*(len(self.sfcGraph.nodes)*len(self.substrateTopo.nodes)), 
     	    w=0.8,
     	    c1=0.5, 
     	    c2=0.5)
         pso.run()
 
         x = np.array(pso.gbest_x)
-        x = x.reshape((len(self.sfcGraph.nodes),len(self.sfcGraph.nodes)))
+        x = x.reshape((len(self.sfcGraph.nodes),len(self.substrateTopo.nodes)))
         for v_node in self.sfcGraph.nodes:
             if v_node == 0:
                 self.solution.map_node[v_node] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId][0]
@@ -62,7 +62,6 @@ class PsoSolver(RadomSolver):
 
         if self.solution.current_description != SOLUTION_TYPE.SET_SUCCESS:
             self.solution.current_result = False
-            # code.interact(banner="",local=locals())
         else:
             self.solution.current_result = True
         
@@ -86,18 +85,18 @@ class PsoSolver(RadomSolver):
 
         pso = PSO(
     	    func=self.fitness, 
-    	    dim=len(self.sfcGraph.nodes)*len(self.sfcGraph.nodes),
-            pop=5, 
-    	    max_iter=5, 
-    	    lb=[0]*(len(self.sfcGraph.nodes)*len(self.sfcGraph.nodes)), 
-    	    ub=[1]*(len(self.sfcGraph.nodes)*len(self.sfcGraph.nodes)), 
+    	    dim=len(self.sfcGraph.nodes)*len(self.substrateTopo.nodes),
+            pop=100, 
+    	    max_iter=10, 
+    	    lb=[0]*(len(self.sfcGraph.nodes)*len(self.substrateTopo.nodes)), 
+    	    ub=[1]*(len(self.sfcGraph.nodes)*len(self.substrateTopo.nodes)), 
     	    w=0.8,
     	    c1=0.5, 
     	    c2=0.5)
         pso.run()
 
         x = np.array(pso.gbest_x)
-        x = x.reshape((len(self.sfcGraph.nodes),len(self.sfcGraph.nodes)))
+        x = x.reshape((len(self.sfcGraph.nodes),len(self.substrateTopo.nodes)))
         for v_node in len(self.sfcGraph.nodes):
             if v_node == 0:
                 self.solution.map_node[v_node] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId][0]
@@ -130,7 +129,7 @@ class PsoSolver(RadomSolver):
     
     def fitness(self,*Args):
         x = np.array(Args)
-        x = x.reshape((len(self.sfcGraph.nodes),len(self.sfcGraph.nodes)))
+        x = x.reshape((len(self.sfcGraph.nodes),len(self.substrateTopo.nodes)))
         for v_node in self.sfcGraph.nodes:
             if v_node == 0:
                 self.solution.map_node[v_node] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId][0]

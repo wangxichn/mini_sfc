@@ -8,6 +8,7 @@ from minisfc.net import Minisfc
 from minisfc.trace import TRACER
 from util import NumberGen, TopoGen, DataAnalysis
 from custom.psoSolver import PsoSolver
+from custom.drlFscpSolver.drlFscpSolver import DrlFscpSolver
 import numpy as np
 import code
 import random
@@ -58,7 +59,8 @@ vnfParamDict = {**vnfParamDict_node,**vnfParamDict_link}
 
 nfvManager = NfvManager(vnfParamDict)
 
-sfcSolver = PsoSolver(substrateTopo,serviceTopo)
+sfcSolver = DrlFscpSolver(substrateTopo,serviceTopo)
+sfcSolver.loadParam()
 
 netTraceFile = f'multisfc_staticopo_{sfcSolver.__class__.__name__}_{TRACER.get_time_stamp()}.csv'
 TRACER.set(netTraceFile)
@@ -67,6 +69,8 @@ net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver)
 net.start()
 net.stop()
 
+sfcSolver.saveParam()
+
 DataAnalysis.getResult(netTraceFile)
 
-code.interact(banner="",local=locals())
+# code.interact(banner="",local=locals())
