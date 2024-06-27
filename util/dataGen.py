@@ -8,7 +8,7 @@ class NumberGen:
         pass
 
     @staticmethod
-    def getVector(size: int, **kwargs) -> list:
+    def getVector(size: int, **kwargs) -> np.ndarray:
         """Generate data with the given distribution and data type.
         
         Args:
@@ -16,7 +16,7 @@ class NumberGen:
             **kwargs: Keyword arguments to pass to the distribution generator.
 
         Returns:
-            list: The generated data.
+            ndarray: The generated data.
         """
         distribution = kwargs.get('distribution')
         dtype = kwargs.get('dtype')
@@ -43,7 +43,7 @@ class NumberGen:
             data = np.random.poisson(lam, size)
         else:
             raise NotImplementedError(f'Generating {dtype} data following the {distribution} distribution is unsupporrted!')
-        return data.astype(dtype).tolist()
+        return data.astype(dtype)
     
     @staticmethod
     def getMatrix(size: int, **kwargs):

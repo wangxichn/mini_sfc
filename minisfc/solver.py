@@ -73,10 +73,10 @@ class Solver:
     def solve_ending(self,event: Event) -> Solution:
         return NotImplementedError
     
-    def saveParam():
+    def saveParam(self):
         pass
 
-    def loadParam():
+    def loadParam(self):
         pass
 
 class RadomSolver(Solver):
