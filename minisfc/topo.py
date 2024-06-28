@@ -132,8 +132,11 @@ class Topo(nx.Graph):
     
     def get_adjacency_matrix(self):
         return np.array(nx.adjacency_matrix(self,weight=None).todense())
-
-
+    
+    def get_kshortest_paths(self, source, target, k):
+        from itertools import islice
+        return list(islice(nx.shortest_simple_paths(self, source, target, weight='weight'), k))
+        
 
 class SubstrateTopo(Topo):
     def __init__(self,timeList:list[float],adjacencyMatDict:dict[float:np.ndarray],weightMatDict:dict[float:np.ndarray],

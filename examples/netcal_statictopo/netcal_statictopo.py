@@ -12,6 +12,7 @@ from custom.drlFscpSolver.drlFscpSolver import DrlFscpSolver
 from custom.netcalSolver import netcalPsoSolver
 import numpy as np
 np.seterr(over='warn')
+import pickle
 import code
 import random
 
@@ -97,6 +98,13 @@ vnfParamDict_link = {(sfcVnfIdList[i],sfcVnfIdList[j]):{'band':None} for i in ra
 vnfParamDict = {**vnfParamDict_node,**vnfParamDict_link}
 
 nfvManager = NfvManager(vnfParamDict)
+
+with open(f"{substrateTopo.__class__.__name__}_{TRACER.get_time_stamp()}.pkl", "wb") as file:
+    pickle.dump(substrateTopo, file)
+with open(f"{serviceTopo.__class__.__name__}_{TRACER.get_time_stamp()}.pkl", "wb") as file:
+    pickle.dump(serviceTopo, file)
+with open(f"{nfvManager.__class__.__name__}_{TRACER.get_time_stamp()}.pkl", "wb") as file:
+    pickle.dump(nfvManager, file)
 
 sfcSolver = netcalPsoSolver(substrateTopo,serviceTopo)
 sfcSolver.loadParam()

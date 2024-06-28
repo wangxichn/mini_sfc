@@ -6,6 +6,9 @@ from minisfc.solver import RadomSolver, Solution, SOLUTION_TYPE
 import numpy as np
 import networkx as nx
 from sko.PSO import PSO
+from scipy.optimize import differential_evolution,NonlinearConstraint
+import warnings
+warnings.filterwarnings("ignore", message="delta_grad == 0.0. Check if the approximated function is linear.")
 import code
 
 class netcalPsoSolver(RadomSolver):
@@ -31,10 +34,12 @@ class netcalPsoSolver(RadomSolver):
         vnfArriveRateInit = event.serviceTopo.plan_arriveFunParam[event.serviceTopoId][0]
         vnfBurstBitInit = event.serviceTopo.plan_arriveFunParam[event.serviceTopoId][1]
 
-        self.solution.resource['cpu'] = vnfArriveRateInit*vnfFactorProd
+        self.solution.resource['cpu'] = vnfArriveRateInit*vnfFactorProd[0:-1]
         self.solution.resource['ram'] = np.array([vnfArriveRateInit*vnfMassageLenList[i]/self.solution.resource['cpu'][i]+vnfBurstBitInit 
                                                     for i in range(vnfNodeNum)])*vnfFactorProd[:-1]
         self.solution.resource['band'] = np.array([self.solution.resource['cpu'][i]*vnfFactorList[i] for i in range(vnfNodeNum)])
+        self.netcalLatency = vnfFactorProd[-1]*vnfBurstBitInit/(self.solution.resource['cpu']*vnfFactorStar).min() \
+                            +(vnfMassageLenList/self.solution.resource['cpu']).sum()
 
         pso = PSO(
     	    func=self.fitness, 
@@ -173,5 +178,117 @@ class netcalPsoSolver(RadomSolver):
         else:
             return self.get_latency_running() -self.event.serviceTopo.plan_qosRequesDict[self.event.serviceTopoId][0]
 
+    def get_latency_running(self) -> float:
+        return super().get_latency_running()+self.netcalLatency
 
+
+class netcalOptSolver(RadomSolver):
+    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
+        super().__init__(substrateTopo, serviceTopo)
+    
+    def solve_embedding(self, event: Event) -> Solution:
+        self.event = event
+        self.solution = Solution()
+        
+        self.sfcGraph: Topo = event.serviceTopo.plan_sfcGraph[event.serviceTopoId]
+        self.substrateTopo = event.substrateTopo
+
+        # algorithm begin ---------------------------------------------
+        vnfNodeNum = len(self.sfcGraph.nodes)
+        vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
+        vnfFactorList = np.array([self.nfvManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
+        vnfFactorProd = np.cumprod(vnfFactorList_ex)
+        vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]
+        vnfMassageLenInit = event.serviceTopo.plan_arriveFunParam[event.serviceTopoId][2]
+        vnfMassageLenList = np.array([vnfMassageLenInit]*vnfNodeNum)*vnfFactorList
+        vnfArriveRateInit = event.serviceTopo.plan_arriveFunParam[event.serviceTopoId][0]
+        vnfBurstBitInit = event.serviceTopo.plan_arriveFunParam[event.serviceTopoId][1]
+
+        kshortest_paths = self.substrateTopo.get_kshortest_paths(self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId][0],
+                                                                 self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId][1],
+                                                                 5)
+
+        for temp_p_nodes in kshortest_paths:
+            if vnfNodeNum > len(temp_p_nodes):
+                # assume temp_p_nodes = [41, 8, 7, 6] | vnfNode = [0,1,2,3,4,5,6,7,8,9]
+                temp_p_node_resource = [self.substrateTopo.opt_node_attrs_value(p_node,'remain_cpu','get') for p_node in temp_p_nodes]
+                temp_p_node_resource_rate = np.array(temp_p_node_resource)/sum(temp_p_node_resource) # [0.178, 0.163, 0.357, 0.300]
+                temp_p_node_vnf_node_num = np.rint(temp_p_node_resource_rate*vnfNodeNum)
+                temp_p_node_vnf_node_num[-1] = vnfNodeNum-np.sum(temp_p_node_vnf_node_num[0:-1]) # [2,2,4,2]
+
+                temp_p_node_vnf_node = [] # [[0, 1], [2, 3], [4, 5, 6, 7], [8, 9]]
+                temp_start = 0
+                for node_num in temp_p_node_vnf_node_num:
+                    temp_end = temp_start + int(node_num)
+                    temp_p_node_vnf_node.append(list(range(vnfNodeNum))[temp_start:temp_end])
+                    temp_start = temp_end
+            else:
+                # assume temp_p_nodes = [41, 8, 32, 18, 5, 6, 2, 23, 3, 10, 7, 6] | vnfNode = [0,1,2,3,4,5,6,7,8,9]
+                temp_p_nodes_sort = sorted(temp_p_nodes,
+                                        key=lambda x: self.substrateTopo.opt_node_attrs_value(x,'remain_cpu','get'),
+                                        reverse=True)[0:vnfNodeNum] # [22, 2, 7, 32, 23, 6, 18, 5, 3, 10]
+                temp_p_nodes_choose = []
+                for p_node in temp_p_nodes:
+                    if p_node in temp_p_nodes_sort:
+                        temp_p_nodes_choose.append(p_node)
+                temp_p_nodes = temp_p_nodes_choose # [32, 18, 5, 6, 2, 23, 3, 10, 7, 6]
+                temp_p_node_vnf_node = [[i] for i in range(vnfNodeNum)] # [[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]]
+
+            for v_node in self.sfcGraph.nodes:
+                if v_node == 0:
+                    self.solution.map_node[v_node] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId][0]
+                elif v_node == (len(self.sfcGraph.nodes)-1):
+                    self.solution.map_node[v_node] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId][1]
+                else:
+                    for i,sublist in enumerate(temp_p_node_vnf_node):
+                        if v_node in sublist:
+                            self.solution.map_node[v_node] = temp_p_nodes[i]
+                            break
+            
+            for v_link in self.sfcGraph.edges():
+                map_path = nx.dijkstra_path(self.substrateTopo,
+                                            self.solution.map_node[v_link[0]],
+                                            self.solution.map_node[v_link[1]])
+                if len(map_path) == 1: 
+                    self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
+                else:
+                    self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
+            
+            # begin optimal -----------
+            def aim(x):
+                return x.sum()
+            vnfResourceLimitUp = [self.substrateTopo.opt_node_attrs_value(self.solution.map_node[v_node],'remain_cpu','get') 
+                                for v_node in self.sfcGraph.nodes]
+            bounds = [(vnfBurstBitInit*vnfFactorProd[v_node], vnfResourceLimitUp[v_node]) for v_node in self.sfcGraph.nodes]
+            def constr_f(x):
+                return vnfFactorProd[-1]*vnfBurstBitInit/(x*vnfFactorStar).min()+(vnfMassageLenList/x).sum()
+            
+            remain_latency = event.serviceTopo.plan_qosRequesDict[event.serviceTopoId]-super().get_latency_running()
+            nlc = NonlinearConstraint(constr_f,0,remain_latency)
+            result = differential_evolution(aim, bounds, constraints=(nlc))
+            
+            self.solution.resource['cpu'] = np.ceil(result.x)
+            self.solution.resource['ram'] = np.array([vnfArriveRateInit*vnfMassageLenList[i]/self.solution.resource['cpu'][i]+vnfBurstBitInit 
+                                                        for i in range(vnfNodeNum)])*vnfFactorProd[:-1]
+            self.solution.resource['band'] = np.array([self.solution.resource['cpu'][i]*vnfFactorList[i] for i in range(vnfNodeNum)])
+            self.netcalLatency = constr_f(result.x)
+            # end optimal ------------
+            if self.check_constraints(event) == SOLUTION_TYPE.SET_SUCCESS: break
+        
+        # algorithm end ---------------------------------------------
+
+        self.solution.current_description = self.check_constraints(event)
+
+        if self.solution.current_description != SOLUTION_TYPE.SET_SUCCESS:
+            self.solution.current_result = False
+        else:
+            self.solution.current_result = True
+        
+        self.record_solutions[self.event.serviceTopoId]=[self.solution]
+
+        return self.solution
+
+    def get_latency_running(self) -> float:
+        return super().get_latency_running()+self.netcalLatency
 
