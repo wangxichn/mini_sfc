@@ -1,0 +1,3877 @@
+[
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_0-1",
+        "range": 4302.237873947807
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-2",
+        "range": 4671.264533679695
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "SAT_3-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-0",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_0-2",
+        "range": 4302.237873947903
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-3",
+        "range": 5417.062412087935
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "SAT_3-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-1",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_0-3",
+        "range": 4302.237873947617
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-4",
+        "range": 4157.008730709482
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-5",
+        "range": 4171.90777123664
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "SAT_3-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-2",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_0-4",
+        "range": 4302.237873947812
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-4",
+        "range": 5555.034359779688
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-5",
+        "range": 1516.927668394727
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-6",
+        "range": 3143.364956823862
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "SAT_3-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-3",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_0-5",
+        "range": 4302.237873947905
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-5",
+        "range": 4830.601335845905
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-6",
+        "range": 2259.8172379351076
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-7",
+        "range": 4684.538692043762
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "SAT_3-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-4",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_0-6",
+        "range": 4302.237873947807
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-7",
+        "range": 4671.264533679695
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "SAT_3-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-5",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_0-7",
+        "range": 4302.237873947711
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-8",
+        "range": 5417.0624120879065
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "SAT_3-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "UAV_0",
+        "range": 2787.8395213581825
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "UAV_1",
+        "range": 2796.6477870482845
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-6",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_0-8",
+        "range": 4302.237873947857
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-0",
+        "range": 4171.907771236822
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "SAT_3-9",
+        "range": 4157.008730709493
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-7",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_0-9",
+        "range": 4302.237873947662
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-0",
+        "range": 1516.927668394739
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-1",
+        "range": 3143.3649568238193
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "SAT_3-9",
+        "range": 5555.034359779719
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-8",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_0-0",
+        "range": 4302.23787394801
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-0",
+        "range": 4830.601335845809
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-1",
+        "range": 2259.817237935036
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-2",
+        "range": 4684.538692043805
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "SAT_3-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_0-9",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_1-1",
+        "range": 4302.237873947808
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-2",
+        "range": 4671.264533679696
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "SAT_0-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-0",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_1-2",
+        "range": 4302.237873947808
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-3",
+        "range": 5417.062412087955
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "SAT_0-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-1",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_1-3",
+        "range": 4302.237873947713
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-4",
+        "range": 4157.008730709487
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-5",
+        "range": 4171.907771236731
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "SAT_0-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-2",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_1-4",
+        "range": 4302.237873947809
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-4",
+        "range": 5555.034359779688
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-5",
+        "range": 1516.9276683947262
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-6",
+        "range": 3143.3649568238634
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "SAT_0-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-3",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_1-5",
+        "range": 4302.2378739479045
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-5",
+        "range": 4830.601335845906
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-6",
+        "range": 2259.8172379351063
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-7",
+        "range": 4684.538692043765
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "SAT_0-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "BASE_0",
+        "range": 1487.7994464739545
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "BASE_1",
+        "range": 1470.6333683612813
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "BASE_2",
+        "range": 1458.3807235690335
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "UAV_0",
+        "range": 1125.2254961480196
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "UAV_1",
+        "range": 1128.4692921492394
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-4",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_1-6",
+        "range": 4302.23787394795
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-7",
+        "range": 4671.264533679692
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "SAT_0-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-5",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_1-7",
+        "range": 4302.23787394757
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-8",
+        "range": 5417.062412087962
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "SAT_0-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-6",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_1-8",
+        "range": 4302.237873947905
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-0",
+        "range": 4171.907771236823
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "SAT_0-9",
+        "range": 4157.008730709541
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-7",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_1-9",
+        "range": 4302.237873947612
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-0",
+        "range": 1516.9276683947498
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-1",
+        "range": 3143.3649568237793
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "SAT_0-9",
+        "range": 5555.034359779843
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-8",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_1-0",
+        "range": 4302.2378739480055
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-0",
+        "range": 4830.601335845809
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-1",
+        "range": 2259.817237935034
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-2",
+        "range": 4684.538692043968
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "SAT_0-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_1-9",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_2-1",
+        "range": 4302.237873947807
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-2",
+        "range": 4671.264533679696
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "SAT_1-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-0",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_2-2",
+        "range": 4302.237873947807
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-3",
+        "range": 5417.062412087953
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "SAT_1-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-1",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_2-3",
+        "range": 4302.237873947808
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-4",
+        "range": 4157.008730709488
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-5",
+        "range": 4171.907771236732
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "SAT_1-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-2",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_2-4",
+        "range": 4302.237873947714
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-4",
+        "range": 5555.034359779745
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-5",
+        "range": 1516.9276683947498
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-6",
+        "range": 3143.3649568239216
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "SAT_1-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-3",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_2-5",
+        "range": 4302.237873947905
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-5",
+        "range": 4830.601335845902
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-6",
+        "range": 2259.817237935102
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-7",
+        "range": 4684.538692043765
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "SAT_1-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-4",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_2-6",
+        "range": 4302.23787394795
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-7",
+        "range": 4671.264533679694
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "SAT_1-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-5",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_2-7",
+        "range": 4302.237873947567
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-8",
+        "range": 5417.062412087951
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "SAT_1-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-6",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_2-8",
+        "range": 4302.2378739479045
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-0",
+        "range": 4171.907771236823
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "SAT_1-9",
+        "range": 4157.00873070954
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-7",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_2-9",
+        "range": 4302.237873947714
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-0",
+        "range": 1516.9276683947494
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-1",
+        "range": 3143.364956823781
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "SAT_1-9",
+        "range": 5555.034359779841
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-8",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_2-0",
+        "range": 4302.237873947907
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-0",
+        "range": 4830.601335845902
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-1",
+        "range": 2259.817237935106
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-2",
+        "range": 4684.538692043846
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "SAT_1-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_2-9",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_3-1",
+        "range": 4302.237873947808
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-2",
+        "range": 4671.264533679694
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "SAT_2-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-0",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_3-2",
+        "range": 4302.237873947714
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-3",
+        "range": 5417.062412087933
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "SAT_2-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-1",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_3-3",
+        "range": 4302.2378739479045
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-4",
+        "range": 4157.008730709494
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-5",
+        "range": 4171.907771236821
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "SAT_2-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-2",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_3-4",
+        "range": 4302.237873947711
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-4",
+        "range": 5555.034359779746
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-5",
+        "range": 1516.9276683947512
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-6",
+        "range": 3143.364956823918
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "SAT_2-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-3",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_3-5",
+        "range": 4302.237873947903
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-5",
+        "range": 4830.601335845902
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-6",
+        "range": 2259.8172379351004
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-7",
+        "range": 4684.538692043763
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "SAT_2-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-4",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_3-6",
+        "range": 4302.237873947808
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-7",
+        "range": 4671.264533679692
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "SAT_2-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-5",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_3-7",
+        "range": 4302.237873947713
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-8",
+        "range": 5417.062412087934
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "SAT_2-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-6",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_3-8",
+        "range": 4302.237873948049
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-0",
+        "range": 4171.907771236823
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "SAT_2-9",
+        "range": 4157.008730709493
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-7",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_3-9",
+        "range": 4302.237873947568
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-0",
+        "range": 1516.9276683947849
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-1",
+        "range": 3143.364956823654
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "SAT_2-9",
+        "range": 5555.034359779832
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-8",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_3-0",
+        "range": 4302.2378739479045
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-0",
+        "range": 4830.601335845901
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-1",
+        "range": 2259.817237935106
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-2",
+        "range": 4684.538692043846
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-4",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-5",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-6",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-7",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-8",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "SAT_2-9",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "BASE_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "BASE_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "BASE_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "SAT_3-9",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "BASE_0",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "BASE_0",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "BASE_0",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "BASE_0",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "BASE_0",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "BASE_1",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "BASE_1",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "BASE_1",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "BASE_1",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "BASE_1",
+        "node2": "UAV_4",
+        "range": null
+    },
+    {
+        "node1": "BASE_2",
+        "node2": "UAV_0",
+        "range": null
+    },
+    {
+        "node1": "BASE_2",
+        "node2": "UAV_1",
+        "range": null
+    },
+    {
+        "node1": "BASE_2",
+        "node2": "UAV_2",
+        "range": null
+    },
+    {
+        "node1": "BASE_2",
+        "node2": "UAV_3",
+        "range": null
+    },
+    {
+        "node1": "BASE_2",
+        "node2": "UAV_4",
+        "range": null
+    }
+]

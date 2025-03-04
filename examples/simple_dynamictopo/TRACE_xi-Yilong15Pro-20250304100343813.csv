@@ -1,0 +1,8 @@
+Event,Time,SfcId,Result,Resource,Vnffgs,Reason
+I,0.0,,,"[9, 12, np.int64(73)]",,
++,0.11,1,False,"[9, 12, np.int64(73)]",[],SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
++,0.12,3,False,"[9, 12, np.int64(73)]",[],SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
+-,0.15,1,False,"[9, 12, np.int64(73)]",[],
++,0.21,10,False,"[9, 12, np.int64(57)]",[],SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
+-,0.22,3,False,"[9, 12, np.int64(57)]",[],
+-,0.32,10,False,"[9, 12, np.int64(57)]",[],

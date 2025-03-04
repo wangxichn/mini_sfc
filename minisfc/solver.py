@@ -334,8 +334,8 @@ class GreedySolver(RadomSolver):
                 subStrateResource_ram = temp_subStrateTopo.get_all_nodes_attrs_values('remain_ram')
                 subStrateResource = (np.array(subStrateResource_cpu)+np.array(subStrateResource_ram)).tolist()
                 self.solution.map_node[v_node] = subStrateResource.index(max(subStrateResource))
-                temp_subStrateTopo.opt_node_attrs_value(subStrateResource,'remain_cpu','decrease',self.solution.resource['cpu'][v_node])
-                temp_subStrateTopo.opt_node_attrs_value(subStrateResource,'remain_ram','decrease',self.solution.resource['ram'][v_node])
+                temp_subStrateTopo.opt_node_attrs_value(self.solution.map_node[v_node],'remain_cpu','decrease',self.solution.resource['cpu'][v_node])
+                temp_subStrateTopo.opt_node_attrs_value(self.solution.map_node[v_node],'remain_ram','decrease',self.solution.resource['ram'][v_node])
 
         for v_link in self.sfcGraph.edges():
             map_path = nx.dijkstra_path(self.substrateTopo,

@@ -72,7 +72,11 @@ class VnffgManager:
         if solution.current_result == True:
             # Migration successful
             self.__action_release(self.recordSolutions[-1]) # use last one solution release resource
-            self.__action_embedding(solution)
+            try: ##########################################################################################################################  watch
+                self.__action_embedding(solution)
+            except:
+                import code
+                code.interact(banner="",local=locals())
         else:
             # Migration failed
             self.__action_release(self.recordSolutions[-1])

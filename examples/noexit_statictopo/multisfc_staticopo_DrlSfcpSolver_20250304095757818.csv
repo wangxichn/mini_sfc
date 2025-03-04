@@ -1,0 +1,202 @@
+Event,Time,SfcId,Result,Resource,Vnffgs,Reason
+I,0.0,,,"[np.int64(600), np.int64(600), np.int64(22400)]",,
++,1.0,0,False,"[np.int64(600), np.int64(600), np.int64(22400)]",[],SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,1,False,"[np.int64(600), np.int64(600), np.int64(22400)]",[],SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,2,True,"[np.int64(583), np.int64(588), np.int64(21742)]",[2],
++,1.0,3,False,"[np.int64(583), np.int64(588), np.int64(21742)]",[2],SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,4,False,"[np.int64(583), np.int64(588), np.int64(21742)]",[2],SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,5,False,"[np.int64(583), np.int64(588), np.int64(21742)]",[2],SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,6,False,"[np.int64(583), np.int64(588), np.int64(21742)]",[2],SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,7,True,"[np.int64(555), np.int64(566), np.int64(20995)]","[2, 7]",
++,1.0,8,False,"[np.int64(555), np.int64(566), np.int64(20995)]","[2, 7]",SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,9,False,"[np.int64(555), np.int64(566), np.int64(20995)]","[2, 7]",SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,10,True,"[np.int64(526), np.int64(539), np.int64(19153)]","[2, 7, 10]",
++,1.0,11,False,"[np.int64(526), np.int64(539), np.int64(19153)]","[2, 7, 10]",SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
++,1.0,12,False,"[np.int64(526), np.int64(539), np.int64(19153)]","[2, 7, 10]",SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,13,True,"[np.int64(505), np.int64(521), np.int64(18829)]","[2, 7, 10, 13]",
++,1.0,14,False,"[np.int64(505), np.int64(521), np.int64(18829)]","[2, 7, 10, 13]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,15,False,"[np.int64(505), np.int64(521), np.int64(18829)]","[2, 7, 10, 13]",SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,16,False,"[np.int64(505), np.int64(521), np.int64(18829)]","[2, 7, 10, 13]",SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,17,True,"[np.int64(478), np.int64(497), np.int64(17795)]","[2, 7, 10, 13, 17]",
++,1.0,18,True,"[np.int64(467), np.int64(481), np.int64(17026)]","[2, 7, 10, 13, 17, 18]",
++,1.0,19,True,"[np.int64(446), np.int64(467), np.int64(16202)]","[2, 7, 10, 13, 17, 18, 19]",
++,1.0,20,False,"[np.int64(446), np.int64(467), np.int64(16202)]","[2, 7, 10, 13, 17, 18, 19]",SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
++,1.0,21,False,"[np.int64(446), np.int64(467), np.int64(16202)]","[2, 7, 10, 13, 17, 18, 19]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_RAM
++,1.0,22,False,"[np.int64(446), np.int64(467), np.int64(16202)]","[2, 7, 10, 13, 17, 18, 19]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,23,False,"[np.int64(446), np.int64(467), np.int64(16202)]","[2, 7, 10, 13, 17, 18, 19]",SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,24,False,"[np.int64(446), np.int64(467), np.int64(16202)]","[2, 7, 10, 13, 17, 18, 19]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,25,False,"[np.int64(446), np.int64(467), np.int64(16202)]","[2, 7, 10, 13, 17, 18, 19]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,26,True,"[np.int64(428), np.int64(451), np.int64(14764)]","[2, 7, 10, 13, 17, 18, 19, 26]",
++,1.0,27,False,"[np.int64(428), np.int64(451), np.int64(14764)]","[2, 7, 10, 13, 17, 18, 19, 26]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,28,False,"[np.int64(428), np.int64(451), np.int64(14764)]","[2, 7, 10, 13, 17, 18, 19, 26]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,29,False,"[np.int64(428), np.int64(451), np.int64(14764)]","[2, 7, 10, 13, 17, 18, 19, 26]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,30,False,"[np.int64(428), np.int64(451), np.int64(14764)]","[2, 7, 10, 13, 17, 18, 19, 26]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,31,False,"[np.int64(428), np.int64(451), np.int64(14764)]","[2, 7, 10, 13, 17, 18, 19, 26]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,32,False,"[np.int64(428), np.int64(451), np.int64(14764)]","[2, 7, 10, 13, 17, 18, 19, 26]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,33,True,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",
++,1.0,34,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,35,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
++,1.0,36,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,37,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,38,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
++,1.0,39,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,40,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,41,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
++,1.0,42,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,43,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,44,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,45,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
++,1.0,46,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,47,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
++,1.0,48,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,49,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_RAM
++,1.0,50,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,51,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,52,False,"[np.int64(398), np.int64(426), np.int64(14196)]","[2, 7, 10, 13, 17, 18, 19, 26, 33]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,53,True,"[np.int64(377), np.int64(411), np.int64(13754)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53]",
++,1.0,54,False,"[np.int64(377), np.int64(411), np.int64(13754)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,55,False,"[np.int64(377), np.int64(411), np.int64(13754)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,56,False,"[np.int64(377), np.int64(411), np.int64(13754)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,57,False,"[np.int64(377), np.int64(411), np.int64(13754)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,58,False,"[np.int64(377), np.int64(411), np.int64(13754)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,59,True,"[np.int64(348), np.int64(382), np.int64(13142)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59]",
++,1.0,60,False,"[np.int64(348), np.int64(382), np.int64(13142)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,61,False,"[np.int64(348), np.int64(382), np.int64(13142)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,62,True,"[np.int64(331), np.int64(368), np.int64(12356)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62]",
++,1.0,63,False,"[np.int64(331), np.int64(368), np.int64(12356)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,64,False,"[np.int64(331), np.int64(368), np.int64(12356)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,65,False,"[np.int64(331), np.int64(368), np.int64(12356)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,66,False,"[np.int64(331), np.int64(368), np.int64(12356)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,67,True,"[np.int64(303), np.int64(348), np.int64(11584)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67]",
++,1.0,68,False,"[np.int64(303), np.int64(348), np.int64(11584)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,69,False,"[np.int64(303), np.int64(348), np.int64(11584)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,70,False,"[np.int64(303), np.int64(348), np.int64(11584)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,71,False,"[np.int64(303), np.int64(348), np.int64(11584)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,72,False,"[np.int64(303), np.int64(348), np.int64(11584)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,73,False,"[np.int64(303), np.int64(348), np.int64(11584)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,74,True,"[np.int64(272), np.int64(322), np.int64(11153)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74]",
++,1.0,75,False,"[np.int64(272), np.int64(322), np.int64(11153)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,76,False,"[np.int64(272), np.int64(322), np.int64(11153)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,77,False,"[np.int64(272), np.int64(322), np.int64(11153)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,78,False,"[np.int64(272), np.int64(322), np.int64(11153)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,79,False,"[np.int64(272), np.int64(322), np.int64(11153)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,80,False,"[np.int64(272), np.int64(322), np.int64(11153)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,81,False,"[np.int64(272), np.int64(322), np.int64(11153)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,82,False,"[np.int64(272), np.int64(322), np.int64(11153)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,83,True,"[np.int64(250), np.int64(305), np.int64(10624)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83]",
++,1.0,84,False,"[np.int64(250), np.int64(305), np.int64(10624)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,85,False,"[np.int64(250), np.int64(305), np.int64(10624)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,86,False,"[np.int64(250), np.int64(305), np.int64(10624)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,87,True,"[np.int64(232), np.int64(292), np.int64(10431)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87]",
++,1.0,88,False,"[np.int64(232), np.int64(292), np.int64(10431)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,89,False,"[np.int64(232), np.int64(292), np.int64(10431)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,90,False,"[np.int64(232), np.int64(292), np.int64(10431)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,91,False,"[np.int64(232), np.int64(292), np.int64(10431)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,92,True,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
++,1.0,93,False,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,94,False,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,95,False,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,96,False,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_RAM
++,1.0,97,False,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,98,False,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
++,1.0,99,False,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU
+-,2.0,0,False,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,1,False,"[np.int64(211), np.int64(269), np.int64(9688)]","[2, 7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,2,True,"[np.int64(228), np.int64(281), np.int64(10346)]","[7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,3,False,"[np.int64(228), np.int64(281), np.int64(10346)]","[7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,4,False,"[np.int64(228), np.int64(281), np.int64(10346)]","[7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,5,False,"[np.int64(228), np.int64(281), np.int64(10346)]","[7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,6,False,"[np.int64(228), np.int64(281), np.int64(10346)]","[7, 10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,7,True,"[np.int64(256), np.int64(303), np.int64(11093)]","[10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,8,False,"[np.int64(256), np.int64(303), np.int64(11093)]","[10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,9,False,"[np.int64(256), np.int64(303), np.int64(11093)]","[10, 13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,10,True,"[np.int64(285), np.int64(330), np.int64(12935)]","[13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,11,False,"[np.int64(285), np.int64(330), np.int64(12935)]","[13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,12,False,"[np.int64(285), np.int64(330), np.int64(12935)]","[13, 17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,13,True,"[np.int64(306), np.int64(348), np.int64(13259)]","[17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,14,False,"[np.int64(306), np.int64(348), np.int64(13259)]","[17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,15,False,"[np.int64(306), np.int64(348), np.int64(13259)]","[17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,16,False,"[np.int64(306), np.int64(348), np.int64(13259)]","[17, 18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,17,True,"[np.int64(333), np.int64(372), np.int64(14293)]","[18, 19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,18,True,"[np.int64(344), np.int64(388), np.int64(15062)]","[19, 26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,19,True,"[np.int64(365), np.int64(402), np.int64(15886)]","[26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,20,False,"[np.int64(365), np.int64(402), np.int64(15886)]","[26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,21,False,"[np.int64(365), np.int64(402), np.int64(15886)]","[26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,22,False,"[np.int64(365), np.int64(402), np.int64(15886)]","[26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,23,False,"[np.int64(365), np.int64(402), np.int64(15886)]","[26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,24,False,"[np.int64(365), np.int64(402), np.int64(15886)]","[26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,25,False,"[np.int64(365), np.int64(402), np.int64(15886)]","[26, 33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,26,True,"[np.int64(383), np.int64(418), np.int64(17324)]","[33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,27,False,"[np.int64(383), np.int64(418), np.int64(17324)]","[33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,28,False,"[np.int64(383), np.int64(418), np.int64(17324)]","[33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,29,False,"[np.int64(383), np.int64(418), np.int64(17324)]","[33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,30,False,"[np.int64(383), np.int64(418), np.int64(17324)]","[33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,31,False,"[np.int64(383), np.int64(418), np.int64(17324)]","[33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,32,False,"[np.int64(383), np.int64(418), np.int64(17324)]","[33, 53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,33,True,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,34,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,35,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,36,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,37,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,38,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,39,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,40,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,41,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,42,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,43,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,44,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,45,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,46,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,47,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,48,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,49,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,50,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,51,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,52,False,"[np.int64(413), np.int64(443), np.int64(17892)]","[53, 59, 62, 67, 74, 83, 87, 92]",
+-,2.0,53,True,"[np.int64(434), np.int64(458), np.int64(18334)]","[59, 62, 67, 74, 83, 87, 92]",
+-,2.0,54,False,"[np.int64(434), np.int64(458), np.int64(18334)]","[59, 62, 67, 74, 83, 87, 92]",
+-,2.0,55,False,"[np.int64(434), np.int64(458), np.int64(18334)]","[59, 62, 67, 74, 83, 87, 92]",
+-,2.0,56,False,"[np.int64(434), np.int64(458), np.int64(18334)]","[59, 62, 67, 74, 83, 87, 92]",
+-,2.0,57,False,"[np.int64(434), np.int64(458), np.int64(18334)]","[59, 62, 67, 74, 83, 87, 92]",
+-,2.0,58,False,"[np.int64(434), np.int64(458), np.int64(18334)]","[59, 62, 67, 74, 83, 87, 92]",
+-,2.0,59,True,"[np.int64(463), np.int64(487), np.int64(18946)]","[62, 67, 74, 83, 87, 92]",
+-,2.0,60,False,"[np.int64(463), np.int64(487), np.int64(18946)]","[62, 67, 74, 83, 87, 92]",
+-,2.0,61,False,"[np.int64(463), np.int64(487), np.int64(18946)]","[62, 67, 74, 83, 87, 92]",
+-,2.0,62,True,"[np.int64(480), np.int64(501), np.int64(19732)]","[67, 74, 83, 87, 92]",
+-,2.0,63,False,"[np.int64(480), np.int64(501), np.int64(19732)]","[67, 74, 83, 87, 92]",
+-,2.0,64,False,"[np.int64(480), np.int64(501), np.int64(19732)]","[67, 74, 83, 87, 92]",
+-,2.0,65,False,"[np.int64(480), np.int64(501), np.int64(19732)]","[67, 74, 83, 87, 92]",
+-,2.0,66,False,"[np.int64(480), np.int64(501), np.int64(19732)]","[67, 74, 83, 87, 92]",
+-,2.0,67,True,"[np.int64(508), np.int64(521), np.int64(20504)]","[74, 83, 87, 92]",
+-,2.0,68,False,"[np.int64(508), np.int64(521), np.int64(20504)]","[74, 83, 87, 92]",
+-,2.0,69,False,"[np.int64(508), np.int64(521), np.int64(20504)]","[74, 83, 87, 92]",
+-,2.0,70,False,"[np.int64(508), np.int64(521), np.int64(20504)]","[74, 83, 87, 92]",
+-,2.0,71,False,"[np.int64(508), np.int64(521), np.int64(20504)]","[74, 83, 87, 92]",
+-,2.0,72,False,"[np.int64(508), np.int64(521), np.int64(20504)]","[74, 83, 87, 92]",
+-,2.0,73,False,"[np.int64(508), np.int64(521), np.int64(20504)]","[74, 83, 87, 92]",
+-,2.0,74,True,"[np.int64(539), np.int64(547), np.int64(20935)]","[83, 87, 92]",
+-,2.0,75,False,"[np.int64(539), np.int64(547), np.int64(20935)]","[83, 87, 92]",
+-,2.0,76,False,"[np.int64(539), np.int64(547), np.int64(20935)]","[83, 87, 92]",
+-,2.0,77,False,"[np.int64(539), np.int64(547), np.int64(20935)]","[83, 87, 92]",
+-,2.0,78,False,"[np.int64(539), np.int64(547), np.int64(20935)]","[83, 87, 92]",
+-,2.0,79,False,"[np.int64(539), np.int64(547), np.int64(20935)]","[83, 87, 92]",
+-,2.0,80,False,"[np.int64(539), np.int64(547), np.int64(20935)]","[83, 87, 92]",
+-,2.0,81,False,"[np.int64(539), np.int64(547), np.int64(20935)]","[83, 87, 92]",
+-,2.0,82,False,"[np.int64(539), np.int64(547), np.int64(20935)]","[83, 87, 92]",
+-,2.0,83,True,"[np.int64(561), np.int64(564), np.int64(21464)]","[87, 92]",
+-,2.0,84,False,"[np.int64(561), np.int64(564), np.int64(21464)]","[87, 92]",
+-,2.0,85,False,"[np.int64(561), np.int64(564), np.int64(21464)]","[87, 92]",
+-,2.0,86,False,"[np.int64(561), np.int64(564), np.int64(21464)]","[87, 92]",
+-,2.0,87,True,"[np.int64(579), np.int64(577), np.int64(21657)]",[92],
+-,2.0,88,False,"[np.int64(579), np.int64(577), np.int64(21657)]",[92],
+-,2.0,89,False,"[np.int64(579), np.int64(577), np.int64(21657)]",[92],
+-,2.0,90,False,"[np.int64(579), np.int64(577), np.int64(21657)]",[92],
+-,2.0,91,False,"[np.int64(579), np.int64(577), np.int64(21657)]",[92],
+-,2.0,92,True,"[np.int64(600), np.int64(600), np.int64(22400)]",[],
+-,2.0,93,False,"[np.int64(600), np.int64(600), np.int64(22400)]",[],
+-,2.0,94,False,"[np.int64(600), np.int64(600), np.int64(22400)]",[],
+-,2.0,95,False,"[np.int64(600), np.int64(600), np.int64(22400)]",[],
+-,2.0,96,False,"[np.int64(600), np.int64(600), np.int64(22400)]",[],
+-,2.0,97,False,"[np.int64(600), np.int64(600), np.int64(22400)]",[],
+-,2.0,98,False,"[np.int64(600), np.int64(600), np.int64(22400)]",[],
+-,2.0,99,False,"[np.int64(600), np.int64(600), np.int64(22400)]",[],

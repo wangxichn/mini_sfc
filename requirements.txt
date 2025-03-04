@@ -1,0 +1,74 @@
+aiohappyeyeballs==2.4.6
+aiohttp==3.11.13
+aiosignal==1.3.2
+annotated-types==0.7.0
+anyio==4.8.0
+async-timeout==5.0.1
+attrs==25.1.0
+Brotli @ file:///croot/brotli-split_1736182456865/work
+certifi @ file:///croot/certifi_1738623731865/work/certifi
+charset-normalizer @ file:///croot/charset-normalizer_1721748349566/work
+click==8.1.8
+contourpy==1.3.1
+cycler==0.12.1
+dgl==2.1.0
+exceptiongroup==1.2.2
+fastapi==0.115.11
+filelock @ file:///croot/filelock_1700591183607/work
+fonttools==4.56.0
+frozenlist==1.5.0
+fsspec==2025.2.0
+gmpy2 @ file:///croot/gmpy2_1738085463648/work
+h11==0.14.0
+httpcore==1.0.7
+httpx==0.28.1
+idna==3.10
+Jinja2 @ file:///croot/jinja2_1737760107953/work
+kiwisolver==1.4.8
+MarkupSafe @ file:///croot/markupsafe_1738584038848/work
+matplotlib==3.10.1
+mkl-service==2.4.0
+mkl_fft @ file:///io/mkl313/mkl_fft_1730824109137/work
+mkl_random @ file:///io/mkl313/mkl_random_1730823916628/work
+mpmath @ file:///croot/mpmath_1690848262763/work
+multidict==6.1.0
+networkx @ file:///croot/networkx_1737039604450/work
+numpy @ file:///croot/numpy_and_numpy_base_1725470312869/work/dist/numpy-2.0.1-cp310-cp310-linux_x86_64.whl#sha256=120568f3fd675f59e4cb6de79a5c193b4067d90878d8bab2040fda8e3a2df6fa
+packaging==24.2
+pandas==2.2.3
+pillow @ file:///croot/pillow_1738010226202/work
+propcache==0.3.0
+psutil @ file:///croot/psutil_1736367091698/work
+pydantic==2.10.6
+pydantic-settings==2.8.1
+pydantic_core==2.27.2
+pyg-lib @ file:///home/xi/%E4%B8%8B%E8%BD%BD/pyg_lib-0.4.0%2Bpt24cu124-cp310-cp310-linux_x86_64.whl#sha256=34feafebdf251d5f04dd45c969aa87c74e0b0c807cc40dececd2688871c877e6
+pyparsing==3.2.1
+PySocks @ file:///home/builder/ci_310/pysocks_1640793678128/work
+python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
+pytz==2025.1
+PyYAML @ file:///croot/pyyaml_1728657952215/work
+requests @ file:///croot/requests_1730999120400/work
+scipy @ file:///croot/scipy_1737122901252/work/dist/scipy-1.15.1-cp310-cp310-linux_x86_64.whl#sha256=6d9b8a8b82248a91290af97ed93a38f3961cd58fc6604da37823adb35d71c1dd
+six==1.17.0
+sko==0.5.7
+sniffio==1.3.1
+starlette==0.46.0
+sympy==1.13.1
+torch==2.4.0
+torch-geometric==2.6.1
+torch_cluster @ file:///home/xi/%E4%B8%8B%E8%BD%BD/torch_cluster-1.6.3%2Bpt24cu124-cp310-cp310-linux_x86_64.whl#sha256=53533afdc96fa1e79972e6c6bf315543a4ffb27684f63c52ef7467281ebacea2
+torch_scatter @ file:///home/xi/%E4%B8%8B%E8%BD%BD/torch_scatter-2.1.2%2Bpt24cu124-cp310-cp310-linux_x86_64.whl#sha256=e73a971328449ac0d8dcb72521229bbbf573690a02e9680965d3635cbaa20fff
+torch_sparse @ file:///home/xi/%E4%B8%8B%E8%BD%BD/torch_sparse-0.6.18%2Bpt24cu124-cp310-cp310-linux_x86_64.whl#sha256=52e822a40eac3e96dcda3c7a1f38fbe6af5cb1cbfe62bb47940ab829142de457
+torch_spline_conv @ file:///home/xi/%E4%B8%8B%E8%BD%BD/torch_spline_conv-1.2.2%2Bpt24cu124-cp310-cp310-linux_x86_64.whl#sha256=c6d430d9e3d7debc3ba1a467a8ec30e0227ef03207a8a9040b2e19b12c54d50f
+torchaudio==2.4.0
+torchdata==0.9.0
+torchvision==0.19.0
+tqdm @ file:///croot/tqdm_1738943501192/work
+triton==3.0.0
+typing_extensions @ file:///croot/typing_extensions_1734714854207/work
+tzdata==2025.1
+urllib3 @ file:///croot/urllib3_1737133630106/work
+uvicorn==0.34.0
+yarl==1.18.3

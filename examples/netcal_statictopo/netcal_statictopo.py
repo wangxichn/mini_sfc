@@ -8,14 +8,13 @@ from minisfc.net import Minisfc
 from minisfc.trace import TRACER
 from util import NumberGen, TopoGen, DataAnalysis, JsonReader
 from custom.psoSolver import PsoSolver
-from custom.drlFscpSolver.drlFscpSolver import DrlFscpSolver
+from custom.drlSfcpSolver.drlSfcpSolver import DrlSfcpSolver
 from custom.netcalSolver import netcalPsoSolver
 import numpy as np
 np.seterr(over='warn')
 import pickle
 import code
 import random
-
 
 jsonReader = JsonReader('stk_data_24_06_May_2024_08_00_00.000.json')
 

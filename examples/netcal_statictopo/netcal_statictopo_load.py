@@ -8,8 +8,8 @@ from minisfc.net import Minisfc
 from minisfc.trace import TRACER
 from util import NumberGen, TopoGen, DataAnalysis, JsonReader
 from custom.psoSolver import PsoSolver
-from custom.drlFscpSolver.drlFscpSolver import DrlFscpSolver
-from custom.netcalSolver import netcalPsoSolver, netcalOptSolver
+from custom.drlSfcpSolver.drlSfcpSolver import DrlSfcpSolver
+from custom.netcalSolver import netcalPsoSolver, netcalOptSolver, netcalSfcpSolver, netcalRandomSolver, netcalGreedySolver
 import numpy as np
 np.seterr(over='warn')
 import pickle
@@ -27,7 +27,7 @@ with open(serviceTopo_pklname, "rb") as file:
 with open(nfvManager_pklname, "rb") as file:
     nfvManager = pickle.load(file)
 
-sfcSolver = netcalPsoSolver(substrateTopo,serviceTopo)
+sfcSolver = netcalGreedySolver(substrateTopo,serviceTopo)
 sfcSolver.loadParam()
 
 netTraceFile = f'netcal_statictopo_{sfcSolver.__class__.__name__}_{TRACER.get_time_stamp()}.csv'
