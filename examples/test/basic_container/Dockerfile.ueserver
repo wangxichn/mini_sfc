@@ -1,0 +1,23 @@
+# Use an official Python runtime as a parent image
+FROM python:3.10-slim
+
+# Install any needed packages specified in requirements.txt
+RUN apt-get update && apt-get install -y \
+    net-tools \
+    iputils-ping \
+    iproute2 \
+    curl
+
+# Use a virtual environment to avoid running pip as root
+ENV VIRTUAL_ENV=/opt/venv
+RUN python -m venv $VIRTUAL_ENV
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# Copy the mini_ue folder to /home in the container
+COPY mini_ue /home/mini_ue
+
+# Set the working directory to /app
+WORKDIR /home/mini_ue
+
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
