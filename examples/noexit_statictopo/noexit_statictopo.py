@@ -58,7 +58,7 @@ vnfParamDict = {**vnfParamDict_node,**vnfParamDict_link}
 
 nfvManager = NfvManager(vnfParamDict)
 
-sfcSolver = DrlSfcpSolver(substrateTopo,serviceTopo)
+sfcSolver = PsoSolver(substrateTopo,serviceTopo)
 sfcSolver.loadParam()
 
 netTraceFile = f'multisfc_staticopo_{sfcSolver.__class__.__name__}_{TRACER.get_time_stamp()}.csv'
