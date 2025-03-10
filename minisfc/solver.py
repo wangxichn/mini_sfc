@@ -232,7 +232,7 @@ class RadomSolver(Solver):
                         return SOLUTION_TYPE.CHANGE_FAILED_FOR_LINK_BAND
         
         # Qos Constraint Check
-        if self.get_latency_running() > event.serviceTopo.plan_qosRequesDict[event.serviceTopoId]:
+        if self.get_latency_running() > event.serviceTopo.plan_qosRequesDict[event.serviceTopoId][0]:
             if event.type == EventType.SFC_ARRIVE:
                 return SOLUTION_TYPE.SET_FAILED_FOR_LATENCY
             elif event.type == EventType.TOPO_CHANGE:

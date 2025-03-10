@@ -60,21 +60,21 @@ arriveFunParamDict = {1:[1.0,2.0],
 vnfRequstDict = {1:[0,1,2],
                  3:[0,1],
                  10:[2,1]}
-qosRequesDict = {1:[5],
-                 3:[6],
-                 10:[4]}
+qosRequesDict = {1:[100],
+                 3:[100],
+                 10:[100]}
 
 serviceTopo = ServiceTopo(sfcIdList,sfcLifeTimeDict,endPointDict,arriveFunParamDict,vnfRequstDict,qosRequesDict)
 
 vnfParamDict = {0:{'unit':3,'factor':0.9,'cpu':0,'ram':0},
                 1:{'unit':2,'factor':1.1,'cpu':0,'ram':0},
                 2:{'unit':1,'factor':1.2,'cpu':0,'ram':0},
-                (0,1):{'band':25},
-                (1,0):{'band':25},
-                (0,2):{'band':25},
-                (2,0):{'band':25},
-                (1,2):{'band':25},
-                (2,1):{'band':25}}
+                (0,1):{'band':1},
+                (1,0):{'band':1},
+                (0,2):{'band':1},
+                (2,0):{'band':1},
+                (1,2):{'band':1},
+                (2,1):{'band':1}}
 
 nfvManager = NfvManager(vnfParamDict)
 
