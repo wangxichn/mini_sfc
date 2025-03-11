@@ -232,26 +232,18 @@ class VnffgManager:
 
         # first embed nodes
         for sfc_node, phy_node in solution.map_node.items():
-            # CPU
             request_cpu_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_cpu','get')
-            # self.substrateTopo.opt_node_attrs_value(phy_node,'remain_cpu','decrease',request_cpu_of_node)
-            
-            # RAM
             request_ram_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_ram','get')
-            # self.substrateTopo.opt_node_attrs_value(phy_node,'remain_ram','decrease',request_ram_of_node)
 
             vnf_em = VnfEm(name=f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}",
                            vnfId=self.event.serviceTopo.plan_vnfRequstDict[self.event.serviceTopoId][sfc_node],
                            vnfParamDict={'cpu':request_cpu_of_node,'ram':request_ram_of_node})
-
             self.nfvVim.deploy_VNF(vnf_em, phy_node)
 
         # second embed links
         for sfc_link, phy_links in solution.map_link.items():
             request_band_of_link = requestSfcGraph.opt_link_attrs_value(sfc_link,'request_band','get')
             for phy_link in phy_links:
-                # self.substrateTopo.opt_link_attrs_value(phy_link,'remain_band','decrease',request_band_of_link)
-
                 self.nfvVim.deploy_service(phy_link[0],phy_link[1],request_band_of_link)
 
 
@@ -266,14 +258,6 @@ class VnffgManager:
 
         # first release nodes
         for sfc_node, phy_node in solution.map_node.items():
-            # CPU
-            # request_cpu_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_cpu','get')
-            # self.substrateTopo.opt_node_attrs_value(phy_node,'remain_cpu','increase',request_cpu_of_node)
-
-            # RAM
-            # request_ram_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_ram','get')
-            # self.substrateTopo.opt_node_attrs_value(phy_node,'remain_ram','increase',request_ram_of_node)
-
             self.nfvVim.undeploy_VNF(f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}", phy_node)
 
 
@@ -282,7 +266,6 @@ class VnffgManager:
             request_band_of_link = requestSfcGraph.opt_link_attrs_value(sfc_link,'request_band','get')
             for phy_link in phy_links:
                 try: # the link may have been break
-                    # self.substrateTopo.opt_link_attrs_value(phy_link,'remain_band','increase',request_band_of_link)
                     self.nfvVim.undeploy_service(phy_link[0],phy_link[1],request_band_of_link)
                 except:
                     continue

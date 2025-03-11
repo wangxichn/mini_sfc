@@ -225,9 +225,9 @@ class DrlSfcpSolver(RadomSolver):
 
         # algorithm begin ---------------------------------------------
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         subsolution, subbuffer, lastvalue = self.learn(event,self.solution)
@@ -273,9 +273,9 @@ class DrlSfcpSolver(RadomSolver):
 
         # algorithm begin ---------------------------------------------
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         subsolution, subbuffer, lastvalue = self.learn(event,self.solution)

@@ -1,5 +1,4 @@
-import sys
-sys.path.append("..//")
+
 from minisfc.event import Event
 from minisfc.topo import ServiceTopo, SubstrateTopo, Topo
 from minisfc.solver import RadomSolver, Solution, SOLUTION_TYPE
@@ -21,9 +20,9 @@ class PsoSolver(RadomSolver):
 
         # algorithm begin ---------------------------------------------
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         pso = PSO(
@@ -78,9 +77,9 @@ class PsoSolver(RadomSolver):
 
         # algorithm begin ---------------------------------------------
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         pso = PSO(

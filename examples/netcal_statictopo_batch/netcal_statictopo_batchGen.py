@@ -1,8 +1,6 @@
-import sys
-#添加上级目录
-sys.path.append("..//..//")
+
 from minisfc.topo import SubstrateTopo,ServiceTopo
-from minisfc.mano import NfvManager
+from minisfc.mano.vnfm import VnfManager
 from minisfc.solver import RadomSolver, GreedySolver
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
@@ -107,7 +105,7 @@ vnfParamDict_node = {sfcVnfIdList[i]:{'factor':vnfDataFactor[i],'cpu':None,'ram'
 vnfParamDict_link = {(sfcVnfIdList[i],sfcVnfIdList[j]):{'band':None} for i in range(sfcVnfTypeNum) for j in range(sfcVnfTypeNum)}
 vnfParamDict = {**vnfParamDict_node,**vnfParamDict_link}
 
-nfvManager = NfvManager(vnfParamDict)
+nfvManager = VnfManager(vnfParamDict)
 
 with open(f"{nfvManager.__class__.__name__}_{TRACER.get_time_stamp()}.pkl", "wb") as file:
     pickle.dump(nfvManager, file)

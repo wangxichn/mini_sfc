@@ -1,8 +1,6 @@
-import sys
-#添加上级目录
-sys.path.append("..//..//")
+
 from minisfc.topo import SubstrateTopo,ServiceTopo
-from minisfc.mano import NfvManager
+from minisfc.mano.vnfm import VnfManager
 from minisfc.solver import RadomSolver, GreedySolver
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
@@ -57,7 +55,7 @@ vnfParamDict_link = {(sfcVnfIdList[i],sfcVnfIdList[j]):{'band':vnfRequstBAND[i,j
                      for i in range(sfcVnfTypeNum) for j in range(sfcVnfTypeNum)}
 vnfParamDict = {**vnfParamDict_node,**vnfParamDict_link}
 
-nfvManager = NfvManager(vnfParamDict)
+nfvManager = VnfManager(vnfParamDict)
 
 sfcSolver = DrlSfcpSolver(substrateTopo,serviceTopo)
 sfcSolver.loadParam()

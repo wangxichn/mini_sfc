@@ -75,7 +75,7 @@ class Minisfc:
 
             pbar.update(1)
             pbar.set_postfix({
-                'event_time': f'{event.time}',
+                'event_time': f'{event.time:.2f}',
                 'event_type': f'{event.type}',
             })
 
