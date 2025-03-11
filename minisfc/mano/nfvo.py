@@ -12,7 +12,9 @@
 
 from typing import Tuple
 
-from minisfc.mano import NfvManager, NfvVim
+from minisfc.mano.vnfm import VnfManager
+from minisfc.mano.vim import NfvVim
+
 from minisfc.topo import SubstrateTopo, Topo
 from minisfc.solver import Solver, Solution
 from minisfc.event import Event, EventType
@@ -21,15 +23,15 @@ from minisfc.trace import TRACER
 import copy
 
 class NfvOrchestrator:
-    def __init__(self,nfvManage:NfvManager,nfvVim:NfvVim,sfcSolver:Solver):
-        self.nfvManage = nfvManage
+    def __init__(self,vnfManager:VnfManager,nfvVim:NfvVim,sfcSolver:Solver):
+        self.vnfManager = vnfManager
         self.nfvVim = nfvVim
         self.sfcSolver = sfcSolver
     
     def ready(self,substrateTopo:SubstrateTopo):
         self.substrateTopo = substrateTopo
         self.vnffg_group:list[VnffgManager] = []
-        self.sfcSolver.initialize(self.nfvManage)
+        self.sfcSolver.initialize(self.vnfManager)
 
         contextDict = {'Event':'I','Time':0.00,
                        'Resource':self.substrateTopo.get_sum_resource_list('remain')}

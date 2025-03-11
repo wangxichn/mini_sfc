@@ -10,30 +10,30 @@
 @Desc    :   None
 '''
 
-from minisfc.mano import NfvOrchestrator, NfvVim
+from minisfc.mano.nfvo import NfvOrchestrator
+from minisfc.mano.vim import NfvVim
 
-from typing import TYPE_CHECKING
-if TYPE_CHECKING:
-    from minisfc.net import MiniContainternet
-    from minisfc.solver import Solver
-    from minisfc.mano import NfvManager
-    from minisfc.topo import SubstrateTopo
-    from minisfc.event import Event
+from mininet.net import Containernet
+from minisfc.solver import Solver
+from minisfc.mano.vnfm import VnfManager
+from minisfc.topo import SubstrateTopo
+from minisfc.event import Event
 
 class NfvMano:
-    def __init__(self,nfvManage:'NfvManager',sfcSolver:'Solver'):
-        self.nfvManage = nfvManage
+    def __init__(self,vnfManager:'VnfManager',sfcSolver:'Solver'):
+        self.vnfManager = vnfManager
         self.nfvVim = NfvVim()
         self.sfcSolver = sfcSolver
 
-        self.nfvOrchestrator = NfvOrchestrator(nfvManage=self.nfvManage,nfvVim=self.nfvVim,sfcSolver=self.sfcSolver)
+        self.nfvOrchestrator = NfvOrchestrator(vnfManager=self.vnfManager,nfvVim=self.nfvVim,sfcSolver=self.sfcSolver)
         
     
-    def ready(self,substrateTopo:'SubstrateTopo',container_net:'MiniContainternet'):
+    def ready(self,substrateTopo:'SubstrateTopo',container_net:'Containernet'):
         self.substrateTopo = substrateTopo
         self.container_net = container_net
 
         self.nfvVim.ready(substrateTopo,container_net)
+        
         self.nfvOrchestrator.ready(substrateTopo)
 
     def handle(self,event:'Event'):

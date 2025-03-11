@@ -9,7 +9,7 @@ docker system prune --force
 
 echo "正在清理container所创建的网络接口..."
 # 获取所有符合条件的网络接口名称
-interfaces=$(ip link show | grep -o 's[0-9]\+-eth[0-9]\+')
+interfaces=$(ip link show | grep -o 's_[0-9]\+-eth[0-9]\+')
 
 # 循环遍历每个找到的接口并删除它
 for interface in $interfaces; do

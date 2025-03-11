@@ -14,7 +14,7 @@ import random
 from enum import Enum, auto
 from minisfc.event import Event, EventType
 from minisfc.topo import SubstrateTopo, ServiceTopo, Topo
-from minisfc.mano import NfvManager
+from minisfc.mano.vnfm import VnfManager
 import networkx as nx
 import numpy as np
 import code
@@ -61,8 +61,8 @@ class Solver:
     
         self.record_solutions:dict[int:list[Solution]] = {} # {sfcId:[solutions]}
 
-    def initialize(self,nfvManager: NfvManager) -> None:
-        self.nfvManager = nfvManager
+    def initialize(self,vnfManager: VnfManager) -> None:
+        self.vnfManager = vnfManager
     
     def solve_embedding(self,event: Event) -> Solution:
         return NotImplementedError
@@ -83,8 +83,8 @@ class RadomSolver(Solver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
         super().__init__(substrateTopo, serviceTopo)
 
-    def initialize(self, nfvManager: NfvManager):
-        super().initialize(nfvManager)
+    def initialize(self, vnfManager: VnfManager):
+        super().initialize(vnfManager)
     
     def solve_embedding(self, event: Event) -> Solution:
         self.event = event
@@ -114,9 +114,9 @@ class RadomSolver(Solver):
         
         # If the fixed VNF resource allocation in the original SFC problem is used:
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         # If the dynamic resource allocation of each VNF is implemented in the solver algorithm:
@@ -165,9 +165,9 @@ class RadomSolver(Solver):
 
         # If the fixed VNF resource allocation in the original SFC problem is used:
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         # If the dynamic resource allocation of each VNF is implemented in the solver algorithm:
@@ -268,9 +268,9 @@ class GreedySolver(RadomSolver):
         temp_subStrateTopo = copy.deepcopy(self.substrateTopo)
 
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         for v_node in self.sfcGraph.nodes:
@@ -319,9 +319,9 @@ class GreedySolver(RadomSolver):
         temp_subStrateTopo = copy.deepcopy(self.substrateTopo)
 
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.nfvManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.nfvManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.nfvManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         for v_node in self.sfcGraph.nodes:

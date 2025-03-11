@@ -1,10 +1,9 @@
-import sys
-#添加上级目录
-sys.path.append("..//..//")
+
 from minisfc.topo import SubstrateTopo,ServiceTopo
-from minisfc.mano import NfvManager
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
+from minisfc.mano.vnfm import VnfManager
+
 from custom.fixedSolver import FixedSolver
 from util import DataAnalysis
 import numpy as np
@@ -58,7 +57,7 @@ vnfParamDict = {0:{'unit':3,'factor':0.9,'cpu':1,'ram':1,'type':'vnf_matinv','im
                 (1,2):{'band':0.5},
                 (2,1):{'band':0.5}}
 
-nfvManager = NfvManager(vnfParamDict)
+nfvManager = VnfManager(vnfParamDict)
 
 # endregion
 
@@ -77,7 +76,7 @@ TRACER.set(netTraceFile)
 
 # region 将各组件代入仿真引擎 ------------------------------------------------
 
-net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,use_container=True)
+net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,use_container=False)
 net.start()
 ## net.addCLI()
 net.stop()
