@@ -1,6 +1,4 @@
-import sys
-#添加上级目录
-sys.path.append("..//..//")
+
 from minisfc.topo import SubstrateTopo,ServiceTopo
 from minisfc.mano import NfvManager
 from minisfc.solver import RadomSolver

@@ -10,14 +10,10 @@
 @Desc    :   None
 '''
 
-import sys
-#添加上级目录
-sys.path.append("..//..//")
 from minisfc.mano import NfvManager, NfvOrchestrator
-from minisfc.topo import SubstrateTopo, ServiceTopo
+from minisfc.topo import SubstrateTopo
 from minisfc.solver import Solver
 from minisfc.event import Event
-import time
 
 class NfvMano:
     def __init__(self,nfvManage:NfvManager,sfcSolver:Solver):

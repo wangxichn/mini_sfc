@@ -13,7 +13,7 @@
 import copy
 from enum import Enum, auto
 from typing import Tuple
-from .topo import SubstrateTopo, ServiceTopo
+from minisfc.topo import SubstrateTopo, ServiceTopo
 
 class EventType(Enum):
     NOTHING = auto()

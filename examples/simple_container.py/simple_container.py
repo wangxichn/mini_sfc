@@ -35,7 +35,7 @@ substrateTopo = SubstrateTopo(topoTimeList,topoAdjMatDict,topoWeightMatDict,topo
 # region 定义服务功能链组 --------------------------------------------------
 
 sfcIdList = [0]                             # sfc 请求的id
-sfcLifeTimeDict = {0:[0.1,5.1]}             # sfc 生命周期
+sfcLifeTimeDict = {0:[0.1,3.1]}             # sfc 生命周期
 endPointDict = {0:[0,3]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
 arriveFunParamDict = {0:[1.0,2.0]}          # sfc 业务参数
 vnfRequstDict = {0:[0]}                     # sfc 请求的vnf列表

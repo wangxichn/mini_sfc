@@ -12,9 +12,9 @@
 
 import random
 from enum import Enum, auto
-from .event import Event, EventType
-from .topo import SubstrateTopo, ServiceTopo, Topo
-from .mano import NfvManager
+from minisfc.event import Event, EventType
+from minisfc.topo import SubstrateTopo, ServiceTopo, Topo
+from minisfc.mano import NfvManager
 import networkx as nx
 import numpy as np
 import code

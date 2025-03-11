@@ -22,11 +22,11 @@ from mininet.cli import CLI
 from mininet.link import TCLink
 from mininet.log import info, setLogLevel
 
-from .topo import SubstrateTopo, ServiceTopo
-from .mano import NfvManager, NfvMano
-from .solver import Solver
-from .event import Schedule, Event
-from .trace import TRACER
+from minisfc.topo import SubstrateTopo, ServiceTopo
+from minisfc.mano import NfvManager, NfvMano
+from minisfc.solver import Solver
+from minisfc.event import Schedule, Event
+from minisfc.trace import TRACER
 
 class Minisfc:
     def __init__(self,substrateTopo:SubstrateTopo,serviceTopo:ServiceTopo,

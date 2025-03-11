@@ -10,8 +10,6 @@
 @Desc    :   None
 '''
 
-from data import SubstrateNetwork
-
 class NfvVim:
     def __init__(self,**kwargs) -> None:
         self.attrs = kwargs
