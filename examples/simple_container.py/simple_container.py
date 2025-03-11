@@ -77,7 +77,7 @@ TRACER.set(netTraceFile)
 
 # region 将各组件代入仿真引擎 ------------------------------------------------
 
-net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,useContainter=True)
+net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,use_container=True)
 net.start()
 ## net.addCLI()
 net.stop()

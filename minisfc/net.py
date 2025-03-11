@@ -13,14 +13,12 @@
 import simpy
 import tqdm
 import copy
-import matplotlib.pyplot as plt
-import networkx as nx
 
 from mininet.net import Containernet
 from mininet.node import Controller, RemoteController, Switch
 from mininet.cli import CLI
 from mininet.link import TCLink
-from mininet.log import info, setLogLevel
+from mininet.log import setLogLevel
 
 from minisfc.topo import SubstrateTopo, ServiceTopo
 from minisfc.mano import NfvManager, NfvMano
@@ -30,46 +28,50 @@ from minisfc.trace import TRACER
 
 class Minisfc:
     def __init__(self,substrateTopo:SubstrateTopo,serviceTopo:ServiceTopo,
-                 nfvManager:NfvManager,sfcSolver:Solver,useContainter: bool = False):
+                 nfvManager:NfvManager,sfcSolver:Solver,use_container: bool = False):
 
         self.schedule = Schedule(substrateTopo,serviceTopo)
         self.nfvMano = NfvMano(nfvManager,sfcSolver)
-        self.env = simpy.RealtimeEnvironment(factor=1) if useContainter else simpy.Environment()
+        self.env = simpy.RealtimeEnvironment(factor=1) if use_container else simpy.Environment()
         # ----------------------------------
-        self.useContainter = useContainter
-        self.useRemoteController = False
+
+        if use_container:
+            setLogLevel('info')
+            self.container_net = MiniContainternet(controller=Controller)
+            self.use_remote_controller = False
+        else:
+            self.container_net = None
 
 
     def ready(self):
         TRACER.ready()
 
-        if self.useContainter:
-            setLogLevel('info')
-            self.containerNet = Containernet(controller=Controller)
+        if self.container_net != None:
+            print('INFO: Minisfc is running with containernet.')
+            if not self.use_remote_controller:
+                self.container_net.addController('c0')
 
-            if not self.useRemoteController:
-                self.containerNet.addController('c0')
-
-            swicthes: dict[int, Switch] = {}
+            switch_map: dict[int, Switch] = {}
             for node_temp in list(self.schedule.substrateTopo.nodes):
-                temple_switch = self.containerNet.addSwitch(f's{node_temp}')
-                swicthes[node_temp] = temple_switch
+                temple_switch = self.container_net.addSwitch(f's_{node_temp}')
+                switch_map[node_temp] = temple_switch
 
             for edge_temp in self.schedule.substrateTopo.edges:
                 if edge_temp[0] == edge_temp[1]:
                     continue
-                self.containerNet.addLink(swicthes[edge_temp[0]], swicthes[edge_temp[1]], cls=TCLink, 
+                self.container_net.addLink(switch_map[edge_temp[0]], switch_map[edge_temp[1]], cls=TCLink, 
                                             delay=f"{self.schedule.substrateTopo.edges[edge_temp]['weight']}ms", 
                                             bw=self.schedule.substrateTopo.edges[edge_temp]['capacity_band'])
+            self.container_net.swicth_map = switch_map
                 
-        self.nfvMano.ready(copy.deepcopy(self.schedule.substrateTopo))
+        self.nfvMano.ready(copy.deepcopy(self.schedule.substrateTopo),self.container_net)
 
 
     def start(self):
         self.ready()
 
-        if self.useContainter:
-            self.containerNet.start()
+        if self.container_net != None:
+            self.container_net.start()
 
         pbar = tqdm.tqdm(desc=f'INFO:Minisfc is running with {self.nfvMano.sfcSolver.__class__.__name__}.',
                          total=len(self.schedule.events))
@@ -101,20 +103,27 @@ class Minisfc:
         self.schedule.substrateTopo = copy.deepcopy(self.nfvMano.substrateTopo)
 
     def stop(self):
-        if self.useContainter:
-            self.containerNet.stop()
+        if self.container_net != None:
+            self.container_net.stop()
 
     def addCLI(self):
-        if not self.useContainter:
-            print('WARNING: addCLI() is only available when useContainter is True.')
+        if self.container_net == None:
+            print('WARNING: addCLI() is only available when use_container is True.')
             return
 
-        CLI(self.containerNet)
+        CLI(self.container_net)
 
     def addRemoteController(self,name='c0', ip='127.0.0.1', port=6653):
-        if not self.useContainter:
-            print('WARNING: addRemoteController() is only available when useContainter is True.')
+        if self.container_net == None:
+            print('WARNING: addRemoteController() is only available when use_container is True.')
             return
         
-        self.useRemoteController = True
-        self.containerNet.addController(name=name, controller=RemoteController, ip=ip, port=port)
+        self.use_remote_controller = True
+        self.container_net.addController(name=name, controller=RemoteController, ip=ip, port=port)
+
+
+class MiniContainternet(Containernet):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.swicth_map: dict[int, Switch] = {}

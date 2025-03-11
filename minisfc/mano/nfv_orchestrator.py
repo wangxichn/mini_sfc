@@ -12,7 +12,7 @@
 
 from typing import Tuple
 
-from minisfc.mano import NfvManager
+from minisfc.mano import NfvManager, NfvVim
 from minisfc.topo import SubstrateTopo, Topo
 from minisfc.solver import Solver, Solution
 from minisfc.event import Event, EventType
@@ -21,8 +21,9 @@ from minisfc.trace import TRACER
 import copy
 
 class NfvOrchestrator:
-    def __init__(self,nfvManage:NfvManager,sfcSolver:Solver):
+    def __init__(self,nfvManage:NfvManager,nfvVim:NfvVim,sfcSolver:Solver):
         self.nfvManage = nfvManage
+        self.nfvVim = nfvVim
         self.sfcSolver = sfcSolver
     
     def ready(self,substrateTopo:SubstrateTopo):
