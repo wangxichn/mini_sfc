@@ -27,8 +27,12 @@ class VnfManager:
     def ready(self, nfvVim:'NfvVim'):
         self.nfvVim = nfvVim
 
-    def init_vnf_pool(self,vnfParamDict:dict[int:dict[str]]):
-        self.vnfPoolDict = vnfParamDict
+    def add_vnf_into_pool(self,vnfParamDict:dict[int:dict[str]]):
+        pass
+
+    def get_vnf_from_pool(self,vnfId:int):
+        vnfEm = VnfEm(name=f'sfc_*_vnf_*',vnfId=vnfId,vnfParamDict=self.vnfPoolDict[vnfId])
+        return vnfEm
         
         
 class VnfEm:
@@ -42,10 +46,12 @@ class VnfEm:
         """
         self.name = name
         self.vnfId = vnfId
-        self.cpu_req = vnfParamDict.get('cpu',0)
-        self.ram_req = vnfParamDict.get('ram',0)
-        self.rom_req = vnfParamDict.get('rom',0)
-        self.type = vnfParamDict.get('type',None)
-        self.img = vnfParamDict.get('img',None)
+        self.cpu_req:float = vnfParamDict.get('cpu',0)
+        self.ram_req:float = vnfParamDict.get('ram',0)
+        self.rom_req:float = vnfParamDict.get('rom',0)
+        self.type:str = vnfParamDict.get('type',None)
+        self.img:str = vnfParamDict.get('img',None)
+
+        self.service_bw_map:dict[int:float] = {}
 
 

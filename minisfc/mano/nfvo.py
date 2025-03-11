@@ -48,7 +48,7 @@ class NfvOrchestrator:
         # Update network state before solve
         self.substrateTopo = event.substrateTopo
         # Create SFC manager
-        vnffg_manager = VnffgManager(self.sfcSolver,self.nfvVim)
+        vnffg_manager = VnffgManager(self.sfcSolver,self.nfvVim,self.vnfManager)
         # Update network state after solve
         self.substrateTopo, solutions = vnffg_manager.handle_arrive(event)
         
@@ -145,10 +145,11 @@ class NfvOrchestrator:
         
 
 class VnffgManager:
-    def __init__(self, solver:Solver, nfvVim:NfvVim) -> None:
+    def __init__(self, solver:Solver, nfvVim:NfvVim, vnfManager:VnfManager) -> None:
         self.solver = solver
         self.recordSolutions:list[Solution] = []
         self.nfvVim = nfvVim
+        self.vnfManager = vnfManager
 
     
     def handle_arrive(self, event:Event) -> Tuple[SubstrateTopo,list[Solution]]:
@@ -222,51 +223,29 @@ class VnffgManager:
 
 
     def __action_embedding(self, solution:Solution):
-        requestSfcGraph:Topo = self.event.serviceTopo.plan_sfcGraph[self.event.serviceTopoId]
+        req_vnfs_id_list:list[int] = self.event.serviceTopo.plan_vnfRequstDict[self.event.serviceTopoId]
+        req_vnfs:list[VnfEm] = [self.vnfManager.get_vnf_from_pool(vnf_id) for vnf_id in req_vnfs_id_list]
 
-        for sfc_node in requestSfcGraph.nodes:
-            requestSfcGraph.opt_node_attrs_value(sfc_node,'request_cpu','set',solution.resource['cpu'][sfc_node])
-            requestSfcGraph.opt_node_attrs_value(sfc_node,'request_ram','set',solution.resource['ram'][sfc_node])
-        for i,sfc_link in enumerate(requestSfcGraph.edges):
-            requestSfcGraph.opt_link_attrs_value(sfc_link,'request_band','set',solution.resource['band'][i])
-
-        # first embed nodes
         for sfc_node, phy_node in solution.map_node.items():
-            request_cpu_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_cpu','get')
-            request_ram_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_ram','get')
+            req_vnfs[sfc_node].name = f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}"
+            req_vnfs[sfc_node].cpu_req = solution.resource['cpu'][sfc_node]
+            req_vnfs[sfc_node].ram_req = solution.resource['ram'][sfc_node]
+            req_vnfs[sfc_node].rom_req = 0 # no rom requirement in this demo
+            self.nfvVim.deploy_VNF(req_vnfs[sfc_node], phy_node)
 
-            vnf_em = VnfEm(name=f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}",
-                           vnfId=self.event.serviceTopo.plan_vnfRequstDict[self.event.serviceTopoId][sfc_node],
-                           vnfParamDict={'cpu':request_cpu_of_node,'ram':request_ram_of_node})
-            self.nfvVim.deploy_VNF(vnf_em, phy_node)
-
-        # second embed links
-        for sfc_link, phy_links in solution.map_link.items():
-            request_band_of_link = requestSfcGraph.opt_link_attrs_value(sfc_link,'request_band','get')
+        for i,[sfc_link, phy_links] in enumerate(solution.map_link.items()):
             for phy_link in phy_links:
-                self.nfvVim.deploy_service(phy_link[0],phy_link[1],request_band_of_link)
-
+                self.nfvVim.deploy_service(phy_link[0],phy_link[1],solution.resource['band'][i])
 
     def __action_release(self, solution:Solution):
-        requestSfcGraph:Topo = self.event.serviceTopo.plan_sfcGraph[self.event.serviceTopoId]
-
-        for sfc_node in requestSfcGraph.nodes:
-            requestSfcGraph.opt_node_attrs_value(sfc_node,'request_cpu','set',solution.resource['cpu'][sfc_node])
-            requestSfcGraph.opt_node_attrs_value(sfc_node,'request_ram','set',solution.resource['ram'][sfc_node])
-        for i,sfc_link in enumerate(requestSfcGraph.edges):
-            requestSfcGraph.opt_link_attrs_value(sfc_link,'request_band','set',solution.resource['band'][i])
-
-        # first release nodes
+    
         for sfc_node, phy_node in solution.map_node.items():
             self.nfvVim.undeploy_VNF(f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}", phy_node)
 
-
-        # second release links
-        for sfc_link, phy_links in solution.map_link.items():
-            request_band_of_link = requestSfcGraph.opt_link_attrs_value(sfc_link,'request_band','get')
+        for i,[sfc_link, phy_links] in enumerate(solution.map_link.items()):
             for phy_link in phy_links:
                 try: # the link may have been break
-                    self.nfvVim.undeploy_service(phy_link[0],phy_link[1],request_band_of_link)
+                    self.nfvVim.undeploy_service(phy_link[0],phy_link[1],solution.resource['band'][i])
                 except:
                     continue
             

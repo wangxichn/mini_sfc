@@ -30,11 +30,11 @@ class NfvMano:
         self.nfvOrchestrator = NfvOrchestrator(vnfManager=self.vnfManager,nfvVim=self.nfvVim,sfcSolver=self.sfcSolver)
         
     
-    def ready(self,substrateTopo:SubstrateTopo,container_net:Containernet):
+    def ready(self,substrateTopo:SubstrateTopo,containernet_handle:Containernet):
         self.substrateTopo = copy.deepcopy(substrateTopo)
-        self.container_net = container_net
+        self.containernet_handle = containernet_handle
 
-        self.nfvVim.ready(self.substrateTopo,self.container_net)
+        self.nfvVim.ready(self.substrateTopo,self.containernet_handle)
         self.vnfManager.ready(self.nfvVim)
         self.nfvOrchestrator.ready()
 

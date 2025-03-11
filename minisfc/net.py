@@ -37,28 +37,28 @@ class Minisfc:
 
         if use_container:
             setLogLevel('info')
-            self.container_net = Containernet(controller=Controller)
+            self.containernet_handle = Containernet(controller=Controller)
             self.use_remote_controller = False
         else:
-            self.container_net = None
+            self.containernet_handle = None
 
 
     def ready(self):
         TRACER.ready()
 
-        if self.container_net != None:
+        if self.containernet_handle != None:
             print('INFO: Minisfc is running with containernet.')
             if not self.use_remote_controller:
-                self.container_net.addController('c0')
+                self.containernet_handle.addController('c0')
 
-        self.nfvMano.ready(self.schedule.substrateTopo,self.container_net)
+        self.nfvMano.ready(self.schedule.substrateTopo,self.containernet_handle)
 
 
     def start(self):
         self.ready()
 
-        if self.container_net != None:
-            self.container_net.start()
+        if self.containernet_handle != None:
+            self.containernet_handle.start()
 
         pbar = tqdm.tqdm(desc=f'INFO:Minisfc is running with {self.nfvMano.sfcSolver.__class__.__name__}.',
                          total=len(self.schedule.events))
@@ -90,22 +90,22 @@ class Minisfc:
         self.schedule.substrateTopo = copy.deepcopy(self.nfvMano.substrateTopo)
 
     def stop(self):
-        if self.container_net != None:
-            self.container_net.stop()
+        if self.containernet_handle != None:
+            self.containernet_handle.stop()
 
     def addCLI(self):
-        if self.container_net == None:
+        if self.containernet_handle == None:
             print('WARNING: addCLI() is only available when use_container is True.')
             return
 
-        CLI(self.container_net)
+        CLI(self.containernet_handle)
 
     def addRemoteController(self,name='c0', ip='127.0.0.1', port=6653):
-        if self.container_net == None:
+        if self.containernet_handle == None:
             print('WARNING: addRemoteController() is only available when use_container is True.')
             return
         
         self.use_remote_controller = True
-        self.container_net.addController(name=name, controller=RemoteController, ip=ip, port=port)
+        self.containernet_handle.addController(name=name, controller=RemoteController, ip=ip, port=port)
 
 

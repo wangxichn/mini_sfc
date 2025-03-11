@@ -24,22 +24,22 @@ class NfvVim:
         self.nfv_instance_group: dict[int:NfvInstance] = {}
 
 
-    def ready(self,substrateTopo:SubstrateTopo,container_net:Containernet=None):
+    def ready(self,substrateTopo:SubstrateTopo,containernet_handle:Containernet=None):
         self.last_substrate_topo = None
         self.substrateTopo = copy.deepcopy(substrateTopo)
-        self.container_net = container_net
+        self.containernet_handle = containernet_handle
 
-        if container_net != None:
+        if self.containernet_handle != None:
             # ready for containernet
             self.node_switch_map: dict[int, Switch] = {}
             for node_temp in list(self.substrateTopo.nodes):
-                temple_switch = self.container_net.addSwitch(f's_{node_temp}')
+                temple_switch = self.containernet_handle.addSwitch(f's_{node_temp}')
                 self.node_switch_map[node_temp] = temple_switch
 
             for edge_temp in self.substrateTopo.edges:
                 if edge_temp[0] == edge_temp[1]:
                     continue
-                self.container_net.addLink(self.node_switch_map[edge_temp[0]], self.node_switch_map[edge_temp[1]], cls=TCLink, 
+                self.containernet_handle.addLink(self.node_switch_map[edge_temp[0]], self.node_switch_map[edge_temp[1]], cls=TCLink, 
                                             delay=f"{self.substrateTopo.edges[edge_temp]['weight']}ms", 
                                             bw=self.substrateTopo.edges[edge_temp]['capacity_band'])
         
@@ -47,7 +47,7 @@ class NfvVim:
         self.nfv_instance_group = {}
         for node in list(self.substrateTopo.nodes):
             self.add_NFVInstance(node_id=node,name=f"NVFI-{node}",cpu=1,ram=1,rom=1,
-                                  switch=self.node_switch_map[node] if container_net != None else None)
+                                  switch=self.node_switch_map[node] if containernet_handle != None else None)
 
 
     def add_NFVInstance(self,node_id,name,cpu:float,ram:float,rom:float,
@@ -64,7 +64,7 @@ class NfvVim:
     def deploy_VNF(self,vnf_em:VnfEm,NFVI_node_id):
         nfv_instance: NfvInstance = self.nfv_instance_group.get(NFVI_node_id, None)
         if nfv_instance != None:
-            nfv_instance.deploy_VNF(vnf_em)
+            nfv_instance.deploy_VNF(vnf_em,containernet_handle=self.containernet_handle)
 
             self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_cpu','decrease',vnf_em.cpu_req)
             self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_ram','decrease',vnf_em.ram_req)
@@ -77,9 +77,10 @@ class NfvVim:
     def undeploy_VNF(self,vnf_em_name:str,NFVI_node_id):
         nfv_instance: NfvInstance = self.nfv_instance_group.get(NFVI_node_id, None)
         if nfv_instance != None:
-            if vnf_em_name in nfv_instance.get_deployed_vnfname_list():
+            if vnf_em_name in nfv_instance.get_deployed_vnfs():
+                vnf_em = [vnf_em for vnf_em in nfv_instance.deployed_vnf if vnf_em.name == vnf_em_name]
+                nfv_instance.undeploy_VNF(vnf_em[0],containernet_handle=self.containernet_handle)
 
-                vnf_em = [vnf_em for vnf_em in nfv_instance.deployed_vnf if vnf_em.name == vnf_em_name]    
                 self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_cpu','increase',vnf_em[0].cpu_req)
                 self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_ram','increase',vnf_em[0].ram_req)
                 # self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_rom','increase',vnf_em[0].rom_req)
@@ -121,19 +122,19 @@ class NfvInstance:
 
         self.deployed_vnf: list[VnfEm] = []
     
-    def deploy_VNF(self,vnf_em:VnfEm):
+    def deploy_VNF(self,vnf_em:VnfEm,containernet_handle:Containernet=None):
         self.deployed_vnf.append(vnf_em)
         self.cpu_remain -= vnf_em.cpu_req
         self.ram_remain -= vnf_em.ram_req
         self.rom_remain -= vnf_em.rom_req
     
-    def undeploy_VNF(self,vnf_em:VnfEm):
+    def undeploy_VNF(self,vnf_em:VnfEm,containernet_handle:Containernet=None):
         self.deployed_vnf.remove(vnf_em)
         self.cpu_remain += vnf_em.cpu_req
         self.ram_remain += vnf_em.ram_req
         self.rom_remain += vnf_em.rom_req
         
-    def get_deployed_vnfname_list(self):
+    def get_deployed_vnfs(self):
         return [vnf_em.name for vnf_em in self.deployed_vnf]
         
 
