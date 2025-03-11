@@ -34,10 +34,10 @@ substrateTopo = SubstrateTopo(topoTimeList,topoAdjMatDict,topoWeightMatDict,topo
 # region 定义服务功能链组 --------------------------------------------------
 
 sfcIdList = [0]                             # sfc 请求的id
-sfcLifeTimeDict = {0:[0.1,3.1]}             # sfc 生命周期
+sfcLifeTimeDict = {0:[0.1,2.1]}             # sfc 生命周期
 endPointDict = {0:[0,3]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
 arriveFunParamDict = {0:[1.0,2.0]}          # sfc 业务参数
-vnfRequstDict = {0:[0]}                     # sfc 请求的vnf列表
+vnfRequstDict = {0:[2,0,2]}                 # sfc 请求的vnf列表
 qosRequesDict = {0:[100]}                   # sfc 请求的qos列表（目前只有时延）
 
 serviceTopo = ServiceTopo(sfcIdList,sfcLifeTimeDict,endPointDict,arriveFunParamDict,vnfRequstDict,qosRequesDict)
@@ -76,7 +76,7 @@ TRACER.set(netTraceFile)
 
 # region 将各组件代入仿真引擎 ------------------------------------------------
 
-net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,use_container=False)
+net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,use_container=True)
 net.start()
 ## net.addCLI()
 net.stop()

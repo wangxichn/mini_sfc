@@ -51,7 +51,7 @@ class Minisfc:
             if not self.use_remote_controller:
                 self.container_net.addController('c0')
 
-        self.nfvMano.ready(copy.deepcopy(self.schedule.substrateTopo),self.container_net)
+        self.nfvMano.ready(self.schedule.substrateTopo,self.container_net)
 
 
     def start(self):

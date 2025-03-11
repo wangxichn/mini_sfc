@@ -10,6 +10,11 @@
 @Desc    :   None
 '''
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from minisfc.mano.vim import NfvVim
+
 class VnfManager:
     def __init__(self,vnfParamDict:dict[int:dict[str]]=None):
         """_summary_
@@ -18,6 +23,9 @@ class VnfManager:
             vnfParamDict (dict[int:dict[str]]): {id:{paramtype:value}}
         """
         self.vnfPoolDict = vnfParamDict
+
+    def ready(self, nfvVim:'NfvVim'):
+        self.nfvVim = nfvVim
 
     def init_vnf_pool(self,vnfParamDict:dict[int:dict[str]]):
         self.vnfPoolDict = vnfParamDict
@@ -34,9 +42,9 @@ class VnfEm:
         """
         self.name = name
         self.vnfId = vnfId
-        self.cpu = vnfParamDict.get('cpu',None)
-        self.ram = vnfParamDict.get('ram',None)
-        self.rom = vnfParamDict.get('rom',None)
+        self.cpu_req = vnfParamDict.get('cpu',0)
+        self.ram_req = vnfParamDict.get('ram',0)
+        self.rom_req = vnfParamDict.get('rom',0)
         self.type = vnfParamDict.get('type',None)
         self.img = vnfParamDict.get('img',None)
 

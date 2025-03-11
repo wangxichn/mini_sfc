@@ -13,7 +13,7 @@
 from typing import Tuple
 
 from minisfc.mano.vnfm import VnfManager
-from minisfc.mano.vim import NfvVim
+from minisfc.mano.vim import NfvVim, VnfEm
 
 from minisfc.topo import SubstrateTopo, Topo
 from minisfc.solver import Solver, Solution
@@ -28,13 +28,12 @@ class NfvOrchestrator:
         self.nfvVim = nfvVim
         self.sfcSolver = sfcSolver
     
-    def ready(self,substrateTopo:SubstrateTopo):
-        self.substrateTopo = substrateTopo
+    def ready(self):
         self.vnffg_group:list[VnffgManager] = []
         self.sfcSolver.initialize(self.vnfManager)
 
         contextDict = {'Event':'I','Time':0.00,
-                       'Resource':self.substrateTopo.get_sum_resource_list('remain')}
+                       'Resource':self.nfvVim.substrateTopo.get_sum_resource_list('remain')}
         TRACER.write(contextDict)
 
     def handle(self,event:Event) -> SubstrateTopo:
@@ -49,7 +48,7 @@ class NfvOrchestrator:
         # Update network state before solve
         self.substrateTopo = event.substrateTopo
         # Create SFC manager
-        vnffg_manager = VnffgManager(self.sfcSolver)
+        vnffg_manager = VnffgManager(self.sfcSolver,self.nfvVim)
         # Update network state after solve
         self.substrateTopo, solutions = vnffg_manager.handle_arrive(event)
         
@@ -67,6 +66,7 @@ class NfvOrchestrator:
                        'Vnffgs':[vnffg.id for vnffg in self.vnffg_group]}
         if solutions[-1].current_result == False:
             contextDict['Reason'] = solutions[-1].current_description
+            
         TRACER.write(contextDict)
         # Print Trance End ------------------------------------------------------------------
 
@@ -145,9 +145,10 @@ class NfvOrchestrator:
         
 
 class VnffgManager:
-    def __init__(self, solver:Solver) -> None:
+    def __init__(self, solver:Solver, nfvVim:NfvVim) -> None:
         self.solver = solver
         self.recordSolutions:list[Solution] = []
+        self.nfvVim = nfvVim
 
     
     def handle_arrive(self, event:Event) -> Tuple[SubstrateTopo,list[Solution]]:
@@ -162,7 +163,9 @@ class VnffgManager:
 
         if solution.current_result == True:
             # Embedding successful
+            self.nfvVim.update_substrate_topo(self.substrateTopo)
             self.__action_embedding(solution)
+            self.substrateTopo = self.nfvVim.get_curent_substrate_topo()
         else:
             # Embedding failed
             pass
@@ -181,7 +184,11 @@ class VnffgManager:
 
         # Obtain a solution and apply it
         solution:Solution = self.solver.solve_ending(event)
+
+        self.nfvVim.update_substrate_topo(self.substrateTopo)
         self.__action_release(solution)
+        self.substrateTopo = self.nfvVim.get_curent_substrate_topo()
+
         # Save the solution
         self.recordSolutions.append(copy.deepcopy(solution))
 
@@ -198,15 +205,15 @@ class VnffgManager:
 
         if solution.current_result == True:
             # Migration successful
+            self.nfvVim.update_substrate_topo(self.substrateTopo)
             self.__action_release(self.recordSolutions[-1]) # use last one solution release resource
-            try: ##########################################################################################################################  watch
-                self.__action_embedding(solution)
-            except:
-                import code
-                code.interact(banner="",local=locals())
+            self.__action_embedding(solution)
+            self.substrateTopo = self.nfvVim.get_curent_substrate_topo()
         else:
             # Migration failed
+            self.nfvVim.update_substrate_topo(self.substrateTopo)
             self.__action_release(self.recordSolutions[-1])
+            self.substrateTopo = self.nfvVim.get_curent_substrate_topo()
 
         # Save the solution
         self.recordSolutions.append(copy.deepcopy(solution))
@@ -227,18 +234,27 @@ class VnffgManager:
         for sfc_node, phy_node in solution.map_node.items():
             # CPU
             request_cpu_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_cpu','get')
-            self.substrateTopo.opt_node_attrs_value(phy_node,'remain_cpu','decrease',request_cpu_of_node)
+            # self.substrateTopo.opt_node_attrs_value(phy_node,'remain_cpu','decrease',request_cpu_of_node)
             
             # RAM
             request_ram_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_ram','get')
-            self.substrateTopo.opt_node_attrs_value(phy_node,'remain_ram','decrease',request_ram_of_node)
+            # self.substrateTopo.opt_node_attrs_value(phy_node,'remain_ram','decrease',request_ram_of_node)
+
+            vnf_em = VnfEm(name=f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}",
+                           vnfId=self.event.serviceTopo.plan_vnfRequstDict[self.event.serviceTopoId][sfc_node],
+                           vnfParamDict={'cpu':request_cpu_of_node,'ram':request_ram_of_node})
+
+            self.nfvVim.deploy_VNF(vnf_em, phy_node)
 
         # second embed links
         for sfc_link, phy_links in solution.map_link.items():
             request_band_of_link = requestSfcGraph.opt_link_attrs_value(sfc_link,'request_band','get')
             for phy_link in phy_links:
-                self.substrateTopo.opt_link_attrs_value(phy_link,'remain_band','decrease',request_band_of_link)
-        
+                # self.substrateTopo.opt_link_attrs_value(phy_link,'remain_band','decrease',request_band_of_link)
+
+                self.nfvVim.deploy_service(phy_link[0],phy_link[1],request_band_of_link)
+
+
     def __action_release(self, solution:Solution):
         requestSfcGraph:Topo = self.event.serviceTopo.plan_sfcGraph[self.event.serviceTopoId]
 
@@ -251,19 +267,23 @@ class VnffgManager:
         # first release nodes
         for sfc_node, phy_node in solution.map_node.items():
             # CPU
-            request_cpu_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_cpu','get')
-            self.substrateTopo.opt_node_attrs_value(phy_node,'remain_cpu','increase',request_cpu_of_node)
+            # request_cpu_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_cpu','get')
+            # self.substrateTopo.opt_node_attrs_value(phy_node,'remain_cpu','increase',request_cpu_of_node)
 
             # RAM
-            request_ram_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_ram','get')
-            self.substrateTopo.opt_node_attrs_value(phy_node,'remain_ram','increase',request_ram_of_node)
+            # request_ram_of_node = requestSfcGraph.opt_node_attrs_value(sfc_node,'request_ram','get')
+            # self.substrateTopo.opt_node_attrs_value(phy_node,'remain_ram','increase',request_ram_of_node)
+
+            self.nfvVim.undeploy_VNF(f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}", phy_node)
+
 
         # second release links
         for sfc_link, phy_links in solution.map_link.items():
             request_band_of_link = requestSfcGraph.opt_link_attrs_value(sfc_link,'request_band','get')
             for phy_link in phy_links:
                 try: # the link may have been break
-                    self.substrateTopo.opt_link_attrs_value(phy_link,'remain_band','increase',request_band_of_link)
+                    # self.substrateTopo.opt_link_attrs_value(phy_link,'remain_band','increase',request_band_of_link)
+                    self.nfvVim.undeploy_service(phy_link[0],phy_link[1],request_band_of_link)
                 except:
                     continue
             
