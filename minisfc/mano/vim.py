@@ -22,6 +22,10 @@ class NfvVim:
     def __init__(self, name='NFV-VIM'):
         self.name = name
         self.nfv_instance_group: dict[int:NfvInstance] = {}
+        self.ip_prefix = '10.0.'
+        self.ips_assigned: set[str] = set()
+        self.ip_control_prefix = '172.17.'
+        self.ips_control_assigned: set[str] = set()
 
 
     def ready(self,substrateTopo:SubstrateTopo,containernet_handle:Containernet=None):
@@ -33,26 +37,59 @@ class NfvVim:
             # ready for containernet
             self.node_switch_map: dict[int, Switch] = {}
             for node_temp in list(self.substrateTopo.nodes):
-                temple_switch = self.containernet_handle.addSwitch(f's_{node_temp}')
+                temple_switch = self.containernet_handle.addSwitch(f's{node_temp}')
                 self.node_switch_map[node_temp] = temple_switch
 
             for edge_temp in self.substrateTopo.edges:
                 if edge_temp[0] == edge_temp[1]:
                     continue
-                self.containernet_handle.addLink(self.node_switch_map[edge_temp[0]], self.node_switch_map[edge_temp[1]], cls=TCLink, 
-                                            delay=f"{self.substrateTopo.edges[edge_temp]['weight']}ms", 
-                                            bw=self.substrateTopo.edges[edge_temp]['capacity_band'])
+                self.containernet_handle.addLink(self.node_switch_map[edge_temp[0]], 
+                                                 self.node_switch_map[edge_temp[1]], cls=TCLink, 
+                                                 delay=f"{self.substrateTopo.edges[edge_temp]['weight']}ms", 
+                                                 bw=self.substrateTopo.edges[edge_temp]['capacity_band'])
         
 
         self.nfv_instance_group = {}
         for node in list(self.substrateTopo.nodes):
-            self.add_NFVInstance(node_id=node,name=f"NVFI-{node}",cpu=1,ram=1,rom=1,
-                                  switch=self.node_switch_map[node] if containernet_handle != None else None)
+            ip_sim,ip_con = self.get_vailable_NFVI_ip()
+            self.add_NFVInstance(node_id=node,name=f"NVFI-{node}",
+                                 cpu=self.substrateTopo.opt_node_attrs_value(node,"capacity_cpu","get"),
+                                 ram=self.substrateTopo.opt_node_attrs_value(node,"capacity_ram","get"),
+                                 rom=1,
+                                 switch_container_handle=self.node_switch_map[node] if self.containernet_handle != None else None,
+                                 ip=ip_sim,
+                                 ip_control=ip_con)
+
+    def get_vailable_NFVI_ip(self):
+        if self.containernet_handle != None:
+            index = 1
+            while True:
+                ip_sim = f"{self.ip_prefix}{index}.0"
+                if ip_sim not in self.ips_assigned:
+                    self.ips_assigned.add(ip_sim)
+                    break
+                index += 1
+                if index > 255:
+                    raise ValueError(f"No available SIM IP for NFV-VIM")
+            
+            # index = 1 # make sure the control IP used the same index as the SIM IP
+            while True:
+                ip_con = f"{self.ip_control_prefix}{index}.0"
+                if ip_con not in self.ips_control_assigned:
+                    self.ips_control_assigned.add(ip_con)
+                    break
+                index += 1
+                if index > 255:
+                    raise ValueError(f"No available SIM IP for NFV-VIM")
+                
+            return ip_sim,ip_con
+        else:
+            return '0.0.0.0','0.0.0.0'
 
 
     def add_NFVInstance(self,node_id,name,cpu:float,ram:float,rom:float,
-                         switch:Switch = None,image=None,ip=None,port=None):
-        nfv_instance = NfvInstance(node_id,name,cpu,ram,rom,switch,image,ip,port)
+                         switch_container_handle:Switch = None,ip=None,ip_control=None,port=None):
+        nfv_instance = NfvInstance(node_id,name,cpu,ram,rom,switch_container_handle,ip,ip_control,port)
         self.nfv_instance_group[node_id] = nfv_instance
     
 
@@ -61,29 +98,29 @@ class NfvVim:
             del self.nfv_instance_group[node_id]
     
 
-    def deploy_VNF(self,vnf_em:VnfEm,NFVI_node_id):
+    def deploy_VNF_on_NFVI(self,vnf_em:VnfEm,NFVI_node_id):
         nfv_instance: NfvInstance = self.nfv_instance_group.get(NFVI_node_id, None)
         if nfv_instance != None:
             nfv_instance.deploy_VNF(vnf_em,containernet_handle=self.containernet_handle)
 
-            self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_cpu','decrease',vnf_em.cpu_req)
-            self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_ram','decrease',vnf_em.ram_req)
-            # self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_rom','decrease',vnf_em.rom_req)
+            self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_cpu','decrease',vnf_em.vnf_cpu)
+            self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_ram','decrease',vnf_em.vnf_ram)
+            # self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_rom','decrease',vnf_em.vnf_rom)
 
             return True
         return False
     
 
-    def undeploy_VNF(self,vnf_em_name:str,NFVI_node_id):
+    def undeploy_VNF_on_NFVI(self,vnf_em_name:str,NFVI_node_id):
         nfv_instance: NfvInstance = self.nfv_instance_group.get(NFVI_node_id, None)
         if nfv_instance != None:
             if vnf_em_name in nfv_instance.get_deployed_vnfs():
-                vnf_em = [vnf_em for vnf_em in nfv_instance.deployed_vnf if vnf_em.name == vnf_em_name]
+                vnf_em = [vnf_em for vnf_em in nfv_instance.deployed_vnf if vnf_em.vnf_name == vnf_em_name]
                 nfv_instance.undeploy_VNF(vnf_em[0],containernet_handle=self.containernet_handle)
 
-                self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_cpu','increase',vnf_em[0].cpu_req)
-                self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_ram','increase',vnf_em[0].ram_req)
-                # self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_rom','increase',vnf_em[0].rom_req)
+                self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_cpu','increase',vnf_em[0].vnf_cpu)
+                self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_ram','increase',vnf_em[0].vnf_ram)
+                # self.substrateTopo.opt_node_attrs_value(NFVI_node_id,'remain_rom','increase',vnf_em[0].vnf_rom)
 
                 return True
         return False
@@ -105,7 +142,7 @@ class NfvVim:
 
 class NfvInstance:
     def __init__(self,node_id,name,cpu:float,ram:float,rom:float,
-                 switch:'Switch' = None,image=None,ip=None,port=None):
+                 switch_container_handle:'Switch' = None,ip=None,ip_control=None,port=None):
         self.node_id = node_id
         self.name = name
         self.cpu_capacity = cpu
@@ -115,35 +152,65 @@ class NfvInstance:
         self.rom_capacity = rom
         self.rom_remain = rom
 
-        self.switch = switch
-        self.image = image
+        self.switch_container_handle = switch_container_handle
         self.ip = ip
+        self.ips_assigned: set[str] = set()
+        self.ip_control = ip_control
+        self.ips_control_assigned: set[str] = set()
         self.port = port
 
         self.deployed_vnf: list[VnfEm] = []
     
     def deploy_VNF(self,vnf_em:VnfEm,containernet_handle:Containernet=None):
-        # if containernet_handle != None:
-
-        #     containernet_handle.addDocker(name=vnf_em.name, ip=f"{self.ip}:{self.port}", dimage=vnf_em.image,
-        #                                     volumes=[f"{self.switch.name}:/mnt/switch"],
-        #                                     command=f"python3 /mnt/switch/vnf_em.py {vnf_em.name} {self.switch.name}")
-
-
+        if containernet_handle != None:
+            vnf_em.vnf_ip,vnf_em.vnf_ip_control = self.get_vailable_vnf_ip()
+            print(f"Deploy {vnf_em.vnf_name} on {self.name} with IP {vnf_em.vnf_ip} and control IP {vnf_em.vnf_ip_control}")
+            vnf_em.ready()
+            vnf_em.vnf_container_handle = containernet_handle.addDocker(vnf_em.vnf_name, ip=vnf_em.vnf_ip, 
+                                                                        dcmd=vnf_em.vnf_cmd, dimage=vnf_em.vnf_img)
+            containernet_handle.addLink(vnf_em.vnf_container_handle, self.switch_container_handle)
+            vnf_em.config_network()
 
         self.deployed_vnf.append(vnf_em)
-        self.cpu_remain -= vnf_em.cpu_req
-        self.ram_remain -= vnf_em.ram_req
-        self.rom_remain -= vnf_em.rom_req
+        self.cpu_remain -= vnf_em.vnf_cpu
+        self.ram_remain -= vnf_em.vnf_ram
+        self.rom_remain -= vnf_em.vnf_rom
     
     def undeploy_VNF(self,vnf_em:VnfEm,containernet_handle:Containernet=None):
         self.deployed_vnf.remove(vnf_em)
-        self.cpu_remain += vnf_em.cpu_req
-        self.ram_remain += vnf_em.ram_req
-        self.rom_remain += vnf_em.rom_req
+        self.cpu_remain += vnf_em.vnf_cpu
+        self.ram_remain += vnf_em.vnf_ram
+        self.rom_remain += vnf_em.vnf_rom
         
     def get_deployed_vnfs(self):
-        return [vnf_em.name for vnf_em in self.deployed_vnf]
+        return [vnf_em.vnf_name for vnf_em in self.deployed_vnf]
         
+    def get_vailable_vnf_ip(self):
+        if self.switch_container_handle != None:
+            ip_prefix = self.ip[0:-1]
+            index = 1
+            while True:
+                ip_sim = f"{ip_prefix}{index}"
+                if ip_sim not in self.ips_assigned:
+                    self.ips_assigned.add(ip_sim)
+                    break
+                index += 1
+                if index > 255:
+                    raise ValueError(f"No available SIM IP for {self.name}")
+            
+            ip_prefix = self.ip_control[0:-1]
+            # index = 1 # make sure the control IP used the same index as the SIM IP
+            while True:
+                ip_con = f"{ip_prefix}{index}"
+                if ip_con not in self.ips_control_assigned:
+                    self.ips_control_assigned.add(ip_con)
+                    break
+                index += 1
+                if index > 255:
+                    raise ValueError(f"No available CON IP for {self.name}")
+            
+            return ip_sim,ip_con
+        else:
+            return '0.0.0.0','0.0.0.0'
 
     

@@ -35,6 +35,11 @@ class Trace:
             writer = csv.DictWriter(file, fieldnames=self.fields)
             writer.writerow(contextDict)
 
+    def delete(self):
+        if self.filename!= None:
+            import os
+            os.remove(self.filename)
+
     @staticmethod
     def get_time_stamp():
         ct = time.time()

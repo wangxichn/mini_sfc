@@ -48,7 +48,7 @@ s4 = net.addSwitch('s4')
 net.addLink(s1, s2, cls=TCLink, delay='10ms', bw=1)
 net.addLink(s2, s3, cls=TCLink, delay='10ms', bw=1)
 net.addLink(s3, s4, cls=TCLink, delay='10ms', bw=1)
-# net.addLink(s3, s4, cls=TCLink, delay='10ms', bw=1)
+net.addLink(s3, s4, cls=TCLink, delay='10ms', bw=1)
 
 net.start()
 

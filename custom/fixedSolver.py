@@ -37,8 +37,8 @@ class FixedSolver(RadomSolver):
         
         # If the fixed VNF resource allocation in the original SFC problem is used:
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId].cpu_req for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId].ram_req for vnfId in vnfRequstList]
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId].vnf_cpu for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId].vnf_ram for vnfId in vnfRequstList]
         self.solution.resource['band'] = [self.vnfManager.vnfServicePoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
@@ -88,8 +88,8 @@ class FixedSolver(RadomSolver):
 
         # If the fixed VNF resource allocation in the original SFC problem is used:
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId].cpu_req for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId].ram_req for vnfId in vnfRequstList]
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId].vnf_cpu for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId].vnf_ram for vnfId in vnfRequstList]
         self.solution.resource['band'] = [self.vnfManager.vnfServicePoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 

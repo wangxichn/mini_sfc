@@ -227,11 +227,11 @@ class VnffgManager:
         req_vnfs:list[VnfEm] = [self.vnfManager.get_vnf_from_pool(vnf_id) for vnf_id in req_vnfs_id_list]
 
         for sfc_node, phy_node in solution.map_node.items():
-            req_vnfs[sfc_node].name = f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}"
-            req_vnfs[sfc_node].cpu_req = solution.resource['cpu'][sfc_node]
-            req_vnfs[sfc_node].ram_req = solution.resource['ram'][sfc_node]
-            req_vnfs[sfc_node].rom_req = 0 # no rom requirement in this demo
-            self.nfvVim.deploy_VNF(req_vnfs[sfc_node], phy_node)
+            req_vnfs[sfc_node].vnf_name = f"sfc{self.event.serviceTopoId}vnf{sfc_node}"
+            req_vnfs[sfc_node].vnf_cpu = solution.resource['cpu'][sfc_node]
+            req_vnfs[sfc_node].vnf_ram = solution.resource['ram'][sfc_node]
+            req_vnfs[sfc_node].vnf_rom = 0 # no rom requirement in this demo
+            self.nfvVim.deploy_VNF_on_NFVI(req_vnfs[sfc_node], phy_node)
 
         for i,[sfc_link, phy_links] in enumerate(solution.map_link.items()):
             for phy_link in phy_links:
@@ -240,7 +240,7 @@ class VnffgManager:
     def __action_release(self, solution:Solution):
     
         for sfc_node, phy_node in solution.map_node.items():
-            self.nfvVim.undeploy_VNF(f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}", phy_node)
+            self.nfvVim.undeploy_VNF_on_NFVI(f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}", phy_node)
 
         for i,[sfc_link, phy_links] in enumerate(solution.map_link.items()):
             for phy_link in phy_links:
