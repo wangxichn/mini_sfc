@@ -116,7 +116,7 @@ class RadomSolver(Solver):
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
         self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
         self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['band'] = [self.vnfManager.vnfServicePoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         # If the dynamic resource allocation of each VNF is implemented in the solver algorithm:
@@ -167,7 +167,7 @@ class RadomSolver(Solver):
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
         self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
         self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['band'] = [self.vnfManager.vnfServicePoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         # If the dynamic resource allocation of each VNF is implemented in the solver algorithm:
@@ -270,7 +270,7 @@ class GreedySolver(RadomSolver):
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
         self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
         self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['band'] = [self.vnfManager.vnfServicePoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         for v_node in self.sfcGraph.nodes:
@@ -321,7 +321,7 @@ class GreedySolver(RadomSolver):
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
         self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
         self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
-        self.solution.resource['band'] = [self.vnfManager.vnfPoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
+        self.solution.resource['band'] = [self.vnfManager.vnfServicePoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
         for v_node in self.sfcGraph.nodes:

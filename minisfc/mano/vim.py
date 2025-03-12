@@ -123,6 +123,14 @@ class NfvInstance:
         self.deployed_vnf: list[VnfEm] = []
     
     def deploy_VNF(self,vnf_em:VnfEm,containernet_handle:Containernet=None):
+        # if containernet_handle != None:
+
+        #     containernet_handle.addDocker(name=vnf_em.name, ip=f"{self.ip}:{self.port}", dimage=vnf_em.image,
+        #                                     volumes=[f"{self.switch.name}:/mnt/switch"],
+        #                                     command=f"python3 /mnt/switch/vnf_em.py {vnf_em.name} {self.switch.name}")
+
+
+
         self.deployed_vnf.append(vnf_em)
         self.cpu_remain -= vnf_em.cpu_req
         self.ram_remain -= vnf_em.ram_req

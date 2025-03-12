@@ -2,7 +2,7 @@
 from minisfc.topo import SubstrateTopo,ServiceTopo
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
-from minisfc.mano.vnfm import VnfManager
+from minisfc.mano.vnfm import VnfManager, VnfEm
 
 from custom.fixedSolver import FixedSolver
 from util import DataAnalysis
@@ -57,7 +57,20 @@ vnfParamDict = {0:{'unit':3,'factor':0.9,'cpu':1,'ram':1,'type':'vnf_matinv','im
                 (1,2):{'band':0.5},
                 (2,1):{'band':0.5}}
 
-nfvManager = VnfManager(vnfParamDict)
+nfvManager = VnfManager()
+vnfEm_template = VnfEm(**{'vnfId':0,'unit':3,'factor':0.9,'cpu':1,'ram':1,'type':'vnf_matinv','img':'vnfserver:latest'})
+nfvManager.add_vnf_into_pool(vnfEm_template)
+vnfEm_template = VnfEm(**{'vnfId':1,'unit':2,'factor':1.1,'cpu':1,'ram':1,'type':'vnf_matprint','img':'vnfserver:latest'})
+nfvManager.add_vnf_into_pool(vnfEm_template)
+vnfEm_template = VnfEm(**{'vnfId':2,'unit':1,'factor':1.2,'cpu':1,'ram':1,'type':'vnf_gnb','img':'vnfserver:latest'})
+nfvManager.add_vnf_into_pool(vnfEm_template)
+
+nfvManager.add_vnf_service_into_pool(0,1,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(1,0,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(0,2,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(2,0,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(1,2,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(2,1,**{"band":0.5})
 
 # endregion
 
