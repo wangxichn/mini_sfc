@@ -28,11 +28,16 @@ from string import Template
 import re
 import copy
 import docker
+import numpy as np
+import requests
+from datetime import datetime
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from minisfc.mano.vim import NfvVim
+    from minisfc.mano.vnfm import VnfEm
     from mininet.node import Docker
+
 
 class UeManager:
     def __init__(self):
@@ -62,7 +67,6 @@ class UeManager:
             raise ValueError(f'UE ID {ue_id} does not exist in UE pool')
         ue = copy.deepcopy(self.uePoolDict[ue_id])
         return ue
-
 
 
 class Ue:
@@ -123,5 +127,41 @@ class Ue:
                 self.ue_cmd = cmd_template.substitute(**vars(self))
             except KeyError as e:
                 raise ValueError(f'Missing required parameter {e} for UE {self.ue_id} command')
+
+
+    def get_self_service_url(self):
+        self.service_url = f"http://{self.ue_ip}:{self.ue_port}/{self.ue_type}"
+        return self.service_url
+    
+
+    def get_self_control_url(self):
+        self.control_url = f"http://{self.ue_ip_control}:{self.ue_port}/{self.ue_type}"
+        return self.control_url
+
+
+    def start_trasport(self, next_vnf_em: 'VnfEm'):
+        if self.ue_type == 'ue_post':
+            def generate_invertible_matrix(size=10):
+                while True:
+                    # 生成一个随机矩阵
+                    matrix = np.random.rand(size, size)
+                    # 计算行列式
+                    det = np.linalg.det(matrix)
+                    # 如果行列式不接近于零，则矩阵是可逆的
+                    if abs(det) > 1e-10:
+                        return matrix
+            matrix_data = generate_invertible_matrix(50)
+            timestamp = datetime.now().strftime('%H%M%S%f')[:-3]
+            data = {'ue_post_url': next_vnf_em.get_self_service_url(),
+                    'ue_post_data': matrix_data.tolist(),
+                    'request_id': int(timestamp)}
+            
+            response = requests.post(self.get_self_control_url(), json=data)
+
+            if response.status_code == 200:
+                print(f'INFO: UE {self.ue_name} post request matrix inv successfully')
+            else:
+                error_message = response.json().get('message', 'Unknown error')
+                print(f'WARNING: UE {self.ue_name} failed matrix inv: {response.status_code} | {error_message}')
 
 

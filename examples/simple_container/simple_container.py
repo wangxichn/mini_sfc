@@ -104,7 +104,7 @@ net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,ueManager=ueManager
 
 try:
     net.start()
-    net.addCLI()
+    # net.addCLI()
     net.stop()
 except Exception as e:
     net.stop()

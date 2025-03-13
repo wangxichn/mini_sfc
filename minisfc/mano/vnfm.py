@@ -15,11 +15,14 @@ from string import Template
 import re
 import copy
 import docker
+import requests
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from minisfc.mano.vim import NfvVim
+    from minisfc.mano.uem import Ue
     from mininet.node import Docker
+
 
 class VnfManager:
     def __init__(self):
@@ -31,8 +34,10 @@ class VnfManager:
         self.vnfPoolDict:dict[int:VnfEm] = {}
         self.vnfServicePoolDict:dict[tuple:dict[str:float]] = {}
 
+
     def ready(self, nfvVim:'NfvVim'):
         self.nfvVim = nfvVim
+
 
     def add_vnf_into_pool(self,vnfEm_template:'VnfEm'):
         vnf_id = vnfEm_template.vnf_id
@@ -41,6 +46,7 @@ class VnfManager:
         else:
             self.vnfPoolDict[vnf_id] = vnfEm_template
     
+
     def add_vnf_service_into_pool(self,vnf_id_1:int,vnf_id_2:int,**kwargs):
         if vnf_id_1 not in self.vnfPoolDict or vnf_id_2 not in self.vnfPoolDict:
             raise ValueError(f'VNF ID {vnf_id_1} or {vnf_id_2} does not exist in VNF pool')
@@ -49,12 +55,21 @@ class VnfManager:
         else:
             self.vnfServicePoolDict[(vnf_id_1,vnf_id_2)] = kwargs
 
+
     def get_vnf_from_pool(self,vnf_id:int) -> 'VnfEm':
         if vnf_id not in self.vnfPoolDict:
             raise ValueError(f'VNF ID {vnf_id} does not exist in VNF pool')
         vnfEm = copy.deepcopy(self.vnfPoolDict[vnf_id])
         return vnfEm
-        
+    
+
+    def set_vnfs_forward_route(self,vnfs:list['VnfEm'],ues:list['Ue']):
+        for i, vnf_em in enumerate(vnfs):
+            if i != len(vnfs)-1:
+                vnf_em.set_forward_route(ues[0],vnfs[i+1].get_self_service_url())
+            else:
+                vnf_em.set_forward_route(ues[0],ues[1].get_self_service_url())
+                
         
 class VnfEm:
     def __init__(self,**kwargs):
@@ -110,6 +125,7 @@ class VnfEm:
         except docker.errors.APIError as e:
             raise ValueError(f'Error retrieving image {self.vnf_img} for VNF {self.vnf_id}: {e}')
             
+
     def check_cmd_param_exists(self):
         cmd_required_param_list = re.findall(r'\$\w+', self.vnf_cmd)
         cmd_required_param_list = [param[1:] for param in cmd_required_param_list]
@@ -122,4 +138,29 @@ class VnfEm:
                 self.vnf_cmd = cmd_template.substitute(**vars(self))
             except KeyError as e:
                 raise ValueError(f'Missing required parameter {e} for VNF {self.vnf_id} command')
+            
+
+    def set_forward_route(self,traffic_from_ue:'Ue',traffic_to_url:str):
+        vnf_opt_url = f"http://{self.vnf_ip_control}:{self.vnf_port}/set_route"
+
+        data = {'traffic_from_ue': traffic_from_ue.ue_name,
+                'traffic_to_url': traffic_to_url}
+        
+        response = requests.post(vnf_opt_url, json=data)
+
+        if response.status_code == 200:
+            print(f'INFO: VNF {self.vnf_name} forward route set successfully')
+        else:
+            error_message = response.json().get('message', 'Unknown error')
+            print(f'WARNING: Failed to set VNF {self.vnf_name} forward route: {response.status_code} | {error_message}')
+
+    
+    def get_self_service_url(self):
+        self.service_url = f"http://{self.vnf_ip}:{self.vnf_port}/{self.vnf_type}"
+        return self.service_url
+    
+    
+    def get_self_control_url(self):
+        self.control_url = f"http://{self.vnf_ip_control}:{self.vnf_port}/{self.vnf_type}"
+        return self.control_url
             

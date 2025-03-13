@@ -233,7 +233,7 @@ class VnffgManager:
         req_vnfs:list[VnfEm] = [self.vnfManager.get_vnf_from_pool(vnf_id) for vnf_id in req_vnfs_id_list]
 
         for sfc_node, phy_node in solution.map_node.items():
-            req_vnfs[sfc_node].vnf_name = f"s{self.event.serviceTopoId}v{sfc_node}"
+            req_vnfs[sfc_node].vnf_name = f"f{self.event.serviceTopoId}v{sfc_node}"
             req_vnfs[sfc_node].vnf_cpu = solution.resource['cpu'][sfc_node]
             req_vnfs[sfc_node].vnf_ram = solution.resource['ram'][sfc_node]
             req_vnfs[sfc_node].vnf_rom = 0 # no rom requirement in this demo
@@ -247,9 +247,11 @@ class VnffgManager:
             req_ues_pos:list[int] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId]
             req_ues:list[Ue] = [self.ueManager.get_ue_from_pool(ue_id) for ue_id in [0,1]]
             for i,(ue,ue_pos) in enumerate(zip(req_ues,req_ues_pos)):
-                ue.ue_name = f"s{self.event.serviceTopoId}u{i}"
+                ue.ue_name = f"f{self.event.serviceTopoId}u{i}"
                 self.nfvVim.access_ue_on_NFVI(ue,ue_pos)
 
+            self.vnfManager.set_vnfs_forward_route(req_vnfs,req_ues)
+            req_ues[0].start_trasport(req_vnfs[0])
 
     def __action_release(self, solution:Solution):
     

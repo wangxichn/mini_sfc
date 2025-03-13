@@ -1,25 +1,27 @@
 #!/bin/bash
 
-# 确保 logsave 目录存在，不存在则创建
+echo "Auto-getting status from containers..."
+
 mkdir -p logsave
 
-# 设置输出文件
 output_file="logsave/vnf_stats.log"
-> $output_file  # 清空文件
+> $output_file  # clear the file
 
-# 捕获中断信号 (Ctrl+C)
 trap 'echo "Script interrupted by user"; exit 0' INT
 
-# 无限循环
 while true; do
-  # 获取当前时间戳
   timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+  container_found=false
   
-  # 执行docker stats并将输出通过管道传递给while循环
   docker stats --no-stream --format "{{.Name}}\t{{.CPUPerc}}\t{{.MemUsage}}" | while IFS=$'\t' read -r name cpu mem; do
-    # 打印到终端并追加到文件
+    container_found=true
     echo -e "$timestamp\t$name\t$cpu\t$mem"
     echo -e "$timestamp\t$name\t$cpu\t$mem" >> $output_file
   done
+
+  if ! $container_found; then
+    echo "No containers found. Waiting for containers to become available..., or press ctrl+c to stop the script."
+  fi
   
+  sleep 1
 done

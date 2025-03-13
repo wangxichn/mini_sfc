@@ -27,6 +27,8 @@ from minisfc.mano.vnfm import VnfManager
 from minisfc.mano.uem import UeManager
 from minisfc.mano.mano import NfvMano
 
+from util import RunCommand
+
 class Minisfc:
     def __init__(self,substrateTopo:SubstrateTopo,serviceTopo:ServiceTopo,
                  vnfManager:VnfManager,sfcSolver:Solver,ueManager:UeManager=None,use_container:bool = False):
@@ -37,6 +39,12 @@ class Minisfc:
         # ----------------------------------
 
         if use_container:
+            runCommand = RunCommand()
+            runCommand.clear_container()
+            runCommand.get_container_logs()
+            runCommand.get_container_status()
+
+            print('INFO: Minisfc is running with containernet.')
             setLogLevel('info')
             self.containernet_handle = Containernet(controller=Controller)
             self.use_remote_controller = False
@@ -48,7 +56,6 @@ class Minisfc:
         TRACER.ready()
 
         if self.containernet_handle != None:
-            print('INFO: Minisfc is running with containernet.')
             if not self.use_remote_controller:
                 self.containernet_handle.addController('c0')
 
