@@ -1,0 +1,4 @@
+Event,Time,SfcId,Result,Resource,Vnffgs,Reason
+I,0.0,,,"[14, 18, np.int64(10)]",,
++,5,0,True,"[11, 15, np.float64(6.5)]",[0],
+-,15,0,True,"[14, 18, np.float64(10.0)]",[],

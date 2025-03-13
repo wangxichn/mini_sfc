@@ -13,6 +13,7 @@
 from typing import Tuple
 
 from minisfc.mano.vnfm import VnfManager
+from minisfc.mano.uem import UeManager, Ue
 from minisfc.mano.vim import NfvVim, VnfEm
 
 from minisfc.topo import SubstrateTopo, Topo
@@ -23,12 +24,16 @@ from minisfc.trace import TRACER
 import copy
 
 class NfvOrchestrator:
-    def __init__(self,vnfManager:VnfManager,nfvVim:NfvVim,sfcSolver:Solver):
+    def __init__(self,vnfManager:VnfManager,nfvVim:NfvVim,sfcSolver:Solver,ueManager:UeManager=None):
         self.vnfManager = vnfManager
+        self.ueManager = ueManager
         self.nfvVim = nfvVim
         self.sfcSolver = sfcSolver
     
     def ready(self):
+        """
+        Initialize the NFV Orchestrator, mainly ready for SFC solver.
+        """
         self.vnffg_group:list[VnffgManager] = []
         self.sfcSolver.initialize(self.vnfManager)
 
@@ -48,7 +53,7 @@ class NfvOrchestrator:
         # Update network state before solve
         self.substrateTopo = event.substrateTopo
         # Create SFC manager
-        vnffg_manager = VnffgManager(self.sfcSolver,self.nfvVim,self.vnfManager)
+        vnffg_manager = VnffgManager(self.sfcSolver,self.nfvVim,self.vnfManager,self.ueManager)
         # Update network state after solve
         self.substrateTopo, solutions = vnffg_manager.handle_arrive(event)
         
@@ -145,11 +150,12 @@ class NfvOrchestrator:
         
 
 class VnffgManager:
-    def __init__(self, solver:Solver, nfvVim:NfvVim, vnfManager:VnfManager) -> None:
+    def __init__(self, solver:Solver, nfvVim:NfvVim, vnfManager:VnfManager, ueManager:UeManager=None) -> None:
         self.solver = solver
         self.recordSolutions:list[Solution] = []
         self.nfvVim = nfvVim
         self.vnfManager = vnfManager
+        self.ueManager = ueManager
 
     
     def handle_arrive(self, event:Event) -> Tuple[SubstrateTopo,list[Solution]]:
@@ -227,7 +233,7 @@ class VnffgManager:
         req_vnfs:list[VnfEm] = [self.vnfManager.get_vnf_from_pool(vnf_id) for vnf_id in req_vnfs_id_list]
 
         for sfc_node, phy_node in solution.map_node.items():
-            req_vnfs[sfc_node].vnf_name = f"sfc{self.event.serviceTopoId}vnf{sfc_node}"
+            req_vnfs[sfc_node].vnf_name = f"s{self.event.serviceTopoId}v{sfc_node}"
             req_vnfs[sfc_node].vnf_cpu = solution.resource['cpu'][sfc_node]
             req_vnfs[sfc_node].vnf_ram = solution.resource['ram'][sfc_node]
             req_vnfs[sfc_node].vnf_rom = 0 # no rom requirement in this demo
@@ -237,10 +243,18 @@ class VnffgManager:
             for phy_link in phy_links:
                 self.nfvVim.deploy_service(phy_link[0],phy_link[1],solution.resource['band'][i])
 
+        if self.ueManager != None:
+            req_ues_pos:list[int] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId]
+            req_ues:list[Ue] = [self.ueManager.get_ue_from_pool(ue_id) for ue_id in [0,1]]
+            for i,(ue,ue_pos) in enumerate(zip(req_ues,req_ues_pos)):
+                ue.ue_name = f"s{self.event.serviceTopoId}u{i}"
+                self.nfvVim.access_ue_on_NFVI(ue,ue_pos)
+
+
     def __action_release(self, solution:Solution):
     
         for sfc_node, phy_node in solution.map_node.items():
-            self.nfvVim.undeploy_VNF_on_NFVI(f"sfc_{self.event.serviceTopoId}_vnf_{sfc_node}", phy_node)
+            self.nfvVim.undeploy_VNF_on_NFVI(f"s{self.event.serviceTopoId}v{sfc_node}", phy_node)
 
         for i,[sfc_link, phy_links] in enumerate(solution.map_link.items()):
             for phy_link in phy_links:

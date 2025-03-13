@@ -63,7 +63,7 @@ class VnfEm:
         Args:
             
         """
-        self.vnf_name:str = kwargs.get('vnf_name',f'sfc_*_vnf_*')
+        self.vnf_name:str = kwargs.get('vnf_name',f's*f*')
         self.vnf_id:int = kwargs.get('vnf_id',None)
         self.vnf_cpu:float = kwargs.get('vnf_cpu',0)
         self.vnf_ram:float = kwargs.get('vnf_ram',0)
@@ -82,20 +82,6 @@ class VnfEm:
 
 
     def update_vnf_param(self,**kwargs):
-        self.vnf_name = kwargs.get('vnf_name',self.vnf_name)
-        self.vnf_id = kwargs.get('vnf_id',self.vnf_id)
-        self.vnf_cpu = kwargs.get('vnf_cpu',self.vnf_cpu)
-        self.vnf_ram = kwargs.get('vnf_ram',self.vnf_ram)
-        self.vnf_rom = kwargs.get('vnf_rom',self.vnf_rom)
-
-        self.vnf_container_handle:'Docker' = kwargs.get('vnf_container_handle',self.vnf_container_handle)
-        self.vnf_type = kwargs.get('vnf_type',self.vnf_type)
-        self.vnf_img = kwargs.get('vnf_img',self.vnf_img)
-        self.vnf_ip = kwargs.get('vnf_ip',self.vnf_ip)
-        self.vnf_ip_control = kwargs.get('vnf_ip_control',self.vnf_ip_control)
-        self.vnf_port = kwargs.get('vnf_port',self.vnf_port)
-        self.vnf_cmd = kwargs.get('vnf_cmd',self.vnf_cmd)
-
         for key,value in kwargs.items():
             setattr(self,key,value)
 
@@ -136,3 +122,4 @@ class VnfEm:
                 self.vnf_cmd = cmd_template.substitute(**vars(self))
             except KeyError as e:
                 raise ValueError(f'Missing required parameter {e} for VNF {self.vnf_id} command')
+            

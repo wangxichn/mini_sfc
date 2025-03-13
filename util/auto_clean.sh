@@ -24,46 +24,46 @@ rm -rf logsave
 
 echo "清理完成..."
 
-echo "正在检查端口占用情况..."
-# 指定要检查的端口号
-PORT=6653
+# echo "正在检查端口占用情况..."
+# # 指定要检查的端口号
+# PORT=6653
 
-# 使用lsof查找占用指定端口的进程
-PID=$(sudo lsof -t -i :$PORT)
+# # 使用lsof查找占用指定端口的进程
+# PID=$(sudo lsof -t -i :$PORT)
 
-if [ -z "$PID" ]; then
-  echo "没有找到占用端口 $PORT 的进程。"
-else
-  echo "找到占用端口 $PORT 的进程 PID: $PID"
+# if [ -z "$PID" ]; then
+#   echo "没有找到占用端口 $PORT 的进程。"
+# else
+#   echo "找到占用端口 $PORT 的进程 PID: $PID"
   
-  # 尝试正常终止进程
-  if sudo kill -15 $PID; then
-    echo "已发送终止信号给进程 $PID。等待进程正常退出..."
+#   # 尝试正常终止进程
+#   if sudo kill -15 $PID; then
+#     echo "已发送终止信号给进程 $PID。等待进程正常退出..."
     
-    # 等待一段时间确保进程已经退出
-    sleep 2
+#     # 等待一段时间确保进程已经退出
+#     sleep 2
     
-    # 再次检查进程是否还存在
-    if ! ps -p $PID > /dev/null; then
-      echo "进程 $PID 已成功终止。"
-    else
-      echo "进程 $PID 未能正常终止，现在强制终止..."
+#     # 再次检查进程是否还存在
+#     if ! ps -p $PID > /dev/null; then
+#       echo "进程 $PID 已成功终止。"
+#     else
+#       echo "进程 $PID 未能正常终止，现在强制终止..."
       
-      # 强制终止进程
-      if sudo kill -9 $PID; then
-        echo "进程 $PID 已被强制终止。"
-      else
-        echo "无法终止进程 $PID。请手动处理。"
-      fi
-    fi
-  else
-    echo "无法发送终止信号给进程 $PID。尝试强制终止..."
+#       # 强制终止进程
+#       if sudo kill -9 $PID; then
+#         echo "进程 $PID 已被强制终止。"
+#       else
+#         echo "无法终止进程 $PID。请手动处理。"
+#       fi
+#     fi
+#   else
+#     echo "无法发送终止信号给进程 $PID。尝试强制终止..."
     
-    # 如果正常终止失败，则强制终止
-    if sudo kill -9 $PID; then
-      echo "进程 $PID 已被强制终止。"
-    else
-      echo "无法终止进程 $PID。请手动处理。"
-    fi
-  fi
-fi
+#     # 如果正常终止失败，则强制终止
+#     if sudo kill -9 $PID; then
+#       echo "进程 $PID 已被强制终止。"
+#     else
+#       echo "无法终止进程 $PID。请手动处理。"
+#     fi
+#   fi
+# fi

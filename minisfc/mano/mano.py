@@ -16,18 +16,21 @@ from minisfc.mano.vim import NfvVim
 from mininet.net import Containernet
 from minisfc.solver import Solver
 from minisfc.mano.vnfm import VnfManager
+from minisfc.mano.uem import UeManager
 from minisfc.topo import SubstrateTopo
 from minisfc.event import Event
 
 import copy
 
 class NfvMano:
-    def __init__(self,vnfManager:VnfManager,sfcSolver:Solver):
+    def __init__(self,vnfManager:VnfManager,sfcSolver:Solver,ueManager:UeManager=None):
         self.vnfManager = vnfManager
+        self.ueManager = ueManager
         self.nfvVim = NfvVim()
         self.sfcSolver = sfcSolver
 
-        self.nfvOrchestrator = NfvOrchestrator(vnfManager=self.vnfManager,nfvVim=self.nfvVim,sfcSolver=self.sfcSolver)
+        self.nfvOrchestrator = NfvOrchestrator(vnfManager=self.vnfManager,ueManager=self.ueManager,
+                                               nfvVim=self.nfvVim,sfcSolver=self.sfcSolver)
         
     
     def ready(self,substrateTopo:SubstrateTopo,containernet_handle:Containernet):
@@ -36,8 +39,10 @@ class NfvMano:
 
         self.nfvVim.ready(self.substrateTopo,self.containernet_handle)
         self.vnfManager.ready(self.nfvVim)
-        self.nfvOrchestrator.ready()
+        if self.ueManager!= None:
+            self.ueManager.ready(self.nfvVim)
 
+        self.nfvOrchestrator.ready()
 
     def handle(self,event:'Event'):
         # Send the event to MANO for processing, and update the substrate network according to the processing results 

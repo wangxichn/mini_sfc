@@ -37,7 +37,8 @@ setLogLevel('info')
 
 net = Containernet(controller=Controller)
 
-net.addController('c0', controller=RemoteController, ip='127.0.0.1', port=6653)
+net.addController('c0')
+# net.addController('c0', controller=RemoteController, ip='127.0.0.1', port=6653)
 
 info('*** Setup network\n')
 s1 = net.addSwitch('s1')
@@ -48,7 +49,7 @@ s4 = net.addSwitch('s4')
 net.addLink(s1, s2, cls=TCLink, delay='10ms', bw=1)
 net.addLink(s2, s3, cls=TCLink, delay='10ms', bw=1)
 net.addLink(s3, s4, cls=TCLink, delay='10ms', bw=1)
-net.addLink(s3, s4, cls=TCLink, delay='10ms', bw=1)
+# net.addLink(s3, s4, cls=TCLink, delay='10ms', bw=1)
 
 net.start()
 

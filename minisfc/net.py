@@ -24,15 +24,16 @@ from minisfc.solver import Solver
 from minisfc.event import Schedule, Event
 from minisfc.trace import TRACER
 from minisfc.mano.vnfm import VnfManager
+from minisfc.mano.uem import UeManager
 from minisfc.mano.mano import NfvMano
 
 class Minisfc:
     def __init__(self,substrateTopo:SubstrateTopo,serviceTopo:ServiceTopo,
-                 vnfManager:VnfManager,sfcSolver:Solver,use_container: bool = False):
+                 vnfManager:VnfManager,sfcSolver:Solver,ueManager:UeManager=None,use_container:bool = False):
 
         self.schedule = Schedule(substrateTopo,serviceTopo)
-        self.nfvMano = NfvMano(vnfManager,sfcSolver)
-        self.env: simpy.Environment = simpy.RealtimeEnvironment(factor=1) if use_container else simpy.Environment()
+        self.nfvMano = NfvMano(vnfManager,sfcSolver,ueManager)
+        self.env: simpy.Environment = simpy.RealtimeEnvironment(factor=1,strict=False) if use_container else simpy.Environment()
         # ----------------------------------
 
         if use_container:
@@ -66,7 +67,7 @@ class Minisfc:
         def handle_event(env: simpy.Environment, event: Event, pbar: tqdm.tqdm):
 
             event_trigger_time = event.time - env.now
-            yield env.timeout(event_trigger_time)
+            yield env.timeout(event_trigger_time)  
 
             event, _ = self.schedule.step()
             self.nfvMano.handle(copy.deepcopy(event))
@@ -82,7 +83,7 @@ class Minisfc:
         for event in self.schedule.events:
             self.env.process(handle_event(self.env, event, pbar))
 
-        self.env.run(until=self.schedule.events[-1].time+1)
+        self.env.run(until=self.schedule.events[-1].time+5)
 
         pbar.close()
 

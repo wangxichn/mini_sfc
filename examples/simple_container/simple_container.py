@@ -3,16 +3,14 @@ from minisfc.topo import SubstrateTopo,ServiceTopo
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
 from minisfc.mano.vnfm import VnfManager, VnfEm
+from minisfc.mano.uem import UeManager, Ue
 
 from custom.fixedSolver import FixedSolver
 from util import DataAnalysis, RunCommand
 import numpy as np
 import code
 
-runCommand = RunCommand()
-runCommand.clear_container()
 
-code.interact(local=locals())
 
 # region 定义基底网络组 ---------------------------------------------------
 
@@ -39,7 +37,7 @@ substrateTopo = SubstrateTopo(topoTimeList,topoAdjMatDict,topoWeightMatDict,topo
 # region 定义服务功能链组 --------------------------------------------------
 
 sfcIdList = [0]                             # sfc 请求的id
-sfcLifeTimeDict = {0:[2,5]}                 # sfc 生命周期
+sfcLifeTimeDict = {0:[5,15]}                # sfc 生命周期
 endPointDict = {0:[0,3]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
 arriveFunParamDict = {0:[1.0,2.0]}          # sfc 业务参数
 vnfRequstDict = {0:[2,0,2]}                 # sfc 请求的vnf列表
@@ -74,6 +72,19 @@ nfvManager.add_vnf_service_into_pool(2,1,**{"band":0.5})
 
 # endregion
 
+# region 定义SFC的用户业务类型 ---------------------------------------------
+ueManager = UeManager()
+template_str = "python run_command.py --ue_name=$ue_name --ue_type=$ue_type --ue_ip=$ue_ip --ue_port=$ue_port"
+
+ue_template = Ue(**{'ue_id':0,'ue_type':'ue_post','ue_img':'ueserver:latest','ue_cmd':template_str,'ue_port':8000})
+ueManager.add_ue_into_pool(ue_template)
+ue_template = Ue(**{'ue_id':1,'ue_type':'ue_print','ue_img':'ueserver:latest','ue_cmd':template_str,'ue_port':8000})
+ueManager.add_ue_into_pool(ue_template)
+
+ueManager.add_ue_service_into_pool(0,1,**{"req_delay":1}) # set the delay (1s) of the request from ue0 to ue1
+
+# endregion
+
 # region 定义SFC部署解决方案 -----------------------------------------------
 
 sfcSolver = FixedSolver(substrateTopo,serviceTopo)
@@ -89,15 +100,16 @@ TRACER.set(netTraceFile)
 
 # region 将各组件代入仿真引擎 ------------------------------------------------
 
-net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,use_container=True)
+net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,ueManager=ueManager,use_container=True)
 
 try:
     net.start()
-    # net.addCLI()
+    net.addCLI()
     net.stop()
-    DataAnalysis.getResult(netTraceFile)
 except Exception as e:
-    runCommand.clear_container()
+    net.stop()
+    # runCommand = RunCommand()
+    # runCommand.clear_container()
     TRACER.delete()
     raise e
     

@@ -15,6 +15,7 @@ from mininet.node import Switch
 from mininet.link import TCLink
 from minisfc.topo import SubstrateTopo
 from minisfc.mano.vnfm import VnfEm
+from minisfc.mano.uem import Ue
 
 import copy
     
@@ -125,11 +126,34 @@ class NfvVim:
                 return True
         return False
     
-    def deploy_service(self,NFVI_node_id_1,NFVI_node_id_2,service_bw):
+
+    def access_ue_on_NFVI(self,ue:Ue,NFVI_node_id:int):
+        nfv_instance: NfvInstance = self.nfv_instance_group.get(NFVI_node_id, None)
+        if nfv_instance != None:
+            nfv_instance.access_ue(ue,containernet_handle=self.containernet_handle)
+
+            return True
+        return False
+    
+
+    def unaccess_ue_on_NFVI(self,ue_name:Ue,NFVI_node_id:int):
+        nfv_instance: NfvInstance = self.nfv_instance_group.get(NFVI_node_id, None)
+        if nfv_instance != None:
+            if ue_name in nfv_instance.get_accessed_ues():
+                ue = [ue for ue in nfv_instance.accessed_ue if ue.ue_name == ue_name]
+                nfv_instance.unaccess_ue(ue[0],containernet_handle=self.containernet_handle)
+
+                return True
+        return False
+    
+
+    def deploy_service(self,NFVI_node_id_1:int,NFVI_node_id_2:int,service_bw:float):
         self.substrateTopo.opt_link_attrs_value((NFVI_node_id_1,NFVI_node_id_2),'remain_band','decrease',service_bw)
     
-    def undeploy_service(self,NFVI_node_id_1,NFVI_node_id_2,service_bw):
+
+    def undeploy_service(self,NFVI_node_id_1:int,NFVI_node_id_2:int,service_bw:float):
         self.substrateTopo.opt_link_attrs_value((NFVI_node_id_1,NFVI_node_id_2),'remain_band','increase',service_bw)
+
 
     def update_substrate_topo(self,substrateTopo:SubstrateTopo):
         self.last_substrate_topo = self.substrateTopo
@@ -160,10 +184,11 @@ class NfvInstance:
         self.port = port
 
         self.deployed_vnf: list[VnfEm] = []
+        self.accessed_ue: list[Ue] = []
     
     def deploy_VNF(self,vnf_em:VnfEm,containernet_handle:Containernet=None):
         if containernet_handle != None:
-            vnf_em.vnf_ip,vnf_em.vnf_ip_control = self.get_vailable_vnf_ip()
+            vnf_em.vnf_ip,vnf_em.vnf_ip_control = self.get_vailable_ip()
             print(f"Deploy {vnf_em.vnf_name} on {self.name} with IP {vnf_em.vnf_ip} and control IP {vnf_em.vnf_ip_control}")
             vnf_em.ready()
             vnf_em.vnf_container_handle = containernet_handle.addDocker(vnf_em.vnf_name, ip=vnf_em.vnf_ip, 
@@ -181,11 +206,29 @@ class NfvInstance:
         self.cpu_remain += vnf_em.vnf_cpu
         self.ram_remain += vnf_em.vnf_ram
         self.rom_remain += vnf_em.vnf_rom
-        
+
     def get_deployed_vnfs(self):
         return [vnf_em.vnf_name for vnf_em in self.deployed_vnf]
+
+    def access_ue(self,ue:Ue,containernet_handle:Containernet=None):
+        if containernet_handle != None:
+            ue.ue_ip,ue.ue_ip_control = self.get_vailable_ip()
+            print(f"Access {ue.ue_name} on {self.name} with IP {ue.ue_ip} and control IP {ue.ue_ip_control}")
+            ue.ready()
+            ue.ue_container_handle = containernet_handle.addDocker(ue.ue_name, ip=ue.ue_ip, 
+                                                                   dcmd=ue.ue_cmd, dimage=ue.ue_img)
+            containernet_handle.addLink(ue.ue_container_handle, self.switch_container_handle)
+            ue.config_network()
+
+        self.accessed_ue.append(ue)
+
+    def unaccess_ue(self,ue:Ue,containernet_handle:Containernet=None):
+        self.accessed_ue.remove(ue)
+
+    def get_accessed_ues(self):
+        return [ue.ue_name for ue in self.accessed_ue]
         
-    def get_vailable_vnf_ip(self):
+    def get_vailable_ip(self):
         if self.switch_container_handle != None:
             ip_prefix = self.ip[0:-1]
             index = 1
