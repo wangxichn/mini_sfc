@@ -1,6 +1,6 @@
 
 from minisfc.topo import SubstrateTopo,ServiceTopo
-from minisfc.mano import NfvManager
+from minisfc.mano.vnfm import VnfManager,VnfEm
 from minisfc.solver import RadomSolver
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
@@ -64,17 +64,21 @@ qosRequesDict = {1:[100],
 
 serviceTopo = ServiceTopo(sfcIdList,sfcLifeTimeDict,endPointDict,arriveFunParamDict,vnfRequstDict,qosRequesDict)
 
-vnfParamDict = {0:{'unit':3,'factor':0.9,'cpu':0,'ram':0},
-                1:{'unit':2,'factor':1.1,'cpu':0,'ram':0},
-                2:{'unit':1,'factor':1.2,'cpu':0,'ram':0},
-                (0,1):{'band':1},
-                (1,0):{'band':1},
-                (0,2):{'band':1},
-                (2,0):{'band':1},
-                (1,2):{'band':1},
-                (2,1):{'band':1}}
 
-nfvManager = NfvManager(vnfParamDict)
+nfvManager = VnfManager()
+vnfEm_template = VnfEm(**{'vnf_id':0,'vnf_factor':0.9,'vnf_cpu':1,'vnf_ram':1})
+nfvManager.add_vnf_into_pool(vnfEm_template)
+vnfEm_template = VnfEm(**{'vnf_id':1,'vnf_factor':1.1,'vnf_cpu':1,'vnf_ram':1})
+nfvManager.add_vnf_into_pool(vnfEm_template)
+vnfEm_template = VnfEm(**{'vnf_id':2,'vnf_factor':1.2,'vnf_cpu':1,'vnf_ram':1})
+nfvManager.add_vnf_into_pool(vnfEm_template)
+
+nfvManager.add_vnf_service_into_pool(0,1,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(1,0,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(0,2,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(2,0,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(1,2,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(2,1,**{"band":0.5})
 
 sfcSolver = RadomSolver(substrateTopo,serviceTopo)
 

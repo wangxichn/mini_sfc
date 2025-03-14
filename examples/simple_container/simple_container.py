@@ -6,11 +6,10 @@ from minisfc.mano.vnfm import VnfManager, VnfEm
 from minisfc.mano.uem import UeManager, Ue
 
 from custom.fixedSolver import FixedSolver
+
 from util import DataAnalysis, RunCommand
 import numpy as np
 import code
-
-
 
 # region 定义基底网络组 ---------------------------------------------------
 
@@ -38,7 +37,7 @@ substrateTopo = SubstrateTopo(topoTimeList,topoAdjMatDict,topoWeightMatDict,topo
 
 sfcIdList = [0]                             # sfc 请求的id
 sfcLifeTimeDict = {0:[5,15]}                # sfc 生命周期
-endPointDict = {0:[0,3]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
+endPointDict = {0:[2,3]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
 arriveFunParamDict = {0:[1.0,2.0]}          # sfc 业务参数
 vnfRequstDict = {0:[2,0,2]}                 # sfc 请求的vnf列表
 qosRequesDict = {0:[100]}                   # sfc 请求的qos列表（目前只有时延）
@@ -100,7 +99,7 @@ TRACER.set(netTraceFile)
 
 # region 将各组件代入仿真引擎 ------------------------------------------------
 
-net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,ueManager=ueManager,use_container=True)
+net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,ueManager=ueManager,use_container=False)
 
 try:
     net.start()

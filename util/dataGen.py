@@ -1,6 +1,7 @@
 
 import numpy as np
 import networkx as nx
+import random
 import code
 
 class NumberGen:
@@ -97,6 +98,15 @@ class TopoGen:
             while not_connected:
                 G = nx.waxman_graph(size, wm_alpha, wm_beta)
                 not_connected = not nx.is_connected(G)
+        elif type == 'tree':
+            G = nx.Graph()
+            G.add_node(1)
+            current_node = 1
+            for new_node in range(2, size + 1):
+                father_node = random.randint(1, current_node)
+                G.add_node(new_node)
+                G.add_edge(new_node, father_node)
+                current_node = new_node
         else:
             raise NotImplementedError
         
@@ -104,5 +114,15 @@ class TopoGen:
             G.add_edge(i,i)
         
         return np.array(nx.adjacency_matrix(G,weight=None).todense())
-
     
+    @staticmethod
+    def cut_to_stp(adj_matrix: np.ndarray, source_node: int = 1):
+        G = nx.from_numpy_array(adj_matrix)
+        spanning_tree = nx.dfs_tree(G, source_node)
+        st_adj_matrix = np.array(nx.adjacency_matrix(spanning_tree, weight=None).todense())
+        
+        for i in range(st_adj_matrix.shape[0]):
+            st_adj_matrix[i, i] = 1  
+        
+        return st_adj_matrix
+        

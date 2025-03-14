@@ -31,13 +31,15 @@ from torch.distributions import Categorical
 import networkx as nx
 
 class DrlSfcpSolver(RadomSolver):
-    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
+    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
         super().__init__(substrateTopo, serviceTopo)
 
-        self.use_cuda = False
+        self.use_cuda = kwargs.get('use_cuda', True)
         if self.use_cuda and torch.cuda.is_available():
+            print(f'INFO: {self.__class__.__name__} is using CUDA GPU')
             self.device = torch.device('cuda:0')
         else:
+            print(f'INFO: {self.__class__.__name__} is using CPU')
             self.device = torch.device('cpu')
 
         self.buffer = RolloutBuffer()
@@ -225,8 +227,8 @@ class DrlSfcpSolver(RadomSolver):
 
         # algorithm begin ---------------------------------------------
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId].vnf_cpu for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId].vnf_ram for vnfId in vnfRequstList]
         self.solution.resource['band'] = [self.vnfManager.vnfServicePoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 
@@ -273,8 +275,8 @@ class DrlSfcpSolver(RadomSolver):
 
         # algorithm begin ---------------------------------------------
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId]['cpu'] for vnfId in vnfRequstList]
-        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId]['ram'] for vnfId in vnfRequstList]
+        self.solution.resource['cpu'] = [self.vnfManager.vnfPoolDict[vnfId].vnf_cpu for vnfId in vnfRequstList]
+        self.solution.resource['ram'] = [self.vnfManager.vnfPoolDict[vnfId].vnf_ram for vnfId in vnfRequstList]
         self.solution.resource['band'] = [self.vnfManager.vnfServicePoolDict[vnfRequstList[i],vnfRequstList[i+1]]['band'] 
                                           for i in range(len(vnfRequstList)-1)]
 

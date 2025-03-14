@@ -30,6 +30,8 @@ import copy
 import docker
 import numpy as np
 import requests
+import threading
+import time
 from datetime import datetime
 
 from typing import TYPE_CHECKING
@@ -78,7 +80,7 @@ class Ue:
         self.ue_ip_control = kwargs.get('ue_ip_control', None)
         self.ue_port = kwargs.get('ue_port', None)
         self.ue_img = kwargs.get('ue_img', None)
-        self.ue_aim: Ue = kwargs.get('ue_aim', None)
+        self.ue_aim: VnfEm = kwargs.get('ue_aim', None)
         self.ue_container_handle: Docker = kwargs.get('ue_container_handle', None)
 
         for key,value in kwargs.items():
@@ -139,15 +141,29 @@ class Ue:
         return self.control_url
 
 
-    def start_trasport(self, next_vnf_em: 'VnfEm'):
+    def start_trasport(self):
         if self.ue_type == 'ue_post':
+            if self.ue_aim == None:
+                raise ValueError(f'UE {self.ue_name} has no aim VNF')
+            self.trasport_stop_event = threading.Event()
+            transport_thread = threading.Thread(target=self.__continuous_post, args=(self.ue_aim,))
+            transport_thread.start()
+
+
+    def stop_trasport(self):
+        if self.ue_type == 'ue_post':
+            try:
+                self.trasport_stop_event.set()
+            except AttributeError:
+                raise ValueError(f'UE {self.ue_name} has not started transport')
+        
+
+    def __continuous_post(self, next_vnf_em: 'VnfEm'):
+        while not self.trasport_stop_event.is_set():
             def generate_invertible_matrix(size=10):
                 while True:
-                    # 生成一个随机矩阵
                     matrix = np.random.rand(size, size)
-                    # 计算行列式
                     det = np.linalg.det(matrix)
-                    # 如果行列式不接近于零，则矩阵是可逆的
                     if abs(det) > 1e-10:
                         return matrix
             matrix_data = generate_invertible_matrix(50)
@@ -156,12 +172,17 @@ class Ue:
                     'ue_post_data': matrix_data.tolist(),
                     'request_id': int(timestamp)}
             
-            response = requests.post(self.get_self_control_url(), json=data)
+            try:
+                response = requests.post(self.get_self_control_url(), json=data, timeout=5)
+                
+                if response.status_code == 200:
+                    print(f'INFO: UE {self.ue_name} post request matrix inv successfully')
+                else:
+                    error_message = response.json().get('message', 'Unknown error')
+                    print(f'WARNING: UE {self.ue_name} failed matrix inv: {response.status_code} | {error_message}')
+            except Exception as e:
+                print(f'ERROR: Request failed with exception {e}')
 
-            if response.status_code == 200:
-                print(f'INFO: UE {self.ue_name} post request matrix inv successfully')
-            else:
-                error_message = response.json().get('message', 'Unknown error')
-                print(f'WARNING: UE {self.ue_name} failed matrix inv: {response.status_code} | {error_message}')
-
-
+            time_interval = 1
+            if self.trasport_stop_event.wait(time_interval):
+                break

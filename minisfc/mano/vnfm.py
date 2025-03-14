@@ -26,10 +26,8 @@ if TYPE_CHECKING:
 
 class VnfManager:
     def __init__(self):
-        """_summary_
-
-        Args:
-            vnfParamDict (dict[int:dict[str]]): {id:{paramtype:value}}
+        """
+        VNF Manager
         """
         self.vnfPoolDict:dict[int:VnfEm] = {}
         self.vnfServicePoolDict:dict[tuple:dict[str:float]] = {}

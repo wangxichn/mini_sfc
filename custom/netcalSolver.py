@@ -14,8 +14,8 @@ import copy
 import code
 
 class netcalPsoSolver(RadomSolver):
-    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
-        super().__init__(substrateTopo, serviceTopo)
+    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
+        super().__init__(substrateTopo, serviceTopo, **kwargs)
 
     def solve_embedding(self, event: Event) -> Solution:
         self.event = event
@@ -27,7 +27,7 @@ class netcalPsoSolver(RadomSolver):
         # algorithm begin ---------------------------------------------
         vnfNodeNum = len(self.sfcGraph.nodes)
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId].vnf_factor for vnfId in vnfRequstList])
         vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
         vnfFactorProd = np.cumprod(vnfFactorList_ex)
         vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]
@@ -101,7 +101,7 @@ class netcalPsoSolver(RadomSolver):
         # algorithm begin ---------------------------------------------
         vnfNodeNum = len(self.sfcGraph.nodes)
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId].vnf_factor for vnfId in vnfRequstList])
         vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
         vnfFactorProd = np.cumprod(vnfFactorList_ex)
         vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]
@@ -200,8 +200,8 @@ class netcalPsoSolver(RadomSolver):
 
 
 class netcalOptSolver(RadomSolver):
-    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
-        super().__init__(substrateTopo, serviceTopo)
+    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
+        super().__init__(substrateTopo, serviceTopo, **kwargs)
     
     def solve_embedding(self, event: Event) -> Solution:
         self.event = event
@@ -213,7 +213,7 @@ class netcalOptSolver(RadomSolver):
         # algorithm begin ---------------------------------------------
         vnfNodeNum = len(self.sfcGraph.nodes)
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId].vnf_factor for vnfId in vnfRequstList])
         vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
         vnfFactorProd = np.cumprod(vnfFactorList_ex)
         vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]
@@ -337,7 +337,7 @@ class netcalOptSolver(RadomSolver):
         # algorithm begin ---------------------------------------------
         vnfNodeNum = len(self.sfcGraph.nodes)
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId].vnf_factor for vnfId in vnfRequstList])
         vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
         vnfFactorProd = np.cumprod(vnfFactorList_ex)
         vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]
@@ -458,8 +458,8 @@ class netcalOptSolver(RadomSolver):
 
 
 class netcalSfcpSolver(DrlSfcpSolver):
-    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
-        super().__init__(substrateTopo, serviceTopo)
+    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
+        super().__init__(substrateTopo, serviceTopo, **kwargs)
 
     def solve_embedding(self, event: Event) -> Solution:
         self.event = event
@@ -471,7 +471,7 @@ class netcalSfcpSolver(DrlSfcpSolver):
         # algorithm begin ---------------------------------------------
         vnfNodeNum = len(self.sfcGraph.nodes)
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId].vnf_factor for vnfId in vnfRequstList])
         vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
         vnfFactorProd = np.cumprod(vnfFactorList_ex)
         vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]
@@ -526,8 +526,8 @@ class netcalSfcpSolver(DrlSfcpSolver):
 
 
 class netcalRandomSolver(RadomSolver):
-    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
-        super().__init__(substrateTopo, serviceTopo)
+    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
+        super().__init__(substrateTopo, serviceTopo, **kwargs)
 
     def solve_embedding(self, event: Event) -> Solution:
         self.event = event
@@ -539,7 +539,7 @@ class netcalRandomSolver(RadomSolver):
         # algorithm begin ---------------------------------------------
         vnfNodeNum = len(self.sfcGraph.nodes)
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId].vnf_factor for vnfId in vnfRequstList])
         vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
         vnfFactorProd = np.cumprod(vnfFactorList_ex)
         vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]
@@ -601,7 +601,7 @@ class netcalRandomSolver(RadomSolver):
         # algorithm begin ---------------------------------------------
         vnfNodeNum = len(self.sfcGraph.nodes)
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId].vnf_factor for vnfId in vnfRequstList])
         vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
         vnfFactorProd = np.cumprod(vnfFactorList_ex)
         vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]
@@ -659,8 +659,8 @@ class netcalRandomSolver(RadomSolver):
 
 
 class netcalGreedySolver(GreedySolver):
-    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
-        super().__init__(substrateTopo, serviceTopo)
+    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
+        super().__init__(substrateTopo, serviceTopo, **kwargs)
     
     def solve_embedding(self, event: Event) -> Solution:
         self.event = event
@@ -672,7 +672,7 @@ class netcalGreedySolver(GreedySolver):
         # algorithm begin ---------------------------------------------
         vnfNodeNum = len(self.sfcGraph.nodes)
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId].vnf_factor for vnfId in vnfRequstList])
         vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
         vnfFactorProd = np.cumprod(vnfFactorList_ex)
         vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]
@@ -741,7 +741,7 @@ class netcalGreedySolver(GreedySolver):
         # algorithm begin ---------------------------------------------
         vnfNodeNum = len(self.sfcGraph.nodes)
         vnfRequstList = event.serviceTopo.plan_vnfRequstDict[event.serviceTopoId]
-        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId]['factor'] for vnfId in vnfRequstList])
+        vnfFactorList = np.array([self.vnfManager.vnfPoolDict[vnfId].vnf_factor for vnfId in vnfRequstList])
         vnfFactorList_ex = np.insert(vnfFactorList, 0, 1.0)
         vnfFactorProd = np.cumprod(vnfFactorList_ex)
         vnfFactorStar = np.cumprod(vnfFactorList[::-1])[::-1]

@@ -243,20 +243,27 @@ class VnffgManager:
             for phy_link in phy_links:
                 self.nfvVim.deploy_service(phy_link[0],phy_link[1],solution.resource['band'][i])
 
-        if self.ueManager != None:
+        if self.nfvVim.containernet_handle != None and self.ueManager != None:
             req_ues_pos:list[int] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId]
             req_ues:list[Ue] = [self.ueManager.get_ue_from_pool(ue_id) for ue_id in [0,1]]
             for i,(ue,ue_pos) in enumerate(zip(req_ues,req_ues_pos)):
                 ue.ue_name = f"f{self.event.serviceTopoId}u{i}"
+                if i == 0: ue.ue_aim = req_vnfs[0]
                 self.nfvVim.access_ue_on_NFVI(ue,ue_pos)
 
             self.vnfManager.set_vnfs_forward_route(req_vnfs,req_ues)
-            req_ues[0].start_trasport(req_vnfs[0])
+            req_ues[0].start_trasport()
+            
 
     def __action_release(self, solution:Solution):
+        if self.nfvVim.containernet_handle != None and self.ueManager != None:
+            req_ues_pos:list[int] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId]
+            for i,ue_pos in enumerate(req_ues_pos):
+                ue_name = f"f{self.event.serviceTopoId}u{i}"
+                self.nfvVim.unaccess_ue_on_NFVI(ue_name,ue_pos)
     
         for sfc_node, phy_node in solution.map_node.items():
-            self.nfvVim.undeploy_VNF_on_NFVI(f"s{self.event.serviceTopoId}v{sfc_node}", phy_node)
+            self.nfvVim.undeploy_VNF_on_NFVI(f"f{self.event.serviceTopoId}v{sfc_node}", phy_node)
 
         for i,[sfc_link, phy_links] in enumerate(solution.map_link.items()):
             for phy_link in phy_links:

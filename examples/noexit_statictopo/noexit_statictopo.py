@@ -1,6 +1,6 @@
 
 from minisfc.topo import SubstrateTopo,ServiceTopo
-from minisfc.mano.vnfm import VnfManager 
+from minisfc.mano.vnfm import VnfManager, VnfEm
 from minisfc.solver import RadomSolver, GreedySolver
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
@@ -48,15 +48,17 @@ vnfDataFactor = NumberGen.getVector(sfcVnfTypeNum,**{'distribution':'uniform','d
 vnfRequstCPU = NumberGen.getVector(sfcVnfTypeNum,**{'distribution':'uniform','dtype':'int','low':1,'high':5})
 vnfRequstRAM = NumberGen.getVector(sfcVnfTypeNum,**{'distribution':'uniform','dtype':'int','low':1,'high':5})
 vnfRequstBAND = NumberGen.getMatrix(sfcVnfTypeNum,**{'type':'symmetric','dtype':'int','low':10,'high':100})
-vnfParamDict_node = {sfcVnfIdList[i]:{'factor':vnfDataFactor[i],'cpu':vnfRequstCPU[i],'ram':vnfRequstRAM[i]} 
-                     for i in range(sfcVnfTypeNum)}
-vnfParamDict_link = {(sfcVnfIdList[i],sfcVnfIdList[j]):{'band':vnfRequstBAND[i,j]} 
-                     for i in range(sfcVnfTypeNum) for j in range(sfcVnfTypeNum)}
-vnfParamDict = {**vnfParamDict_node,**vnfParamDict_link}
 
-nfvManager = VnfManager(vnfParamDict)
+nfvManager = VnfManager()
+for i in range(sfcVnfTypeNum):
+    vnfEm_template = VnfEm(**{'vnf_id':i,'vnf_factor':vnfDataFactor[i],'vnf_cpu':vnfRequstCPU[i],'vnf_ram':vnfRequstRAM[i]})
+    nfvManager.add_vnf_into_pool(vnfEm_template)
 
-sfcSolver = GreedySolver(substrateTopo,serviceTopo)
+for i in range(sfcVnfTypeNum):
+    for j in range(sfcVnfTypeNum):
+        nfvManager.add_vnf_service_into_pool(i,j,**{"band":vnfRequstBAND[i][j]})
+
+sfcSolver = DrlSfcpSolver(substrateTopo,serviceTopo,use_cuda=True)
 sfcSolver.loadParam()
 
 netTraceFile = f'multisfc_staticopo_{sfcSolver.__class__.__name__}_{TRACER.get_time_stamp()}.csv'

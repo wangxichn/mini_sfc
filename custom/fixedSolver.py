@@ -6,8 +6,8 @@ import networkx as nx
 import random
 
 class FixedSolver(RadomSolver):
-    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo) -> None:
-        super().__init__(substrateTopo, serviceTopo)
+    def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
+        super().__init__(substrateTopo, serviceTopo, **kwargs)
 
     def solve_embedding(self, event: Event) -> Solution:
         self.event = event
@@ -23,7 +23,7 @@ class FixedSolver(RadomSolver):
             elif v_node == (len(self.sfcGraph.nodes)-1):
                 self.solution.map_node[v_node] = event.serviceTopo.plan_endPointDict[event.serviceTopoId][1]
             else:
-                self.solution.map_node[v_node] = random.sample(range(len(self.substrateTopo.nodes)),1)[0]
+                self.solution.map_node[v_node] = 0 # random.sample(range(len(self.substrateTopo.nodes)),1)[0]
 
         for v_link in self.sfcGraph.edges():
             map_path = nx.dijkstra_path(self.substrateTopo,

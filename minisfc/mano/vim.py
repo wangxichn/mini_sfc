@@ -136,7 +136,7 @@ class NfvVim:
         return False
     
 
-    def unaccess_ue_on_NFVI(self,ue_name:Ue,NFVI_node_id:int):
+    def unaccess_ue_on_NFVI(self,ue_name:str,NFVI_node_id:int):
         nfv_instance: NfvInstance = self.nfv_instance_group.get(NFVI_node_id, None)
         if nfv_instance != None:
             if ue_name in nfv_instance.get_accessed_ues():
@@ -202,6 +202,9 @@ class NfvInstance:
         self.rom_remain -= vnf_em.vnf_rom
     
     def undeploy_VNF(self,vnf_em:VnfEm,containernet_handle:Containernet=None):
+        if containernet_handle != None:
+            vnf_em.vnf_container_handle.stop()
+
         self.deployed_vnf.remove(vnf_em)
         self.cpu_remain += vnf_em.vnf_cpu
         self.ram_remain += vnf_em.vnf_ram
@@ -223,9 +226,13 @@ class NfvInstance:
         self.accessed_ue.append(ue)
 
     def unaccess_ue(self,ue:Ue,containernet_handle:Containernet=None):
+        if containernet_handle != None:
+            ue.stop_trasport()
+            ue.ue_container_handle.stop()
+
         self.accessed_ue.remove(ue)
 
-    def get_accessed_ues(self):
+    def get_accessed_ues(self) -> list[str]:
         return [ue.ue_name for ue in self.accessed_ue]
         
     def get_vailable_ip(self):

@@ -1,13 +1,8 @@
 
 from minisfc.topo import SubstrateTopo,ServiceTopo
-from minisfc.mano.vnfm import VnfManager
-from minisfc.solver import RadomSolver, GreedySolver
-from minisfc.net import Minisfc
+from minisfc.mano.vnfm import VnfManager, VnfEm
 from minisfc.trace import TRACER
-from util import NumberGen, TopoGen, DataAnalysis, JsonReader
-from custom.psoSolver import PsoSolver
-from custom.drlSfcpSolver.drlSfcpSolver import DrlSfcpSolver
-from custom.netcalSolver import netcalPsoSolver
+from util import NumberGen, JsonReader
 import numpy as np
 np.seterr(over='warn')
 import pickle
@@ -101,11 +96,13 @@ for sfcNum in range(300,900,100):
 
 # In net calculus only param factors are used
 vnfDataFactor = NumberGen.getVector(sfcVnfTypeNum,**{'distribution':'uniform','dtype':'float','low':0.8,'high':1.2})
-vnfParamDict_node = {sfcVnfIdList[i]:{'factor':vnfDataFactor[i],'cpu':None,'ram':None} for i in range(sfcVnfTypeNum)}
-vnfParamDict_link = {(sfcVnfIdList[i],sfcVnfIdList[j]):{'band':None} for i in range(sfcVnfTypeNum) for j in range(sfcVnfTypeNum)}
-vnfParamDict = {**vnfParamDict_node,**vnfParamDict_link}
-
-nfvManager = VnfManager(vnfParamDict)
+nfvManager = VnfManager()
+for i in range(sfcVnfTypeNum):
+    vnfEm_template = VnfEm(**{'vnf_id':i,'vnf_factor':vnfDataFactor[i]})
+    nfvManager.add_vnf_into_pool(vnfEm_template)
+for i in range(sfcVnfTypeNum):
+    for j in range(sfcVnfTypeNum):
+        nfvManager.add_vnf_service_into_pool(i,j,**{"band":None})
 
 with open(f"{nfvManager.__class__.__name__}_{TRACER.get_time_stamp()}.pkl", "wb") as file:
     pickle.dump(nfvManager, file)

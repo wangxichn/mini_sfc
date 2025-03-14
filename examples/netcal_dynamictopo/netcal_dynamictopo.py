@@ -1,12 +1,9 @@
 
 from minisfc.topo import SubstrateTopo,ServiceTopo
-from minisfc.mano.vnfm import VnfManager
-from minisfc.solver import RadomSolver, GreedySolver
+from minisfc.mano.vnfm import VnfManager, VnfEm
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
-from util import NumberGen, TopoGen, DataAnalysis, JsonReader
-from custom.psoSolver import PsoSolver
-from custom.drlSfcpSolver.drlSfcpSolver import DrlSfcpSolver
+from util import NumberGen, DataAnalysis, JsonReader
 from custom.netcalSolver import netcalPsoSolver, netcalRandomSolver
 import numpy as np
 np.seterr(over='warn')
@@ -92,13 +89,16 @@ sfcQosRequestDict = {sfcIdList[i]:[sfcLatencyRequest[i]] for i in range(sfcNum)}
 
 serviceTopo = ServiceTopo(sfcIdList,sfcLifeTimeDict,sfcEndPointDict,sfcArriveFunParamDict,sfcVnfRequstDict,sfcQosRequestDict)
 
-# In net calculus only param factors are used
+# In net calculus only param factor is used
 vnfDataFactor = NumberGen.getVector(sfcVnfTypeNum,**{'distribution':'uniform','dtype':'float','low':0.8,'high':1.2})
-vnfParamDict_node = {sfcVnfIdList[i]:{'factor':vnfDataFactor[i],'cpu':None,'ram':None} for i in range(sfcVnfTypeNum)}
-vnfParamDict_link = {(sfcVnfIdList[i],sfcVnfIdList[j]):{'band':None} for i in range(sfcVnfTypeNum) for j in range(sfcVnfTypeNum)}
-vnfParamDict = {**vnfParamDict_node,**vnfParamDict_link}
+nfvManager = VnfManager()
+for i in range(sfcVnfTypeNum):
+    vnfEm_template = VnfEm(**{'vnf_id':i,'vnf_factor':vnfDataFactor[i]})
+    nfvManager.add_vnf_into_pool(vnfEm_template)
+for i in range(sfcVnfTypeNum):
+    for j in range(sfcVnfTypeNum):
+        nfvManager.add_vnf_service_into_pool(i,j,**{"band":None})
 
-nfvManager = VnfManager(vnfParamDict)
 
 with open(f"{substrateTopo.__class__.__name__}_{TRACER.get_time_stamp()}.pkl", "wb") as file:
     pickle.dump(substrateTopo, file)
@@ -107,7 +107,7 @@ with open(f"{serviceTopo.__class__.__name__}_{TRACER.get_time_stamp()}.pkl", "wb
 with open(f"{nfvManager.__class__.__name__}_{TRACER.get_time_stamp()}.pkl", "wb") as file:
     pickle.dump(nfvManager, file)
 
-sfcSolver = netcalRandomSolver(substrateTopo,serviceTopo)
+sfcSolver = netcalPsoSolver(substrateTopo,serviceTopo)
 sfcSolver.loadParam()
 
 netTraceFile = f'netcal_statictopo_{sfcSolver.__class__.__name__}_{TRACER.get_time_stamp()}.csv'
