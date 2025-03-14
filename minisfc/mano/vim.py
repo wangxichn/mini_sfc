@@ -192,6 +192,8 @@ class NfvInstance:
             print(f"Deploy {vnf_em.vnf_name} on {self.name} with IP {vnf_em.vnf_ip} and control IP {vnf_em.vnf_ip_control}")
             vnf_em.ready()
             vnf_em.vnf_container_handle = containernet_handle.addDocker(vnf_em.vnf_name, ip=vnf_em.vnf_ip, 
+                                                                        cpu_period=100000,cpu_quota=int(vnf_em.vnf_cpu*100000),
+                                                                        mem_limit=f"{vnf_em.vnf_ram}m", 
                                                                         dcmd=vnf_em.vnf_cmd, dimage=vnf_em.vnf_img)
             containernet_handle.addLink(vnf_em.vnf_container_handle, self.switch_container_handle)
             vnf_em.config_network()

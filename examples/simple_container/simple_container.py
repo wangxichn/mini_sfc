@@ -1,3 +1,35 @@
+#Anaconda/envs/minisfc python3.10
+# -*- coding: utf-8 -*-
+'''
+simple_container.py
+=====================
+
+.. module:: simple_container
+  :platform: Windows, Linux
+  :synopsis: Module for Service Function Chain (SFC) deployment and simulation.
+
+.. moduleauthor:: CRC1109-WangXi
+
+Introduction
+-----------
+
+This module implements Service Function Chain (SFC) deployment functionality, primarily 
+used in network function virtualization (NFV) applications. It provides the following features:
+
+- Defines substrate and service topologies for SFC deployment.
+- Manages a virtual network function (VNF) pool using a Virtual Network Function Manager (VNFM).
+- Manages user equipment (UE) types and services using a User Equipment Manager (UEM).
+- Implements a fixed solver for SFC deployment.
+- Tracks and logs deployment results using a tracer.
+
+Version
+-------
+
+- Version 1.0 (2025/03/14): Initial version
+
+'''
+
+
 
 from minisfc.topo import SubstrateTopo,ServiceTopo
 from minisfc.net import Minisfc
@@ -15,19 +47,19 @@ import code
 
 topoTimeList = [0.0]
 topoAdjMatDict = {0.0:np.array([[1,1,0,0],
-                                  [1,1,1,0],
-                                  [0,1,1,1],
-                                  [0,0,1,1]])}
-topoWeightMatDict = {0.0:np.array([[0,  10, 0,  0],
-                               [10, 0,  10, 0],
-                               [0,  10, 0,  10],
-                               [0,  0,  10, 0]])}
-topoNodeResourceDict = {(0.0,'cpu'):[2,3,4,5],
-                    (0.0,'ram'):[3,4,5,6]}
-topoLinkResourceDict = {(0.0,'band'):np.array([[1,1,0,0],
-                                           [1,1,1,0],
-                                           [0,1,1,1],
-                                           [0,0,1,1]])}
+                                [1,1,1,0],
+                                [0,1,1,1],
+                                [0,0,1,1]])}
+topoWeightMatDict = {0.0:np.array([ [0,  10, 0,  0],
+                                    [10, 0,  10, 0],
+                                    [0,  10, 0,  10],
+                                    [0,  0,  10, 0]])}
+topoNodeResourceDict = {(0.0,'cpu'):[2,2,2,2],
+                        (0.0,'ram'):[500,500,500,500]}
+topoLinkResourceDict = {(0.0,'band'):np.array([ [10,10,0,0],
+                                                [10,10,10,0],
+                                                [0,10,10,10],
+                                                [0,0,10,10]])}
 
 substrateTopo = SubstrateTopo(topoTimeList,topoAdjMatDict,topoWeightMatDict,topoNodeResourceDict,topoLinkResourceDict)
 
@@ -36,7 +68,7 @@ substrateTopo = SubstrateTopo(topoTimeList,topoAdjMatDict,topoWeightMatDict,topo
 # region 定义服务功能链组 --------------------------------------------------
 
 sfcIdList = [0]                             # sfc 请求的id
-sfcLifeTimeDict = {0:[5,15]}                # sfc 生命周期
+sfcLifeTimeDict = {0:[5,25]}                # sfc 生命周期
 endPointDict = {0:[2,3]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
 arriveFunParamDict = {0:[1.0,2.0]}          # sfc 业务参数
 vnfRequstDict = {0:[2,0,2]}                 # sfc 请求的vnf列表
@@ -52,13 +84,13 @@ serviceTopo = ServiceTopo(sfcIdList,sfcLifeTimeDict,endPointDict,arriveFunParamD
 nfvManager = VnfManager()
 template_str = "python run_command.py --vnf_name=$vnf_name --vnf_type=$vnf_type --vnf_ip=$vnf_ip --vnf_port=$vnf_port --vnf_cpu=$vnf_cpu --vnf_ram=$vnf_ram --vnf_rom=$vnf_rom"
 
-vnfEm_template = VnfEm(**{'vnf_id':0,'vnf_unit':3,'vnf_factor':0.9,'vnf_cpu':1,'vnf_ram':1,
+vnfEm_template = VnfEm(**{'vnf_id':0,'vnf_unit':3,'vnf_factor':1.0,'vnf_cpu':0.15,'vnf_ram':100,
                           'vnf_type':'vnf_matinv','vnf_img':'vnfserver:latest','vnf_cmd':template_str,'vnf_port':5000})
 nfvManager.add_vnf_into_pool(vnfEm_template)
-vnfEm_template = VnfEm(**{'vnf_id':1,'vnf_unit':2,'vnf_factor':1.1,'vnf_cpu':1,'vnf_ram':1,
+vnfEm_template = VnfEm(**{'vnf_id':1,'vnf_unit':2,'vnf_factor':1.0,'vnf_cpu':0.15,'vnf_ram':100,
                           'vnf_type':'vnf_matprint','vnf_img':'vnfserver:latest','vnf_cmd':template_str,'vnf_port':5000})
 nfvManager.add_vnf_into_pool(vnfEm_template)
-vnfEm_template = VnfEm(**{'vnf_id':2,'vnf_unit':1,'vnf_factor':1.2,'vnf_cpu':1,'vnf_ram':1,
+vnfEm_template = VnfEm(**{'vnf_id':2,'vnf_unit':1,'vnf_factor':1.0,'vnf_cpu':0.15,'vnf_ram':100,
                           'vnf_type':'vnf_gnb','vnf_img':'vnfserver:latest','vnf_cmd':template_str,'vnf_port':5000})
 nfvManager.add_vnf_into_pool(vnfEm_template)
 
@@ -99,7 +131,7 @@ TRACER.set(netTraceFile)
 
 # region 将各组件代入仿真引擎 ------------------------------------------------
 
-net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,ueManager=ueManager,use_container=False)
+net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,ueManager=ueManager,use_container=True)
 
 try:
     net.start()

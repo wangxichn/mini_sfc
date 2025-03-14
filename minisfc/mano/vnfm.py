@@ -16,6 +16,7 @@ import re
 import copy
 import docker
 import requests
+import time
 
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
@@ -102,6 +103,7 @@ class VnfEm:
     def ready(self):
         self.check_image_exists()
         self.check_cmd_param_exists()
+        self.check_resource_availability()
 
 
     def config_network(self):
@@ -138,19 +140,37 @@ class VnfEm:
                 raise ValueError(f'Missing required parameter {e} for VNF {self.vnf_id} command')
             
 
-    def set_forward_route(self,traffic_from_ue:'Ue',traffic_to_url:str):
-        vnf_opt_url = f"http://{self.vnf_ip_control}:{self.vnf_port}/set_route"
+    def check_resource_availability(self):
+        if self.vnf_cpu == 0 or self.vnf_ram == 0:
+            raise ValueError(f'Missing resource information for VNF {self.vnf_id}')
 
+
+    def set_forward_route(self, traffic_from_ue: 'Ue', traffic_to_url: str, max_retries=5, retry_delay=1):
+        vnf_opt_url = f"http://{self.vnf_ip_control}:{self.vnf_port}/set_route"
+        
         data = {'traffic_from_ue': traffic_from_ue.ue_name,
                 'traffic_to_url': traffic_to_url}
         
-        response = requests.post(vnf_opt_url, json=data)
-
-        if response.status_code == 200:
-            print(f'INFO: VNF {self.vnf_name} forward route set successfully')
-        else:
-            error_message = response.json().get('message', 'Unknown error')
-            print(f'WARNING: Failed to set VNF {self.vnf_name} forward route: {response.status_code} | {error_message}')
+        for attempt in range(max_retries):
+            try:
+                response = requests.post(vnf_opt_url, json=data)
+                
+                if response.status_code == 200:
+                    print(f'INFO: VNF {self.vnf_name} forward route set successfully')
+                    return True
+                else:
+                    error_message = response.json().get('message', 'Unknown error')
+                    print(f'WARNING: Failed to set VNF {self.vnf_name} forward route: {response.status_code} | {error_message}')
+                    
+            except requests.exceptions.RequestException as e:
+                print(f'WARNING: Attempt {attempt + 1}/{max_retries}: Failed to set VNF {self.vnf_name} forward route: {e}')
+            
+            if attempt < max_retries - 1:
+                time.sleep(retry_delay)
+            else:
+                print(f'ERROR: Max retries ({max_retries}) reached for setting VNF {self.vnf_name} forward route.')
+        
+        return False
 
     
     def get_self_service_url(self):

@@ -183,6 +183,6 @@ class Ue:
             except Exception as e:
                 print(f'ERROR: Request failed with exception {e}')
 
-            time_interval = 1
+            time_interval = 0.1
             if self.trasport_stop_event.wait(time_interval):
                 break
