@@ -18,7 +18,7 @@ For those who wish to have flexible configurations and use artificial intelligen
 First, clone the project repository:
 
 ```bash
-git clone https://github.com/yourusername/Mini-SFC.git
+git clone https://gitee.com/WangXi_Chn/mini_sfc.git
 ```
 
 Then install the relevant dependencies using the setup.py file (it's recommended to use a virtual environment and the -e option for developer mode installation):

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 '''
 uem.py
-=========
+======
 
 .. module:: uem
   :platform: Linux
@@ -11,7 +11,7 @@ uem.py
 .. moduleauthor:: WangXi
 
 Introduction
------------
+------------
 
 This module implements ue management functionality, primarily used in SFC applications. It provides the following features:
 
