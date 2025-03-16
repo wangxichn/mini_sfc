@@ -1,6 +1,6 @@
 # Mini-SFC
 
-<img align="left" width="200" height="200" style="margin: 30px 30px 0 0;" src="doc/figures/logo.png" />
+<img align="left" width="100" height="100" style="margin: 30px 30px 0 0;" src="doc/figures/logo.png" />
 
 Mini-SFC 是一个针对服务功能链(SFC)编排算法设计的仿真框架，该框架同时支持基于离散事件构建的纯数值仿真和基于真实时间的容器模拟仿真，特别适用于研究基于MANO架构的SFC部署与迁移问题。该仿真框架参考了诸多著名网络仿真工具的设计理念，如[NS-3](https://www.nsnam.org/)、[Mininet](https://github.com/mininet/mininet)、[Containernet](https://github.com/containernet/containernet)、[VirNE](https://github.com/GeminiLight/virne)、[mini-nfv](https://github.com/josecastillolema/mini-nfv)等，这里向以上项目的开发者表示感谢！
 
