@@ -2,7 +2,7 @@
 from minisfc.topo import SubstrateTopo,ServiceTopo
 from minisfc.mano.vnfm import VnfManager, VnfEm
 from minisfc.trace import TRACER
-from util import NumberGen, JsonReader
+from minisfc.util import NumberGen, JsonReader
 import numpy as np
 np.seterr(over='warn')
 import pickle

@@ -1,5 +1,5 @@
-API Of MiniSFC
-==============
+minisfc
+=======
 
 .. toctree::
    :maxdepth: 4

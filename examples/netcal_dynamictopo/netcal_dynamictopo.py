@@ -3,7 +3,7 @@ from minisfc.topo import SubstrateTopo,ServiceTopo
 from minisfc.mano.vnfm import VnfManager, VnfEm
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
-from util import NumberGen, DataAnalysis, JsonReader
+from minisfc.util import NumberGen, DataAnalysis, JsonReader
 from custom.netcalSolver import netcalPsoSolver, netcalRandomSolver
 import numpy as np
 np.seterr(over='warn')

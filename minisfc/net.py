@@ -26,8 +26,7 @@ from minisfc.trace import TRACER
 from minisfc.mano.vnfm import VnfManager
 from minisfc.mano.uem import UeManager
 from minisfc.mano.mano import NfvMano
-
-from util import RunCommand
+from minisfc.util import RunCommand
 
 class Minisfc:
     def __init__(self,substrateTopo:SubstrateTopo,serviceTopo:ServiceTopo,

@@ -1,7 +1,7 @@
 
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
-from util import DataAnalysis
+from minisfc.util import DataAnalysis
 from custom.netcalSolver import netcalPsoSolver, netcalOptSolver, netcalSfcpSolver, netcalRandomSolver, netcalGreedySolver
 import numpy as np
 np.seterr(over='warn')

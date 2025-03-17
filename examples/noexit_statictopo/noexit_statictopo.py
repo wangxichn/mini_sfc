@@ -4,7 +4,7 @@ from minisfc.mano.vnfm import VnfManager, VnfEm
 from minisfc.solver import RadomSolver, GreedySolver
 from minisfc.net import Minisfc
 from minisfc.trace import TRACER
-from util import NumberGen, TopoGen, DataAnalysis
+from minisfc.util import NumberGen, TopoGen, DataAnalysis
 from custom.psoSolver import PsoSolver
 from custom.drlSfcpSolver.drlSfcpSolver import DrlSfcpSolver
 import numpy as np

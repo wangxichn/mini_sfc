@@ -36,10 +36,10 @@ from minisfc.net import Minisfc
 from minisfc.trace import TRACER
 from minisfc.mano.vnfm import VnfManager, VnfEm
 from minisfc.mano.uem import UeManager, Ue
+from minisfc.util import DataAnalysis, RunCommand
 
 from custom.fixedSolver import FixedSolver
 
-from util import DataAnalysis, RunCommand
 import numpy as np
 import code
 

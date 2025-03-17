@@ -8,6 +8,7 @@ Subpackages
    :maxdepth: 4
 
    minisfc.mano
+   minisfc.util
 
 Submodules
 ----------
