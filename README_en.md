@@ -21,6 +21,12 @@ First, clone the project repository:
 git clone https://gitee.com/WangXi_Chn/mini_sfc.git
 ```
 
+or 
+
+```bash
+git clone https://github.com/wangxichn/mini_sfc.git
+```
+
 Then install the relevant dependencies using the setup.py file (it's recommended to use a virtual environment and the -e option for developer mode installation):
 
 ```bash
@@ -56,7 +62,7 @@ sudo path/to/python simple_container.py
 
 ## Documentation
 
-For more detailed documentation about Mini-SFC, visit our (TBD)[GitHub Wiki](https://github.com/yourusername/Mini-SFC/wiki) page.
+For more detailed documentation about Mini-SFC, visit our (TBD)[GitHub Pages](https://wangxichn.github.io/mini_sfc/) page.
 
 ## Research
 

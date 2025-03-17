@@ -1,6 +1,6 @@
 # Mini-SFC
 
-<!-- <img align="left" width="200" height="200" style="margin: 30px 30px 0 0;" src="logo.png" /> -->
+<img align="left" width="100" height="100" style="margin: 30px 30px 0 0;" src="doc/figures/logo.png" />
 
 Mini-SFC 是一个针对服务功能链(SFC)编排算法设计的仿真框架，该框架同时支持基于离散事件构建的纯数值仿真和基于真实时间的容器模拟仿真，特别适用于研究基于MANO架构的SFC部署与迁移问题。该仿真框架参考了诸多著名网络仿真工具的设计理念，如[NS-3](https://www.nsnam.org/)、[Mininet](https://github.com/mininet/mininet)、[Containernet](https://github.com/containernet/containernet)、[VirNE](https://github.com/GeminiLight/virne)、[mini-nfv](https://github.com/josecastillolema/mini-nfv)等，这里向以上项目的开发者表示感谢！
 
@@ -18,7 +18,13 @@ Mini-SFC 是一个针对服务功能链(SFC)编排算法设计的仿真框架，
 首先，克隆本项目仓库：
 
 ```bash
-git clone https://github.com/yourusername/Mini-SFC.git
+git clone https://gitee.com/WangXi_Chn/mini_sfc.git
+```
+
+或者
+
+```bash
+git clone https://github.com/wangxichn/mini_sfc.git
 ```
 
 然后使用setup.py文件安装相关依赖库（建议使用虚拟环境以及-e选项进行开发者模式安装）：
@@ -59,7 +65,7 @@ sudo path/to/python simple_container.py
 
 ## 文档
 
-关于Mini-SFC更详细的文档，请访问我们的(TBD)[GitHub Wiki](https://github.com/yourusername/Mini-SFC/wiki)页面。
+关于Mini-SFC更详细的文档，请访问我们的[GitHub Pages](https://wangxichn.github.io/mini_sfc/)页面。
 
 ## 研究
 

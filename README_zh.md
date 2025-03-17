@@ -18,7 +18,13 @@ Mini-SFC 是一个针对服务功能链(SFC)编排算法设计的仿真框架，
 首先，克隆本项目仓库：
 
 ```bash
-git clone https://github.com/yourusername/Mini-SFC.git
+git clone https://gitee.com/WangXi_Chn/mini_sfc.git
+```
+
+或者
+
+```bash
+git clone https://github.com/wangxichn/mini_sfc.git
 ```
 
 然后使用setup.py文件安装相关依赖库（建议使用虚拟环境以及-e选项进行开发者模式安装）：
@@ -59,7 +65,7 @@ sudo path/to/python simple_container.py
 
 ## 文档
 
-关于Mini-SFC更详细的文档，请访问我们的(TBD)[GitHub Wiki](https://github.com/yourusername/Mini-SFC/wiki)页面。
+关于Mini-SFC更详细的文档，请访问我们的[GitHub Pages](https://wangxichn.github.io/mini_sfc/)页面。
 
 ## 研究
 
