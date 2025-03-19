@@ -141,12 +141,12 @@ class Ue:
         return self.control_url
 
 
-    def start_trasport(self):
+    def start_trasport(self,ueServiceDict:dict):
         if self.ue_type == 'ue_post':
             if self.ue_aim == None:
                 raise ValueError(f'UE {self.ue_name} has no aim VNF')
             self.trasport_stop_event = threading.Event()
-            transport_thread = threading.Thread(target=self.__continuous_post, args=(self.ue_aim,))
+            transport_thread = threading.Thread(target=self.__continuous_post, args=(self.ue_aim,ueServiceDict,))
             transport_thread.start()
 
 
@@ -158,7 +158,7 @@ class Ue:
                 raise ValueError(f'UE {self.ue_name} has not started transport')
         
 
-    def __continuous_post(self, next_vnf_em: 'VnfEm'):
+    def __continuous_post(self, next_vnf_em: 'VnfEm', ueServiceDict:dict):
         while not self.trasport_stop_event.is_set():
             def generate_invertible_matrix(size=10):
                 while True:
@@ -183,6 +183,6 @@ class Ue:
             except Exception as e:
                 print(f'ERROR: Request failed with exception {e}')
 
-            time_interval = 0.1
-            if self.trasport_stop_event.wait(time_interval):
+            req_delay = ueServiceDict.get('req_delay', 1.0)
+            if self.trasport_stop_event.wait(req_delay):
                 break

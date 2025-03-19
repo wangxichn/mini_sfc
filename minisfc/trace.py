@@ -25,7 +25,7 @@ class Trace:
         if self.filename == None:
             self.filename = f"TRACE_{Trace.get_run_id()}.csv"
         
-        self.fields = ['Event', 'Time', 'SfcId', 'Result', 'Resource', 'Vnffgs', 'Reason']
+        self.fields = ['Event', 'Time', 'SfcId', 'Result', 'Resource', 'Vnffgs', 'Solution','Reason']
         with open(self.filename,'+w',newline='') as file:
             writer = csv.DictWriter(file, fieldnames=self.fields)
             writer.writeheader()

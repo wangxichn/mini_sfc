@@ -48,9 +48,15 @@ class PsoSolver(RadomSolver):
                 self.solution.map_node[v_node] = np.where(x[v_node,:]==np.max(x[v_node,:]))[0][0]
         
         for v_link in self.sfcGraph.edges():
-            map_path = nx.dijkstra_path(self.substrateTopo,
-                                        self.solution.map_node[v_link[0]],
-                                        self.solution.map_node[v_link[1]])
+            try:
+                map_path = nx.dijkstra_path(self.substrateTopo,
+                                            self.solution.map_node[v_link[0]],
+                                            self.solution.map_node[v_link[1]])
+            except:
+                self.solution.current_description = SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
+                self.solution.current_result = False
+                return self.solution
+            
             if len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
             else:
@@ -96,7 +102,7 @@ class PsoSolver(RadomSolver):
 
         x = np.array(pso.gbest_x)
         x = x.reshape((len(self.sfcGraph.nodes),len(self.substrateTopo.nodes)))
-        for v_node in len(self.sfcGraph.nodes):
+        for v_node in self.sfcGraph.nodes:
             if v_node == 0:
                 self.solution.map_node[v_node] = self.event.serviceTopo.plan_endPointDict[self.event.serviceTopoId][0]
             elif v_node == (len(self.sfcGraph.nodes)-1):
@@ -105,9 +111,15 @@ class PsoSolver(RadomSolver):
                 self.solution.map_node[v_node] = np.where(x[v_node,:]==np.max(x[v_node,:]))[0][0]
         
         for v_link in self.sfcGraph.edges():
-            map_path = nx.dijkstra_path(self.substrateTopo,
-                                        self.solution.map_node[v_link[0]],
-                                        self.solution.map_node[v_link[1]])
+            try:
+                map_path = nx.dijkstra_path(self.substrateTopo,
+                                            self.solution.map_node[v_link[0]],
+                                            self.solution.map_node[v_link[1]])
+            except:
+                self.solution.current_description = SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
+                self.solution.current_result = False
+                return self.solution
+            
             if len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
             else:
@@ -138,9 +150,13 @@ class PsoSolver(RadomSolver):
                 self.solution.map_node[v_node] = np.where(x[v_node,:]==np.max(x[v_node,:]))[0][0]
 
         for v_link in self.sfcGraph.edges():
-            map_path = nx.dijkstra_path(self.substrateTopo,
-                                        self.solution.map_node[v_link[0]],
-                                        self.solution.map_node[v_link[1]])
+            try:
+                map_path = nx.dijkstra_path(self.substrateTopo,
+                                            self.solution.map_node[v_link[0]],
+                                            self.solution.map_node[v_link[1]])
+            except:
+                return float("inf")
+            
             if len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
             else:

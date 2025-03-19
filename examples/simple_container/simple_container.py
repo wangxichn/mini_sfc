@@ -5,10 +5,10 @@ simple_container.py
 =====================
 
 .. module:: simple_container
-  :platform: Windows, Linux
+  :platform: Linux
   :synopsis: Module for Service Function Chain (SFC) deployment and simulation.
 
-.. moduleauthor:: CRC1109-WangXi
+.. moduleauthor:: WangXi
 
 Introduction
 -----------
@@ -29,81 +29,85 @@ Version
 
 '''
 
-
-
-from minisfc.topo import SubstrateTopo,ServiceTopo
-from minisfc.net import Minisfc
 from minisfc.trace import TRACER
-from minisfc.mano.vnfm import VnfManager, VnfEm
-from minisfc.mano.uem import UeManager, Ue
-from minisfc.util import DataAnalysis, RunCommand
-
-from custom.fixedSolver import FixedSolver
-
 import numpy as np
-import code
+import pickle
 
-# region 定义基底网络组 ---------------------------------------------------
+SIMULATION_ID = TRACER.get_time_stamp()
+
+# region step1: define substrate topologies--------------------------------------------
+
+from minisfc.topo import SubstrateTopo
 
 topoTimeList = [0.0]
-topoAdjMatDict = {0.0:np.array([[1,1,0,0],
-                                [1,1,1,0],
-                                [0,1,1,1],
-                                [0,0,1,1]])}
-topoWeightMatDict = {0.0:np.array([ [0,  10, 0,  0],
-                                    [10, 0,  10, 0],
-                                    [0,  10, 0,  10],
-                                    [0,  0,  10, 0]])}
-topoNodeResourceDict = {(0.0,'cpu'):[2,2,2,2],
-                        (0.0,'ram'):[500,500,500,500]}
-topoLinkResourceDict = {(0.0,'band'):np.array([ [10,10,0,0],
-                                                [10,10,10,0],
-                                                [0,10,10,10],
-                                                [0,0,10,10]])}
+topoAdjMatDict = {0.0:np.array([[1,1,0],
+                                [1,1,1],
+                                [0,1,1]])}
+topoWeightMatDict = {0.0:np.array([[0,20,0], # delay ms
+                                   [20,0,10],
+                                   [0,10,0]])}
+topoNodeResourceDict = {(0.0,'cpu'):[2,4,2], # cores
+                        (0.0,'ram'):[256,512,256]} # Memmory MB
+topoLinkResourceDict = {(0.0,'band'):np.array([[100,100,0], # bw Mbps
+                                               [100,100,100],
+                                               [0,100,100]])}
+substrateTopo = SubstrateTopo(topoTimeList,topoAdjMatDict,topoWeightMatDict,
+                              topoNodeResourceDict,topoLinkResourceDict)
 
-substrateTopo = SubstrateTopo(topoTimeList,topoAdjMatDict,topoWeightMatDict,topoNodeResourceDict,topoLinkResourceDict)
-
-# endregion
-
-# region 定义服务功能链组 --------------------------------------------------
-
-sfcIdList = [0]                             # sfc 请求的id
-sfcLifeTimeDict = {0:[5,25]}                # sfc 生命周期
-endPointDict = {0:[2,3]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
-arriveFunParamDict = {0:[1.0,2.0]}          # sfc 业务参数
-vnfRequstDict = {0:[2,0,2]}                 # sfc 请求的vnf列表
-qosRequesDict = {0:[100]}                   # sfc 请求的qos列表（目前只有时延）
-
-serviceTopo = ServiceTopo(sfcIdList,sfcLifeTimeDict,endPointDict,arriveFunParamDict,vnfRequstDict,qosRequesDict)
+with open(f"{substrateTopo.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file:
+    pickle.dump(substrateTopo, file)
 
 # endregion
 
-# region 定义MANO中VNF库 --------------------------------------------------
+# region step2: define sfc topologies------------------------------------------------
 
-# MANO中可供部署的vnf库
+from minisfc.topo import ServiceTopo
+
+sfcIdList = [0,1]                             # sfc 请求的id
+sfcLifeTimeDict = {0:[5,25],
+                   1:[10,50]}                # sfc 生命周期
+endPointDict = {0:[0,2],
+                1:[0,1]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
+vnfRequstDict = {0:[2,0,2],
+                 1:[2,0,2]}                 # sfc 请求的vnf列表
+qosRequesDict = {0:[100],
+                 1:[100]}                   # sfc 请求的qos列表（目前只有时延）
+
+serviceTopo = ServiceTopo(sfcIdList,sfcLifeTimeDict,endPointDict,vnfRequstDict,qosRequesDict)
+with open(f"{serviceTopo.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file:
+    pickle.dump(serviceTopo, file)
+
+# endregion
+
+# region step3: define vnf manager--------------------------------------------------
+
+from minisfc.mano.vnfm import VnfManager,VnfEm
+
 nfvManager = VnfManager()
 template_str = "python run_command.py --vnf_name=$vnf_name --vnf_type=$vnf_type --vnf_ip=$vnf_ip --vnf_port=$vnf_port --vnf_cpu=$vnf_cpu --vnf_ram=$vnf_ram --vnf_rom=$vnf_rom"
 
-vnfEm_template = VnfEm(**{'vnf_id':0,'vnf_unit':3,'vnf_factor':1.0,'vnf_cpu':0.15,'vnf_ram':100,
+vnfEm_template = VnfEm(**{'vnf_id':0,'vnf_cpu':0.2,'vnf_ram':64,
                           'vnf_type':'vnf_matinv','vnf_img':'vnfserver:latest','vnf_cmd':template_str,'vnf_port':5000})
 nfvManager.add_vnf_into_pool(vnfEm_template)
-vnfEm_template = VnfEm(**{'vnf_id':1,'vnf_unit':2,'vnf_factor':1.0,'vnf_cpu':0.15,'vnf_ram':100,
+vnfEm_template = VnfEm(**{'vnf_id':1,'vnf_cpu':0.15,'vnf_ram':64,
                           'vnf_type':'vnf_matprint','vnf_img':'vnfserver:latest','vnf_cmd':template_str,'vnf_port':5000})
 nfvManager.add_vnf_into_pool(vnfEm_template)
-vnfEm_template = VnfEm(**{'vnf_id':2,'vnf_unit':1,'vnf_factor':1.0,'vnf_cpu':0.15,'vnf_ram':100,
+vnfEm_template = VnfEm(**{'vnf_id':2,'vnf_cpu':0.15,'vnf_ram':64,
                           'vnf_type':'vnf_gnb','vnf_img':'vnfserver:latest','vnf_cmd':template_str,'vnf_port':5000})
 nfvManager.add_vnf_into_pool(vnfEm_template)
 
-nfvManager.add_vnf_service_into_pool(0,1,**{"band":0.5})
-nfvManager.add_vnf_service_into_pool(1,0,**{"band":0.5})
-nfvManager.add_vnf_service_into_pool(0,2,**{"band":0.5})
-nfvManager.add_vnf_service_into_pool(2,0,**{"band":0.5})
-nfvManager.add_vnf_service_into_pool(1,2,**{"band":0.5})
-nfvManager.add_vnf_service_into_pool(2,1,**{"band":0.5})
+nfvManager.add_vnf_service_into_pool(2,0,**{"band":20})
+nfvManager.add_vnf_service_into_pool(0,2,**{"band":20})
+
+with open(f"{nfvManager.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file:
+    pickle.dump(nfvManager, file)
 
 # endregion
 
-# region 定义SFC的用户业务类型 ---------------------------------------------
+# region step4: define ue manager--------------------------------------------------
+
+from minisfc.mano.uem import UeManager, Ue
+
 ueManager = UeManager()
 template_str = "python run_command.py --ue_name=$ue_name --ue_type=$ue_type --ue_ip=$ue_ip --ue_port=$ue_port"
 
@@ -112,24 +116,28 @@ ueManager.add_ue_into_pool(ue_template)
 ue_template = Ue(**{'ue_id':1,'ue_type':'ue_print','ue_img':'ueserver:latest','ue_cmd':template_str,'ue_port':8000})
 ueManager.add_ue_into_pool(ue_template)
 
-ueManager.add_ue_service_into_pool(0,1,**{"req_delay":1}) # set the delay (1s) of the request from ue0 to ue1
+ueManager.add_ue_service_into_pool(0,1,**{"req_delay":0.1}) # set the delay (1s) of the request from ue0 to ue1
+
+with open(f"{ueManager.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file:
+    pickle.dump(ueManager, file)
 
 # endregion
 
-# region 定义SFC部署解决方案 -----------------------------------------------
+# region step5: define sfc solver-----------------------------------------------------
 
-sfcSolver = FixedSolver(substrateTopo,serviceTopo)
+from minisfc.solver import RadomSolver, GreedySolver
+from custom.psoSolver import PsoSolver
+
+sfcSolver = RadomSolver(substrateTopo,serviceTopo)
 
 # endregion
 
-# region 定义部署结果追踪器 -------------------------------------------------
-
-netTraceFile = f'multisfc_staticopo_{sfcSolver.__class__.__name__}_{TRACER.get_time_stamp()}.csv'
+netTraceFile = f'multisfc_staticopo_{sfcSolver.__class__.__name__}_{SIMULATION_ID}.csv'
 TRACER.set(netTraceFile)
 
-# endregion
+# region step6: define minisfc simulation----------------------------------------------
 
-# region 将各组件代入仿真引擎 ------------------------------------------------
+from minisfc.net import Minisfc
 
 net = Minisfc(substrateTopo,serviceTopo,nfvManager,sfcSolver,ueManager=ueManager,use_container=True)
 

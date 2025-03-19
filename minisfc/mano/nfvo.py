@@ -69,7 +69,9 @@ class NfvOrchestrator:
                        'Result':solutions[-1].current_result,
                        'Resource':self.substrateTopo.get_sum_resource_list('remain'),
                        'Vnffgs':[vnffg.id for vnffg in self.vnffg_group]}
-        if solutions[-1].current_result == False:
+        if solutions[-1].current_result == True:
+            contextDict['Solution'] = solutions[-1].map_node.values()
+        else:
             contextDict['Reason'] = solutions[-1].current_description
             
         TRACER.write(contextDict)
@@ -137,7 +139,9 @@ class NfvOrchestrator:
                                    'Result':solutions[-1].current_result,
                                    'Resource':self.substrateTopo.get_sum_resource_list('remain'),
                                    'Vnffgs':[vnffg.id for vnffg in self.vnffg_group]}
-                    if solutions[-1].current_result == False:
+                    if solutions[-1].current_result == True:
+                        contextDict['Solution'] = solutions[-1].map_node.values()
+                    else:
                         contextDict['Reason'] = solutions[-1].current_description
                     TRACER.write(contextDict)
                     # Print Trance End ---------------------------------------------------------------
@@ -252,7 +256,7 @@ class VnffgManager:
                 self.nfvVim.access_ue_on_NFVI(ue,ue_pos)
 
             self.vnfManager.set_vnfs_forward_route(req_vnfs,req_ues)
-            req_ues[0].start_trasport()
+            req_ues[0].start_trasport(self.ueManager.ueServicePoolDict[req_ues[0].ue_id,req_ues[1].ue_id])
             
 
     def __action_release(self, solution:Solution):

@@ -103,9 +103,14 @@ class RadomSolver(Solver):
                 self.solution.map_node[v_node] = random.sample(range(len(self.substrateTopo.nodes)),1)[0]
 
         for v_link in self.sfcGraph.edges():
-            map_path = nx.dijkstra_path(self.substrateTopo,
-                                        self.solution.map_node[v_link[0]],
-                                        self.solution.map_node[v_link[1]])
+            try:
+                map_path = nx.dijkstra_path(self.substrateTopo,
+                                            self.solution.map_node[v_link[0]],
+                                            self.solution.map_node[v_link[1]])
+            except:
+                self.solution.current_description = SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
+                self.solution.current_result = False
+                return self.solution
             
             if len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
@@ -153,9 +158,14 @@ class RadomSolver(Solver):
                 self.solution.map_node[v_node] = random.sample(range(len(self.substrateTopo.nodes)),1)[0]
 
         for v_link in self.sfcGraph.edges():
-            map_path = nx.dijkstra_path(self.substrateTopo,
-                                        self.solution.map_node[v_link[0]],
-                                        self.solution.map_node[v_link[1]])
+            try:
+                map_path = nx.dijkstra_path(self.substrateTopo,
+                                            self.solution.map_node[v_link[0]],
+                                            self.solution.map_node[v_link[1]])
+            except:
+                self.solution.current_description = SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
+                self.solution.current_result = False
+                return self.solution
             
             if len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
@@ -287,9 +297,14 @@ class GreedySolver(RadomSolver):
                 temp_subStrateTopo.opt_node_attrs_value(self.solution.map_node[v_node],'remain_ram','decrease',self.solution.resource['ram'][v_node])
 
         for v_link in self.sfcGraph.edges():
-            map_path = nx.dijkstra_path(self.substrateTopo,
-                                        self.solution.map_node[v_link[0]],
-                                        self.solution.map_node[v_link[1]])
+            try:
+                map_path = nx.dijkstra_path(self.substrateTopo,
+                                            self.solution.map_node[v_link[0]],
+                                            self.solution.map_node[v_link[1]])
+            except:
+                self.solution.current_description = SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
+                self.solution.current_result = False
+                return self.solution
             
             if len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
@@ -338,9 +353,14 @@ class GreedySolver(RadomSolver):
                 temp_subStrateTopo.opt_node_attrs_value(self.solution.map_node[v_node],'remain_ram','decrease',self.solution.resource['ram'][v_node])
 
         for v_link in self.sfcGraph.edges():
-            map_path = nx.dijkstra_path(self.substrateTopo,
-                                        self.solution.map_node[v_link[0]],
-                                        self.solution.map_node[v_link[1]])
+            try:
+                map_path = nx.dijkstra_path(self.substrateTopo,
+                                            self.solution.map_node[v_link[0]],
+                                            self.solution.map_node[v_link[1]])
+            except:
+                self.solution.current_description = SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
+                self.solution.current_result = False
+                return self.solution
             
             if len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]

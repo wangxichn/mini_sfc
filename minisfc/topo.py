@@ -195,7 +195,7 @@ class SubstrateTopo(Topo):
 
 class ServiceTopo():
     def __init__(self,idList:list[int],lifeTimeDict:dict[int:[float,float]],endPointDict:dict[int:list[int,int]],
-                 arriveFunParamDict:dict[int:list],vnfRequstDict:dict[int:list],qosRequesDict:dict[int:list]):
+                 vnfRequstDict:dict[int:list],qosRequesDict:dict[int:list],arriveFunParamDict:dict[int:list]=None):
         """_summary_
 
         Args:
