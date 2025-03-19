@@ -7,6 +7,8 @@
 
 ## 项目介绍
 
+<img align="left" width="100" height="100" style="margin: 2px 2px 0 0;" src="https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_logo_light.drawio.png" />
+
 **Mini-SFC** 是一个专为服务功能链(SFC)编排算法设计的仿真框架。该框架支持两种类型的仿真模式：基于离散事件的纯数值仿真和基于真实时间的容器模拟仿真，使其成为研究基于MANO（管理与编排）架构的SFC部署与迁移问题的理想工具。
 
 在设计Mini-SFC时，我们参考了许多著名的网络仿真工具的理念，包括但不限于：

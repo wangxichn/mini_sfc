@@ -2,7 +2,7 @@
 
 # Mini-SFC
 
-<img align="left" width="100" height="100" style="margin: 30px 30px 0 0;" src="logo.png" />
+<img align="left" width="100" height="100" style="margin: 2px 2px 0 0;" src="https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_logo_light.drawio.png" />
 
 Mini-SFC is a simulation framework designed for Service Function Chain (SFC) orchestration algorithms. It supports both purely numerical simulations built on discrete events and container-based simulations that mimic real-time conditions, making it particularly suitable for studying SFC deployment and migration issues based on MANO architecture.The design of this simulation framework draws inspiration from several renowned network simulation tools such as [NS-3](https://www.nsnam.org/), [Mininet](https://github.com/mininet/mininet), [Containernet](https://github.com/containernet/containernet), [VirNE](https://github.com/GeminiLight/virne), [mini-nfv](https://github.com/josecastillolema/mini-nfv), among others. We extend our gratitude to the developers of these projects!
 
