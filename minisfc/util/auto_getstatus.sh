@@ -20,7 +20,11 @@ while true; do
   done
 
   if ! $container_found; then
-    echo "No containers found. Waiting for containers to become available..., or press ctrl+c to stop the script."
+    printflag="WARNING"
+    printinfo="No containers found. Waiting for containers to become available..., or press ctrl+c to stop the script."
+    no_container_msg="$timestamp\t$printflag\t$printinfo"
+    echo -e "$no_container_msg"
+    echo -e "$no_container_msg" >> $output_file
   fi
   
   sleep 1
