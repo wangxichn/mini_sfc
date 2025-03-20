@@ -69,7 +69,7 @@ with open(vnfManager_pklname, "rb") as file:
 from minisfc.solver import RadomSolver, GreedySolver
 from custom.psoSolver import PsoSolver
 
-sfcSolver = RadomSolver(substrateTopo,serviceTopo)
+sfcSolver = PsoSolver(substrateTopo,serviceTopo)
 sfcSolver.loadParam()
 
 # endregion
