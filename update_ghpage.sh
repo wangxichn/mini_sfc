@@ -1,15 +1,6 @@
 #!/bin/bash
 set -e  # 脚本遇到错误时立即退出
 
-# 项目根目录
-PROJECT_ROOT=$(pwd)
-
-# 构建Sphinx文档
-cd docs
-make clean 
-make html
-cd ..
-
 # 获取当前分支名称
 CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 

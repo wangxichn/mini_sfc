@@ -1,5 +1,5 @@
-minisfc
-=======
+minisfc API
+===========
 
 .. toctree::
    :maxdepth: 4
