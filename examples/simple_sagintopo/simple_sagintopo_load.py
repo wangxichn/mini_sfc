@@ -29,7 +29,7 @@ Version
 
 '''
 
-from minisfc.trace import TRACER
+from minisfc.trace import TRACE_RESULT, TRACE_NFVI, Trace
 from minisfc.util import DataAnalysis
 import pickle
 
@@ -69,13 +69,17 @@ with open(vnfManager_pklname, "rb") as file:
 from minisfc.solver import RadomSolver, GreedySolver
 from custom.psoSolver import PsoSolver
 
-sfcSolver = PsoSolver(substrateTopo,serviceTopo)
+sfcSolver = RadomSolver(substrateTopo,serviceTopo)
 sfcSolver.loadParam()
 
 # endregion
 
-netTraceFile = f'simple_sagintopo_{sfcSolver.__class__.__name__}_{TRACER.get_time_stamp()}.csv'
-TRACER.set(netTraceFile)
+SIMULATION_ID = Trace.get_time_stamp()
+
+TraceResultFile = f'{TRACE_RESULT.__class__.__name__}_{sfcSolver.__class__.__name__}_{SIMULATION_ID}.csv'
+TRACE_RESULT.set(TraceResultFile)
+TraceNfviFile = f'{TRACE_NFVI.__class__.__name__}_{sfcSolver.__class__.__name__}_{SIMULATION_ID}.csv'
+TRACE_NFVI.set(TraceNfviFile)
 
 # region step5: define minisfc simulation----------------------------------------------
 
@@ -87,7 +91,7 @@ net.stop()
 
 sfcSolver.saveParam()
 
-DataAnalysis.getResult(netTraceFile)
+DataAnalysis.getResult(TraceResultFile)
 
 # code.interact(banner="",local=locals())
 

@@ -19,7 +19,7 @@ from minisfc.mano.vim import NfvVim, VnfEm
 from minisfc.topo import SubstrateTopo, Topo
 from minisfc.solver import Solver, Solution
 from minisfc.event import Event, EventType
-from minisfc.trace import TRACER
+from minisfc.trace import TRACE_RESULT, TRACE_NFVI
 
 import copy
 
@@ -37,9 +37,24 @@ class NfvOrchestrator:
         self.vnffg_group:list[VnffgManager] = []
         self.sfcSolver.initialize(self.vnfManager)
 
+        TRACE_RESULT.ready(['Event', 'Time', 'SfcId', 'Result', 'Resource', 'Vnffgs', 'Solution','Reason'])
         contextDict = {'Event':'I','Time':0.00,
                        'Resource':self.nfvVim.substrateTopo.get_sum_resource_list('remain')}
-        TRACER.write(contextDict)
+        TRACE_RESULT.write(contextDict)
+
+
+        TRACE_NFVI.ready(['Event', 'Time']+[element for nfvi in self.nfvVim.nfv_instance_group.values() 
+                                                    for element in [nfvi.name+"_cpu", nfvi.name+"_ram", nfvi.name+"_vnfs"]])
+        contextDict = {'Event':'I','Time':0.00}
+        contextDict.update({
+                            key: value for nfvi in self.nfvVim.nfv_instance_group.values() 
+                            for key, value in [
+                                (nfvi.name + "_cpu", nfvi.cpu_remain),
+                                (nfvi.name + "_ram", nfvi.ram_remain),
+                                (nfvi.name + "_vnfs", nfvi.get_deployed_vnfs())]
+                            })
+        TRACE_NFVI.write(contextDict)
+
 
     def handle(self,event:Event) -> SubstrateTopo:
         if event.type == EventType.SFC_ARRIVE:
@@ -74,7 +89,17 @@ class NfvOrchestrator:
         else:
             contextDict['Reason'] = solutions[-1].current_description
             
-        TRACER.write(contextDict)
+        TRACE_RESULT.write(contextDict)
+
+        contextDict = {'Event':'+','Time':event.time}
+        contextDict.update({
+                            key: value for nfvi in self.nfvVim.nfv_instance_group.values() 
+                            for key, value in [
+                                (nfvi.name + "_cpu", nfvi.cpu_remain),
+                                (nfvi.name + "_ram", nfvi.ram_remain),
+                                (nfvi.name + "_vnfs", nfvi.get_deployed_vnfs())]
+                            })
+        TRACE_NFVI.write(contextDict)
         # Print Trance End ------------------------------------------------------------------
 
         return self.substrateTopo
@@ -106,7 +131,17 @@ class NfvOrchestrator:
             contextDict['Result'] = False
         else:
             contextDict['Result'] = solutions[-1].current_result
-        TRACER.write(contextDict)
+        TRACE_RESULT.write(contextDict)
+
+        contextDict = {'Event':'-','Time':event.time}
+        contextDict.update({
+                            key: value for nfvi in self.nfvVim.nfv_instance_group.values() 
+                            for key, value in [
+                                (nfvi.name + "_cpu", nfvi.cpu_remain),
+                                (nfvi.name + "_ram", nfvi.ram_remain),
+                                (nfvi.name + "_vnfs", nfvi.get_deployed_vnfs())]
+                            })
+        TRACE_NFVI.write(contextDict)
         # Print Trance End ------------------------------------------------------------------
 
         return self.substrateTopo
@@ -143,7 +178,17 @@ class NfvOrchestrator:
                         contextDict['Solution'] = solutions[-1].map_node.values()
                     else:
                         contextDict['Reason'] = solutions[-1].current_description
-                    TRACER.write(contextDict)
+                    TRACE_RESULT.write(contextDict)
+
+                    contextDict = {'Event':'t','Time':event.time}
+                    contextDict.update({
+                            key: value for nfvi in self.nfvVim.nfv_instance_group.values() 
+                            for key, value in [
+                                (nfvi.name + "_cpu", nfvi.cpu_remain),
+                                (nfvi.name + "_ram", nfvi.ram_remain),
+                                (nfvi.name + "_vnfs", nfvi.get_deployed_vnfs())]
+                            })
+                    TRACE_NFVI.write(contextDict)
                     # Print Trance End ---------------------------------------------------------------
                     
                     # After processing this SFC migration, need to update the current substrate network state in the event 

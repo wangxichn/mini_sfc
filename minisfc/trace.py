@@ -17,20 +17,26 @@ import csv
 class Trace:
     def __init__(self):
         self.filename = None
+        self.fields = []
 
     def set(self,filename:str = None):
         self.filename = filename
 
-    def ready(self):
+    def ready(self,fields:list):
         if self.filename == None:
-            self.filename = f"TRACE_{Trace.get_run_id()}.csv"
+            self.filename = f"{self.__class__.__name__}_{Trace.get_run_id()}.csv"
         
-        self.fields = ['Event', 'Time', 'SfcId', 'Result', 'Resource', 'Vnffgs', 'Solution','Reason']
+        self.fields = fields
+        
+        if self.fields == []:
+            return
         with open(self.filename,'+w',newline='') as file:
             writer = csv.DictWriter(file, fieldnames=self.fields)
             writer.writeheader()
 
     def write(self,contextDict:dict):
+        if self.fields == []:
+            return
         with open(self.filename,'+a',newline='') as file:
             writer = csv.DictWriter(file, fieldnames=self.fields)
             writer.writerow(contextDict)
@@ -57,4 +63,14 @@ class Trace:
         run_id = f'{host_name}-{run_time}'
         return run_id
     
-TRACER = Trace()
+
+class TraceResult(Trace):
+    def __init__(self):
+        super().__init__()
+        
+class TraceNFVI(Trace):
+    def __init__(self):
+        super().__init__()
+
+TRACE_RESULT = TraceResult()
+TRACE_NFVI = TraceNFVI()

@@ -22,7 +22,6 @@ from mininet.log import setLogLevel
 from minisfc.topo import SubstrateTopo, ServiceTopo
 from minisfc.solver import Solver
 from minisfc.event import Schedule, Event
-from minisfc.trace import TRACER
 from minisfc.mano.vnfm import VnfManager
 from minisfc.mano.uem import UeManager
 from minisfc.mano.mano import NfvMano
@@ -52,8 +51,6 @@ class Minisfc:
 
 
     def ready(self):
-        TRACER.ready()
-
         if self.containernet_handle != None:
             if not self.use_remote_controller:
                 self.containernet_handle.addController('c0')

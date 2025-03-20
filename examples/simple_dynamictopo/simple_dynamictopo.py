@@ -29,11 +29,11 @@ Version
 
 '''
 
-from minisfc.trace import TRACER
+from minisfc.trace import TRACE_RESULT, TRACE_NFVI
 import numpy as np
 import pickle
 
-SIMULATION_ID = TRACER.get_time_stamp()
+SIMULATION_ID = TRACE_RESULT.get_time_stamp()
 
 # region step1: define substrate topologies--------------------------------------------
 
@@ -135,8 +135,10 @@ sfcSolver = RadomSolver(substrateTopo,serviceTopo)
 
 # endregion
 
-netTraceFile = f'simple_dynamictopo_{sfcSolver.__class__.__name__}_{SIMULATION_ID}.csv'
-TRACER.set(netTraceFile)
+TraceResultFile = f'{TRACE_RESULT.__class__.__name__}_{sfcSolver.__class__.__name__}_{SIMULATION_ID}.csv'
+TRACE_RESULT.set(TraceResultFile)
+TraceNfviFile = f'{TRACE_NFVI.__class__.__name__}_{sfcSolver.__class__.__name__}_{SIMULATION_ID}.csv'
+TRACE_NFVI.set(TraceNfviFile)
 
 # region step5: define minisfc simulation----------------------------------------------
 

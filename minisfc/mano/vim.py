@@ -53,7 +53,7 @@ class NfvVim:
         self.nfv_instance_group = {}
         for node in list(self.substrateTopo.nodes):
             ip_sim,ip_con = self.get_vailable_NFVI_ip()
-            self.add_NFVInstance(node_id=node,name=f"NVFI-{node}",
+            self.add_NFVInstance(node_id=node,name=f"NVFI_{node}",
                                  cpu=self.substrateTopo.opt_node_attrs_value(node,"capacity_cpu","get"),
                                  ram=self.substrateTopo.opt_node_attrs_value(node,"capacity_ram","get"),
                                  rom=1,
@@ -162,6 +162,24 @@ class NfvVim:
 
     def get_curent_substrate_topo(self):
         return copy.deepcopy(self.substrateTopo)
+    
+
+    def get_all_NFVIs_info(self, nfvi_attr: str, default=None):
+        """Get all NFVIs information.
+
+        Args:
+            nfvi_attr (str): NFVI attribute name.
+            default (_type_, optional): Default value if attribute is not found. Defaults to None.
+
+        Returns:
+            dict[str, _type_]: Dictionary of NFVIs' attribute value.
+        """
+        if nfvi_attr == 'deployed_vnf':
+            return {self.nfv_instance_group[node_id].name: [vnf_em.vnf_name for vnf_em in self.nfv_instance_group[node_id].deployed_vnf] 
+                    for node_id in self.nfv_instance_group}
+        else:
+            return {self.nfv_instance_group[node_id].name: getattr(self.nfv_instance_group[node_id], nfvi_attr, default) 
+                    for node_id in self.nfv_instance_group}
     
 
 class NfvInstance:
