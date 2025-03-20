@@ -5,7 +5,7 @@ set -e  # 脚本遇到错误时立即退出
 PROJECT_ROOT=$(pwd)
 
 # 构建Sphinx文档
-cd doc
+cd docs
 make clean 
 make html
 cd ..
@@ -17,7 +17,7 @@ CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 TEMP_DIR=$(mktemp -d)
 
 # 复制构建好的HTML文件到临时目录
-cp -r doc/build/html/. $TEMP_DIR
+cp -r docs/build/html/. $TEMP_DIR
 
 # 切换到gh-pages分支并清空该分支下的所有文件
 git checkout gh-pages && git rm -rf .
