@@ -3,6 +3,13 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 import re
 import ast
+import numpy as np
+
+color_Bar = np.array([[122,27,109],[189,55,82],[251,180,26],[58,9,100],[237,104,37],[179,106,111],[161,208,199],[80,138,178]])
+marker_Bar = ['o','s','^',',','*','+','v','<','>','d']
+linestyle_Bar = ['-','--','-.',':']
+
+# ------------------------------------------------------------------------------------------
 
 # 读取CSV文件
 csv_file_path = 'TraceNFVI_RadomSolver_20250320173054765.csv'
@@ -34,11 +41,6 @@ for line in logs:
 
     vnf_resources.setdefault(time_passed, {}).update({vnf_name:[cpu_usage, mem_usage]})
 
-
-# 提取时间和资源占用数据
-times = df['Time'].values
-times_chosens = vnf_resources.keys()
-
 def find_nearest_time(times, target, max_range=1.0):
     nearest_time = min(times, key=lambda x: abs(x - target))
     difference = abs(nearest_time - target)
@@ -47,18 +49,27 @@ def find_nearest_time(times, target, max_range=1.0):
     else:
         return None
 
-# 定义颜色列表和点型列表以便于同一NVFI的CPU和RAM使用相同颜色且不同NVFI使用不同的点型
-colors = [(122/255, 27/255, 109/255), (189/255, 55/255, 82/255), (251/255, 180/255, 26/255)]
-markers = ['o', 's', '^'] # 点型列表：圆圈、正方形、上三角
+# ------------------------------------------------------------------------------------------
+
+title ='Draw simple dynamictopo nvfi statues with numerical data'
+xlabel='Time(s)'
+ylabel='Resource Usage Rate'
+
+# 提取时间和资源占用数据
+times = df['Time'].values
+times_chosens = vnf_resources.keys()
+
+fig = plt.figure(figsize=(10, 4))
+ax = plt.axes()
+ax.set(xlabel=xlabel,ylabel=ylabel)
 
 # NVFI的CPU和RAM曲线
-for i, color, marker in zip(range(3), colors, markers): # 假设有3个NVFI
+for i in range(3): # 假设有3个NVFI
     cpu_key = f'NVFI_{i}_cpu'
     ram_key = f'NVFI_{i}_ram'
     total_cpu = df[cpu_key].iloc[0]
     total_ram = df[ram_key].iloc[0]
     
-
     cpu_usage_list = []
     ram_usage_list = []
     for time in times:
@@ -81,17 +92,16 @@ for i, color, marker in zip(range(3), colors, markers): # 假设有3个NVFI
     ram_usage_rate = [item/total_ram for item in ram_usage_list]
     
     # 绘制阶梯图，其中CPU使用实线，RAM使用虚线；并且使用相同的颜色但是不同的点型
-    plt.step(times, cpu_usage_rate, label=f'NVFI_{i} CPU', linestyle='-', 
-             color=color, marker=marker, markerfacecolor="none", markeredgecolor=color,where='post')
-    plt.step(times, ram_usage_rate, label=f'NVFI_{i} RAM', linestyle='--', 
-             color=color, marker=marker, markerfacecolor="none", markeredgecolor=color,where='post')
+    ax.step(times, cpu_usage_rate, label=f'NVFI_{i} CPU', 
+            linestyle='-', color=color_Bar[i]/255, 
+            marker=marker_Bar[i], markerfacecolor="none", markeredgecolor=color_Bar[i]/255,
+            where='post')
+    ax.step(times, ram_usage_rate, label=f'NVFI_{i} RAM', 
+            linestyle='--', color=color_Bar[i]/255, 
+            marker=marker_Bar[i], markerfacecolor="none", markeredgecolor=color_Bar[i]/255,
+            where='post')
 
-plt.xlabel('Time(s)')
-plt.ylabel('Resource Usage Rate')
+ax.legend(loc='upper right')
 
-plt.legend(loc='upper right')
-
-# 保存图表为SVG格式
-plt.savefig('draw_simple_dynamictopo_nvfi_statues_container.svg', format='svg')
-
-# plt.show()
+fig.savefig('fig/'+title.replace(' ','_')+'.svg',format='svg',dpi=150)
+fig.savefig('fig/'+title.replace(' ','_')+'.pdf', bbox_inches='tight', pad_inches=0.5)
