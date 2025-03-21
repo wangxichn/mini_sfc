@@ -16,7 +16,7 @@ ylabel='Resource Usage Rate'
 
 times = df['Time'].values
 
-fig = plt.figure(figsize=(10, 4))
+fig = plt.figure(figsize=(6, 4))
 ax = plt.axes()
 ax.set(xlabel=xlabel,ylabel=ylabel)
 

@@ -51,7 +51,7 @@ def find_nearest_time(times, target, max_range=1.0):
 
 # ------------------------------------------------------------------------------------------
 
-title ='Draw simple dynamictopo nvfi statues with numerical data'
+title ='Draw simple dynamictopo nvfi statues with container data'
 xlabel='Time(s)'
 ylabel='Resource Usage Rate'
 
@@ -59,7 +59,7 @@ ylabel='Resource Usage Rate'
 times = df['Time'].values
 times_chosens = vnf_resources.keys()
 
-fig = plt.figure(figsize=(10, 4))
+fig = plt.figure(figsize=(6, 4))
 ax = plt.axes()
 ax.set(xlabel=xlabel,ylabel=ylabel)
 
