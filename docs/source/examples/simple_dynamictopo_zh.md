@@ -8,7 +8,7 @@
 
 使用MiniSFC进行动态拓扑的数值仿真的流程如图1所示：
 
-![basic_workflow](https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/simulation_predraw-basic_workflow.drawio.png)
+![basic_workflow](https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_docs-basic_workflow.drawio.png)
 
 <center>图1 使用MiniSFC进行动态拓扑的数值仿真的基本工作流</center>
 
@@ -271,4 +271,4 @@ net.stop()
 
 在`examples/simple_dynamictopo`目录下提供了一个基于`matplotlib`的仿真结果分析示例，参考文件`draw_nvfi_statues.py`，绘制了网络运行过程中每个节点的CPU、内存占用情况,如下图所示：
 
-![nvfi_status](https://raw.githubusercontent.com/xi-studio/mini-sfc/master/docs/source/examples/simple_dynamictopo/nvfi_status.png)
+![nvfi_status](https://raw.githubusercontent.com/wangxichn/image_hosting/8d050cee9eb6301e3ce60a4f81a923b01bf5cd60/minisfc/draw_simple_dynamictopo_nvfi_statues.svg)

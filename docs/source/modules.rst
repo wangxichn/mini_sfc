@@ -1,4 +1,4 @@
-minisfc API
+Minisfc API
 ===========
 
 .. toctree::

@@ -67,6 +67,17 @@ which python
 sudo path/to/python simple_container.py
 ```
 
+## 结构
+
+Mini-SFC的主要结构如下图所示：
+
+<img src="https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_docs-framework.drawio.png" width="800">
+
+
+Mini-SFC的底层工作流程如下图所示：
+
+<img src="https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_docs-workflow.drawio.png" width="800">
+
 ## 文档
 
 关于Mini-SFC更详细的文档，请访问我们的[GitHub Pages](https://wangxichn.github.io/mini_sfc/)页面。
