@@ -29,11 +29,11 @@ Version
 
 '''
 
-from minisfc.trace import TRACE_RESULT, TRACE_NFVI
+from minisfc.trace import TRACE_RESULT, TRACE_NFVI, Trace
 import numpy as np
 import pickle
 
-SIMULATION_ID = TRACE_RESULT.get_time_stamp()
+SIMULATION_ID = Trace.get_time_stamp()
 
 # region step1: define substrate topologies--------------------------------------------
 
@@ -81,7 +81,29 @@ with open(f"{substrateTopo.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as fi
 
 # endregion
 
-# region step2: define sfc topologies------------------------------------------------
+# region step2: define vnf manager--------------------------------------------------
+
+from minisfc.mano.vnfm import VnfManager,VnfEm
+
+nfvManager = VnfManager()
+vnfEm_template = VnfEm(**{'vnf_id':0,'vnf_cpu':0.2,'vnf_ram':64})
+nfvManager.add_vnf_into_pool(vnfEm_template)
+vnfEm_template = VnfEm(**{'vnf_id':1,'vnf_cpu':0.15,'vnf_ram':64})
+nfvManager.add_vnf_into_pool(vnfEm_template)
+vnfEm_template = VnfEm(**{'vnf_id':2,'vnf_cpu':0.15,'vnf_ram':64})
+nfvManager.add_vnf_into_pool(vnfEm_template)
+
+nfvManager.add_vnf_service_into_pool(0,1,**{"band":20})
+nfvManager.add_vnf_service_into_pool(1,2,**{"band":20})
+nfvManager.add_vnf_service_into_pool(2,1,**{"band":20})
+
+with open(f"{nfvManager.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file:
+    pickle.dump(nfvManager, file)
+
+# endregion
+
+
+# region step3: define sfc topologies------------------------------------------------
 
 from minisfc.topo import ServiceTopo
 
@@ -104,27 +126,6 @@ with open(f"{serviceTopo.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file
     pickle.dump(serviceTopo, file)
 
 #  endregion
-
-# region step3: define vnf manager--------------------------------------------------
-
-from minisfc.mano.vnfm import VnfManager,VnfEm
-
-nfvManager = VnfManager()
-vnfEm_template = VnfEm(**{'vnf_id':0,'vnf_cpu':0.2,'vnf_ram':64})
-nfvManager.add_vnf_into_pool(vnfEm_template)
-vnfEm_template = VnfEm(**{'vnf_id':1,'vnf_cpu':0.15,'vnf_ram':64})
-nfvManager.add_vnf_into_pool(vnfEm_template)
-vnfEm_template = VnfEm(**{'vnf_id':2,'vnf_cpu':0.15,'vnf_ram':64})
-nfvManager.add_vnf_into_pool(vnfEm_template)
-
-nfvManager.add_vnf_service_into_pool(0,1,**{"band":20})
-nfvManager.add_vnf_service_into_pool(1,2,**{"band":20})
-nfvManager.add_vnf_service_into_pool(2,1,**{"band":20})
-
-with open(f"{nfvManager.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file:
-    pickle.dump(nfvManager, file)
-
-# endregion
 
 # region step4: define sfc solver-----------------------------------------------------
 
