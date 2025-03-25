@@ -1,6 +1,6 @@
-[English](./README_en.md) | [中文](./README_zh.md)
+[中文](./README_zh.md) | [English](./README_en.md)
 
-# Mini-SFC
+# Introduction
 
 <img align="left" width="100" height="100" style="margin: 2px 2px 0 0;" src="https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_logo_light.drawio.png" />
 
