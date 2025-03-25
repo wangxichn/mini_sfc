@@ -1,6 +1,6 @@
-[English](./README_en.md) | [中文](./README_zh.md)
+[中文](./README_zh.md) | [English](./README_en.md)
 
-# Mini-SFC
+# 介绍
 
 <img align="left" width="100" height="100" style="margin: 2px 2px 0 0;" src="https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_logo_light.drawio.png" />
 
@@ -15,7 +15,9 @@ Mini-SFC 是一个针对服务功能链(SFC)编排算法设计的仿真框架，
 
 ## 安装指南
 
-对于希望灵活配置以及使用基于CUDA的人工智能算法进行研究的人员来说，裸机安装为最佳选择。确保您的机器至少运行Ubuntu **22.04 LTS**及以上的版本，并已安装**Python3.10**及以上版本。
+**注意**：该安装指南为简化安装流程，详细安装过程参考[Mini-SFC文档](https://wangxichn.github.io/mini_sfc/)中的安装部分。
+
+对于希望灵活配置以及使用基于CUDA的人工智能算法进行研究的人员来说，裸机安装为最佳选择。确保您的机器运行Ubuntu **22.04 LTS**（其他版本未经测试），并已安装**Python3.10**及以上版本。
 
 首先，克隆本项目仓库：
 

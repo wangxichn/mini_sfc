@@ -1,9 +1,9 @@
-介绍
+安装
 ==================
  
 .. toctree::
    :maxdepth: 2
    
-   README_zh
-   README_en
+   install_zh
+   install_en
    
