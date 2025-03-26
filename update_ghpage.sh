@@ -1,36 +1,42 @@
 #!/bin/bash
-set -e  # 脚本遇到错误时立即退出
+set -e
 
-# 获取当前分支名称
+# 1. 权限检查
+if [ ! -w .git/objects ]; then
+  sudo chown -R $USER:$USER .git || {
+    echo "无法修复.git权限，请手动执行: sudo chown -R $USER:$USER .git"
+    exit 1
+  }
+fi
+
+# 2. 获取当前分支
 CURRENT_BRANCH=$(git symbolic-ref --short HEAD)
 
-# 定义一个临时目录来保存生成的HTML文件
+# 3. 使用更安全的临时目录操作
 TEMP_DIR=$(mktemp -d)
+trap 'rm -rf "$TEMP_DIR"' EXIT  # 确保退出时清理
 
-# 复制构建好的HTML文件到临时目录
-cp -r docs/build/html/. $TEMP_DIR
+# 4. 复制文件（保留权限）
+rsync -a docs/build/html/ "$TEMP_DIR/"
 
-# 切换到gh-pages分支并清空该分支下的所有文件
-git checkout gh-pages && git rm -rf .
+# 5. 切换到gh-pages分支
+git checkout gh-pages
 
-# 从临时目录复制HTML文件回来
-cp -r $TEMP_DIR/. .
+# 6. 清空分支（使用git rm更安全）
+git ls-files -z | xargs -0 git rm -f --
 
+# 7. 复制文件回来（保留隐藏文件）
+rsync -a "$TEMP_DIR/" ./
+
+# 8. 确保.nojekyll存在
 touch .nojekyll
 
-# 添加所有文件到暂存区
+# 9. 提交和推送
 git add .
-
-# 提交更改
-git commit -m "Update documentation"
-
-# 推送更改到远程仓库
+git commit -m "Update documentation $(date +%Y-%m-%d)"
 git push origin gh-pages
 
-# 清理临时目录
-rm -rf "$TEMP_DIR"
-
-# 切回原来的分支
+# 10. 切回原分支
 git checkout "$CURRENT_BRANCH"
 
-echo "Documentation update and deploy to gh-pages completed."
+echo "成功更新文档到gh-pages分支"
