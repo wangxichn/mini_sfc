@@ -2,11 +2,13 @@
 
 # 动态拓扑的数值仿真
 
-该示例的讲解以项目中`example/simple_dynamictopo.py`为例，介绍如何使用MiniSFC进行动态拓扑的数值仿真。
+使用MiniSFC进行仿真的基本流程同NS3、Mininet等其他网络仿真工具类似，即首先编写一个`.py`的控制脚本文件设定仿真的场景，然后使用`Python`运行该脚本文件，即可启动仿真。
+
+该示例的讲解以项目中`example/simple_dynamictopo.py`为例，介绍使用MiniSFC进行仿真时仿真脚本必要的元素，以及如何对产生的结果进行分析，完成动态拓扑的数值仿真。
 
 ## 基本工作流
 
-使用MiniSFC进行动态拓扑的数值仿真的流程如图1所示：
+编写脚本使用MiniSFC进行动态拓扑的数值仿真的流程如图1所示：
 
 ![basic_workflow](https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_docs-basic_workflow.drawio.png)
 
@@ -28,7 +30,7 @@ SIMULATION_ID = Trace.get_time_stamp()
 
 首先，需要构建一个基底网络拓扑，即一个包含所有节点和链路的网络拓扑。这个拓扑可以是静态的，也可以是动态的。不论是静态的还是动态的，都需要包含以下几个元素才可完整定义基底网络所需的信息。
 
-- 时间：一个时间序列，用于标记网络拓扑发生变化的时间点，该时间默认以秒为单位，支持浮点数精度。如果需要构建的是静态的网络拓扑，则时间序列只包含一个元素，即基底网络的建立时间0.0。如果需要构建的是动态的网络拓扑，则时间序列包含多个元素，即网络拓扑发生变化的时间点。MiniSFC会根据该信息来自动生成事件，标记网络拓扑此时发生的了变化，并对网络进行相应的调整。
+- 时间：一个时间序列，用于标记网络拓扑发生变化的时间点，该时间默认以秒为单位，支持浮点数精度。如果需要构建的是静态的网络拓扑，则时间序列只包含一个元素，即基底网络的建立时间0.0。如果需要构建的是动态的网络拓扑，则时间序列包含多个元素，即网络拓扑发生变化的时间点。MiniSFC会根据该信息来自动生成事件，标记网络拓扑此时发生了变化，并对网络进行相应的调整。
 
 ```python
 topoTimeList = [0.0,12.0,20.0]
@@ -242,6 +244,21 @@ net.start()
 net.stop()
 ```
 
+如果使用示例中的默认脚本，则运行如下命令：
+
+```bash
+cd minisfc/examples/simple_dynamictopo
+python simple_dynamictopo.py
+```
+
+如果使用了Anaconda环境（例如命名为`minisfc`的开发环境），则运行如下命令：
+
+```bash
+cd minisfc/examples/simple_dynamictopo
+conda activate minisfc
+python simple_dynamictopo.py
+```
+
 ## 仿真过程
 
 在仿真运行过程中，会在执行该脚本中的终端创建一个基于`tqdm`的进度条，显示仿真的进度。该进度条会显示当前仿真时间、当前仿真事件等信息。可用于观察仿真的运行情况，以及当仿真突然中断时，可以根据进度条信息来进行调试。
@@ -268,6 +285,13 @@ net.stop()
     - `NVFI_i_vnfs`：第i个节点上运行的VNF的ID列表。
 
 用户可以根据自己的需求对日志文件进行分析，例如绘制仿真结果图表、分析SFC部署失败的原因、分析资源的分配情况等。
+
+MiniSFC提供了一个简易的分析模块`DataAnalysis`，可以帮助用户快速分析日志文件，在每次仿真结束后，该模块会自动打印一行文字输出SFC部署成功率等信息，用户可以根据该信息快速判断算法的性能。
+
+```python
+from minisfc.util import DataAnalysis
+DataAnalysis.getResult(TraceResultFile)
+```
 
 在`examples/simple_dynamictopo`目录下提供了一个基于`matplotlib`的仿真结果分析示例，参考文件`draw_nvfi_statues.py`，绘制了网络运行过程中每个节点的CPU、内存占用情况,如下图所示：
 

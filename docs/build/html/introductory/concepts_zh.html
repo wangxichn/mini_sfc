@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>相关概念 &mdash; MiniSFC 2.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Concepts" href="concepts_en.html" />
+    <link rel="prev" title="Introduction" href="README_en.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MiniSFC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">介绍</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="README_zh.html">介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="README_en.html">Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">相关概念</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">核心架构概念</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#service-function-chaining-sfc">服务功能链 (Service Function Chaining, SFC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#nfv">网络功能虚拟化 (NFV)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdn">软件定义网络 (SDN)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sfc">典型SFC应用场景</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#mano">MANO架构</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">仿真技术维度</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id4">离散事件仿真</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5">容器化实时仿真</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="concepts_en.html">Concepts</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../install/index.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">使用示例</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Minisfc API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MiniSFC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">介绍</a></li>
+      <li class="breadcrumb-item active">相关概念</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/introductory/concepts_zh.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p><a class="reference internal" href="#"><span class="doc">中文</span></a> | <a class="reference internal" href="concepts_en.html"><span class="doc">English</span></a></p>
+<section id="id1">
+<h1>相关概念<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<section id="id2">
+<h2>核心架构概念<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<section id="service-function-chaining-sfc">
+<h3>服务功能链 (Service Function Chaining, SFC)<a class="headerlink" href="#service-function-chaining-sfc" title="Link to this heading"></a></h3>
+<p>将多个虚拟网络功能(VNF)按业务需求编排成有序处理链的技术。典型特征包括：</p>
+<ul class="simple">
+<li><p><strong>服务抽象</strong>：将网络功能解耦为独立模块</p></li>
+<li><p><strong>动态编排</strong>：支持运行时链结构调整</p></li>
+<li><p><strong>流量导向</strong>：通过SDN控制器实现业务流按路径转发</p></li>
+</ul>
+<p>相关参考资料：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.yuque.com/wangxi_chn/iku3gm/wx39lox90a9xa80m#">SFC 教程资料</a></p></li>
+</ul>
+</section>
+<section id="nfv">
+<h3>网络功能虚拟化 (NFV)<a class="headerlink" href="#nfv" title="Link to this heading"></a></h3>
+<p>传统硬件网络功能的软件化实现，关键特性：</p>
+<ul class="simple">
+<li><p><strong>弹性扩展</strong>：可根据负载动态伸缩实例</p></li>
+<li><p><strong>独立生命周期</strong>：每个VNF可单独启停/升级</p></li>
+<li><p><strong>服务示例</strong>：防火墙、NAT、负载均衡、IDS等</p></li>
+</ul>
+<p>相关参考资料：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.yuque.com/wangxi_chn/iku3gm/fsac3vx8e6r1t2ed#">SFC 技术基础</a></p></li>
+</ul>
+</section>
+<section id="sdn">
+<h3>软件定义网络 (SDN)<a class="headerlink" href="#sdn" title="Link to this heading"></a></h3>
+<p>实现SFC的关键使能技术，核心特征：</p>
+<ul class="simple">
+<li><p><strong>控制面与数据面分离</strong></p></li>
+<li><p><strong>集中式网络视图</strong></p></li>
+<li><p><strong>可编程流量调度</strong>（通过OpenFlow等协议）</p></li>
+</ul>
+<p>相关参考资料：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.yuque.com/wangxi_chn/iku3gm/abfw3a#">SDN 基本概念</a></p></li>
+<li><p><a class="reference external" href="https://www.yuque.com/wangxi_chn/iku3gm/fsac3vx8e6r1t2ed#">SFC 技术基础</a></p></li>
+</ul>
+</section>
+<section id="sfc">
+<h3>典型SFC应用场景<a class="headerlink" href="#sfc" title="Link to this heading"></a></h3>
+<ol class="simple">
+<li><p><strong>边缘计算</strong>：UE→防火墙→视频优化→基站</p></li>
+<li><p><strong>云安全</strong>：流量→IPS→WAF→审计系统</p></li>
+<li><p><strong>5G核心网</strong>：UPF→SMF→AMF链式处理</p></li>
+</ol>
+</section>
+</section>
+<section id="mano">
+<h2>MANO架构<a class="headerlink" href="#mano" title="Link to this heading"></a></h2>
+<p>ETSI提出的NFV管理与编排框架，包含三个核心组件：</p>
+<ul class="simple">
+<li><p><strong>NFV Orchestrator (NFVO)</strong>：负责全局资源编排</p></li>
+<li><p><strong>VNF Manager (VNFM)</strong>：管理虚拟网络功能生命周期</p></li>
+<li><p><strong>Virtualized Infrastructure Manager (VIM)</strong>：管理计算/存储/网络资源</p></li>
+</ul>
+<p>相关参考资料：</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.yuque.com/wangxi_chn/iku3gm/vv92zv8l5u2iwns4#">NFV MANO架构</a></p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>仿真技术维度<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<section id="id4">
+<h3>离散事件仿真<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>基于事件队列的时间推进机制</p></li>
+<li><p>忽略物理时间消耗，关注逻辑正确性</p></li>
+<li><p>适合大规模拓扑的理论验证</p></li>
+<li><p>典型工具：纯Python实现或Matlab仿真</p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>容器化实时仿真<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>使用Docker等容器技术构建实例</p></li>
+<li><p>真实协议栈支持（TCP/IP等）</p></li>
+<li><p>可注入实际流量测试</p></li>
+<li><p>典型工具：Containernet</p></li>
+</ul>
+<blockquote>
+<div><p>注：MiniSFC框架同时支持理论研究（离散事件仿真）和实践验证（容器仿真）两种研究范式</p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="README_en.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="concepts_en.html" class="btn btn-neutral float-right" title="Concepts" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Wang Xi。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

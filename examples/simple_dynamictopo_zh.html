@@ -47,7 +47,6 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introductory/index.html">介绍</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../install/index.html">安装</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../modules.html">Minisfc API</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">使用示例</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">动态拓扑的数值仿真</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#id2">基本工作流</a></li>
@@ -71,6 +70,7 @@
 <li class="toctree-l2"><a class="reference internal" href="simple_sagintopo_en.html">Numerical Simulation Example under the Space-Air-Ground Integrated Network Topology</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Minisfc API</a></li>
 </ul>
 
         </div>
@@ -101,10 +101,11 @@
   <p><a class="reference internal" href="#"><span class="doc">中文</span></a> | <a class="reference internal" href="simple_dynamictopo_en.html"><span class="doc">English</span></a></p>
 <section id="id1">
 <h1>动态拓扑的数值仿真<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
-<p>该示例的讲解以项目中<code class="docutils literal notranslate"><span class="pre">example/simple_dynamictopo.py</span></code>为例，介绍如何使用MiniSFC进行动态拓扑的数值仿真。</p>
+<p>使用MiniSFC进行仿真的基本流程同NS3、Mininet等其他网络仿真工具类似，即首先编写一个<code class="docutils literal notranslate"><span class="pre">.py</span></code>的控制脚本文件设定仿真的场景，然后使用<code class="docutils literal notranslate"><span class="pre">Python</span></code>运行该脚本文件，即可启动仿真。</p>
+<p>该示例的讲解以项目中<code class="docutils literal notranslate"><span class="pre">example/simple_dynamictopo.py</span></code>为例，介绍使用MiniSFC进行仿真时仿真脚本必要的元素，以及如何对产生的结果进行分析，完成动态拓扑的数值仿真。</p>
 <section id="id2">
 <h2>基本工作流<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
-<p>使用MiniSFC进行动态拓扑的数值仿真的流程如图1所示：</p>
+<p>编写脚本使用MiniSFC进行动态拓扑的数值仿真的流程如图1所示：</p>
 <p><img alt="basic_workflow" src="https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_docs-basic_workflow.drawio.png" /></p>
 <center>图1 使用MiniSFC进行动态拓扑的数值仿真的基本工作流</center><p>这个工作流符合构建网络仿真的直觉，即首先构建网络拓扑，然后设置一个预期该网络中需要部署的服务，然后在仿真环境中模拟网络的行为。直到定义MiniSFC仿真器并开始仿真，前面的工作都可以视为准备工作。</p>
 </section>
@@ -120,7 +121,7 @@
 <h3>步骤一：定义基底网络拓扑<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <p>首先，需要构建一个基底网络拓扑，即一个包含所有节点和链路的网络拓扑。这个拓扑可以是静态的，也可以是动态的。不论是静态的还是动态的，都需要包含以下几个元素才可完整定义基底网络所需的信息。</p>
 <ul class="simple">
-<li><p>时间：一个时间序列，用于标记网络拓扑发生变化的时间点，该时间默认以秒为单位，支持浮点数精度。如果需要构建的是静态的网络拓扑，则时间序列只包含一个元素，即基底网络的建立时间0.0。如果需要构建的是动态的网络拓扑，则时间序列包含多个元素，即网络拓扑发生变化的时间点。MiniSFC会根据该信息来自动生成事件，标记网络拓扑此时发生的了变化，并对网络进行相应的调整。</p></li>
+<li><p>时间：一个时间序列，用于标记网络拓扑发生变化的时间点，该时间默认以秒为单位，支持浮点数精度。如果需要构建的是静态的网络拓扑，则时间序列只包含一个元素，即基底网络的建立时间0.0。如果需要构建的是动态的网络拓扑，则时间序列包含多个元素，即网络拓扑发生变化的时间点。MiniSFC会根据该信息来自动生成事件，标记网络拓扑此时发生了变化，并对网络进行相应的调整。</p></li>
 </ul>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoTimeList</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">12.0</span><span class="p">,</span><span class="mf">20.0</span><span class="p">]</span>
 </pre></div>
@@ -318,6 +319,17 @@
 <span class="n">net</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
+<p>如果使用示例中的默认脚本，则运行如下命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>minisfc/examples/simple_dynamictopo
+python<span class="w"> </span>simple_dynamictopo.py
+</pre></div>
+</div>
+<p>如果使用了Anaconda环境（例如命名为<code class="docutils literal notranslate"><span class="pre">minisfc</span></code>的开发环境），则运行如下命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>minisfc/examples/simple_dynamictopo
+conda<span class="w"> </span>activate<span class="w"> </span>minisfc
+python<span class="w"> </span>simple_dynamictopo.py
+</pre></div>
+</div>
 </section>
 <section id="id7">
 <h2>仿真过程<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
@@ -350,6 +362,11 @@
 </li>
 </ul>
 <p>用户可以根据自己的需求对日志文件进行分析，例如绘制仿真结果图表、分析SFC部署失败的原因、分析资源的分配情况等。</p>
+<p>MiniSFC提供了一个简易的分析模块<code class="docutils literal notranslate"><span class="pre">DataAnalysis</span></code>，可以帮助用户快速分析日志文件，在每次仿真结束后，该模块会自动打印一行文字输出SFC部署成功率等信息，用户可以根据该信息快速判断算法的性能。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataAnalysis</span>
+<span class="n">DataAnalysis</span><span class="o">.</span><span class="n">getResult</span><span class="p">(</span><span class="n">TraceResultFile</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>在<code class="docutils literal notranslate"><span class="pre">examples/simple_dynamictopo</span></code>目录下提供了一个基于<code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>的仿真结果分析示例，参考文件<code class="docutils literal notranslate"><span class="pre">draw_nvfi_statues.py</span></code>，绘制了网络运行过程中每个节点的CPU、内存占用情况,如下图所示：</p>
 <p><img alt="nvfi_status" src="https://raw.githubusercontent.com/wangxichn/image_hosting/8d050cee9eb6301e3ce60a4f81a923b01bf5cd60/minisfc/draw_simple_dynamictopo_nvfi_statues.svg" /></p>
 </section>
