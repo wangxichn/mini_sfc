@@ -1,3 +1,5 @@
+[中文](./concepts_zh.md) | [English](./concepts_en.md)
+
 # 相关概念
 
 ## 核心架构概念
@@ -57,13 +59,5 @@ ETSI提出的NFV管理与编排框架，包含三个核心组件：
 - 真实协议栈支持（TCP/IP等）
 - 可注入实际流量测试
 - 典型工具：Containernet
-
-## 关键术语对照
-| 术语 | 英文全称 | 说明 |
-|------|---------|------|
-| VNF  | Virtualized Network Function | 虚拟化网络功能 |
-| NFV  | Network Functions Virtualization | 网络功能虚拟化 |
-| SFC  | Service Function Chaining | 服务功能链 |
-| MANO | Management and Orchestration | 管理与编排 |
 
 > 注：MiniSFC框架同时支持理论研究（离散事件仿真）和实践验证（容器仿真）两种研究范式

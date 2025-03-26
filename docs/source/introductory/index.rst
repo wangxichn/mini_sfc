@@ -6,5 +6,6 @@
    
    README_zh
    README_en
-   concepts
+   concepts_zh
+   concepts_en
    

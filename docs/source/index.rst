@@ -26,6 +26,6 @@ Mini-SFC is a simulation framework designed for Service Function Chain (SFC) orc
 
    introductory/index
    install/index
-   modules
    examples/index
+   modules
 
