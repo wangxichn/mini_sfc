@@ -66,7 +66,7 @@ SIMULATION_ID = Trace.get_time_stamp()
 
 首先，需要构建一个基底网络拓扑，即一个包含所有节点和链路的网络拓扑。这个拓扑可以是静态的，也可以是动态的。不论是静态的还是动态的，都需要包含以下几个元素才可完整定义基底网络所需的信息。
 
-- 时间：一个时间序列，用于标记网络拓扑发生变化的时间点，该时间默认以秒为单位，支持浮点数精度。如果需要构建的是静态的网络拓扑，则时间序列只包含一个元素，即基底网络的建立时间0.0。如果需要构建的是动态的网络拓扑，则时间序列包含多个元素，即网络拓扑发生变化的时间点。MiniSFC会根据该信息来自动生成事件，标记网络拓扑此时发生的了变化，并对网络进行相应的调整。
+- 时间：一个时间序列，用于标记网络拓扑发生变化的时间点，该时间默认以秒为单位，支持浮点数精度。如果需要构建的是静态的网络拓扑，则时间序列只包含一个元素，即基底网络的建立时间0.0。如果需要构建的是动态的网络拓扑，则时间序列包含多个元素，即网络拓扑发生变化的时间点。MiniSFC会根据该信息来自动生成事件，标记网络拓扑此时发生了变化，并对网络进行相应的调整。
 
 ```python
 topoTimeList = [0.0]
@@ -147,7 +147,7 @@ vnfEm_template = VnfEm(**{'vnf_id':2,'vnf_cpu':0.15,'vnf_ram':64,
 nfvManager.add_vnf_into_pool(vnfEm_template)
 ```
 
-<mark>**在上述参数中'vnf_img':'vnfserver:latest'镜像需要用户预先构建好********</mark>
+<mark>在上述参数中'vnf_img':'vnfserver:latest'镜像需要用户预先构建好</mark>
 
 在`example/simple_container`目录下(与`Dockerfile.vnfserver`文件同一级)，运行
 
@@ -155,7 +155,7 @@ nfvManager.add_vnf_into_pool(vnfEm_template)
 docker build -f Dockerfile.vnfserver -t vnfserver:latest .
 ```
 
-<mark>**构建完成后可在终端中运行'sudo docker images'进行检查******************</mark>
+<mark>构建完成后可在终端中运行'sudo docker images'进行检查</mark>
 
 
 - 设置VNF间虚拟链路资源占用：`VnfManager`对象提供了`set_vnf_resource_info`方法，用于设置VNF间的虚拟链路资源占用信息。该方法需要三个参数，前两个参数为VNF的ID，第三个参数为资源占用信息。资源占用信息是一个字典，包含资源类型和占用量两个元素，资源类型默认支持单位为MB的带宽，具体取决于想要模拟的网络的资源类型。
@@ -246,7 +246,7 @@ ueManager.add_ue_into_pool(ue_template)
 ue_template = Ue(**{'ue_id':1,'ue_type':'ue_print','ue_img':'ueserver:latest','ue_cmd':template_str,'ue_port':8000})
 ueManager.add_ue_into_pool(ue_template)
 ```
-<mark>**在上述参数中'ue_img':'ueserver:latest'镜像需要用户预先构建好********</mark>
+<mark>在上述参数中'ue_img':'ueserver:latest'镜像需要用户预先构建好</mark>
 
 在`example/simple_container`目录下(与`Dockerfile.ueserver`文件同一级)，运行
 
@@ -254,7 +254,7 @@ ueManager.add_ue_into_pool(ue_template)
 docker build -f Dockerfile.ueserver -t ueserver:latest .
 ```
 
-<mark>**构建完成后可在终端中运行'sudo docker images'进行检查******************</mark>
+<mark>构建完成后可在终端中运行'sudo docker images'进行检查</mark>
 
 
 - 设置用户请求：`UeManager`对象提供了`add_ue_service_into_pool`方法，用于设置用户请求的SFC的ID、请求延时等信息。该方法需要三个参数，前两个参数为用户的ID，第三个参数为请求信息。请求信息是一个字典，目前设置为请求的发送间隔，单位为秒。
@@ -308,6 +308,24 @@ TRACE_RESULT.set(TraceResultFile)
 TraceNfviFile = f'{TRACE_NFVI.__class__.__name__}_{sfcSolver.__class__.__name__}_{SIMULATION_ID}.csv'
 TRACE_NFVI.set(TraceNfviFile)
 ```
+
+<mark>在运行仿真之前，这里需声明一下SDN控制器的问题</mark>
+
+由于MiniSFC的基于容器的仿真是基于`Containernet`实现的，而`Containernet`默认使用了`Mininet`中的简单控制器作为SDN控制器，该控制器的流表下发功能仅能支持简单的匹配规则，因此仅能工作在树状拓扑结构的网络中，而无法处理有环的网络拓扑。具体的表现形式即为创建了模拟vnf的容器后，各个容器之间无法正常通信，导致用户的请求无法到达目的地。因此为了解决该问题，MiniSFC支持用户使用自定义的SDN控制器，并将其部署在仿真环境中。
+
+MiniSFC将`Containernet`的添加外部控制器功能封装为`addRemoteController`方法，该方法需要三个参数，第一个参数为控制器的名称，第二个参数为控制器的IP地址，第三个参数为控制器的端口。
+
+```python
+net.addRemoteController(self,name='c0', ip='127.0.0.1', port=6653):
+```
+
+如果用户对RYU控制器的使用较为了解，可以直接使用路径`examples/simple_container/ryu/simple_switch_stp_13.py`脚本来启动RYU控制器提供的一个基于STP协议的控制器应用，可以实现剪枝算法进而解决环路问题。具体流程为：
+ - 安装RYU控制器，具体方法可参考[Ryu 安装教程](https://www.yuque.com/wangxi_chn/kozrfl/ov20zsfgpt4naaki#)
+ - 使用RYU控制器加载`simple_switch_stp_13.py`应用脚本
+ - 在MiniSFC的场景脚本中，调用`addRemoteController`方法，将RYU控制器的IP地址和端口号作为参数传入
+ - 启动仿真，由于STP协议需要较长的时间用来学习拓扑，因此建议将首个SFC的到达时间适当延长，以便让控制器学习完拓扑后再开始部署SFC
+
+<mark>如何将控制器流表下发功能集成在MiniSFC中，并解决环路问题，将在后续版本中进行完善</mark>
 
 上述工作完成后，就可以启动仿真，该过程会自动生成事件并进行调度，直到所有SFC的生命周期终止。`net.stop()`在基于容器的模拟仿真中，该方法是必须的，因为需要该方法释放仿真过程中所占用的资源并退出Containernet仿真环境，避免对下次仿真造成影响。为了避免仿真过程中的意外中断导致Containernet环境无法正常退出，建议将`net.stop()`放置在try-except语句中，捕获异常并调用`net.stop()`方法进行清理。
 
@@ -375,6 +393,13 @@ sudo path/to/python simple_dynamictopo.py
 以及来源于自动采集脚本的日志文件夹`logsave`，该文件夹中包含了每个容器的日志文件。
 
 用户可以根据自己的需求对日志文件进行分析，例如绘制仿真结果图表、分析SFC部署失败的原因、分析资源的分配情况等。
+
+MiniSFC提供了一个简易的分析模块`DataAnalysis`，可以帮助用户快速分析日志文件，在每次仿真结束后，该模块会自动打印一行文字输出SFC部署成功率等信息，用户可以根据该信息快速判断算法的性能。
+
+```python
+from minisfc.util import DataAnalysis
+DataAnalysis.getResult(TraceResultFile)
+```
 
 在`examples/simple_container`目录下提供了两个基于`matplotlib`的仿真结果分析示例：
 - `draw_nvfi_statues_numerical.py`：即便MiniSFC工作在基于容器的仿真环境中，但也会保留基于数值仿真的仿真结果，因此可以通过该脚本绘制在理想状态下，各个节点的CPU、内存占用情况，如下图所示。
