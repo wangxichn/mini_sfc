@@ -6,11 +6,17 @@
 
 ## 准备工作
 
+注意：如果计划需要将Mini-SFC部署在Anaconda的虚拟环境中（例如命名为`minisfc`的开发环境），则下述安装步骤需要在激活虚拟环境后进行。
+
+```bash
+conda activate minisfc
+```
+
 Mini-SFC的基于容器的仿真功能依赖于Containernet仿真器，而Containernet需要安装Docker。
 
-因此，请确保您的机器上已安装Docker，安装过程可参考[Docker教程与资料](https://www.yuque.com/wangxi_chn/qaxke0/itdap183fetk0gza#)。
+因此请确保您的机器上已安装Docker，安装过程可参考[Docker教程与资料](https://www.yuque.com/wangxi_chn/qaxke0/itdap183fetk0gza#)。
 
-然后，安装Containernet，安装过程可参考[Containernet安装与配置](https://www.yuque.com/wangxi_chn/kozrfl/ztp52q4k6l3974qh#)。
+然后安装Containernet，安装过程可参考[Containernet安装与配置](https://www.yuque.com/wangxi_chn/kozrfl/ztp52q4k6l3974qh#)。
 
 如果测试Containernet示例中的基础功能正常，则可以继续安装Mini-SFC
 

@@ -2,11 +2,13 @@
 
 # 动态拓扑的数值仿真
 
-该示例的讲解以项目中`example/simple_dynamictopo.py`为例，介绍如何使用MiniSFC进行动态拓扑的数值仿真。
+使用MiniSFC进行仿真的基本流程同NS3、Mininet等其他网络仿真工具类似，即首先编写一个`.py`的控制脚本文件设定仿真的场景，然后使用`Python`运行该脚本文件，即可启动仿真。
+
+该示例的讲解以项目中`example/simple_dynamictopo.py`为例，介绍使用MiniSFC进行仿真时仿真脚本必要的元素，以及如何对产生的结果进行分析，完成动态拓扑的数值仿真。
 
 ## 基本工作流
 
-使用MiniSFC进行动态拓扑的数值仿真的流程如图1所示：
+编写脚本使用MiniSFC进行动态拓扑的数值仿真的流程如图1所示：
 
 ![basic_workflow](https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_docs-basic_workflow.drawio.png)
 
@@ -240,6 +242,21 @@ TRACE_NFVI.set(TraceNfviFile)
 ```python
 net.start()
 net.stop()
+```
+
+如果使用示例中的默认脚本，则运行如下命令：
+
+```bash
+cd minisfc/examples/simple_dynamictopo
+python simple_dynamictopo.py
+```
+
+如果使用了Anaconda环境（例如命名为`minisfc`的开发环境），则运行如下命令：
+
+```bash
+cd minisfc/examples/simple_dynamictopo
+conda activate minisfc
+python simple_dynamictopo.py
 ```
 
 ## 仿真过程

@@ -59,27 +59,7 @@ with open(f"{substrateTopo.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as fi
 
 # endregion
 
-# region step2: define sfc topologies------------------------------------------------
-
-from minisfc.topo import ServiceTopo
-
-sfcIdList = [0,1]                             # sfc 请求的id
-sfcLifeTimeDict = {0:[5,25],
-                   1:[10,50]}                # sfc 生命周期
-endPointDict = {0:[0,2],
-                1:[0,1]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
-vnfRequstDict = {0:[2,0,2],
-                 1:[2,0,2]}                 # sfc 请求的vnf列表
-qosRequesDict = {0:[100],
-                 1:[100]}                   # sfc 请求的qos列表（目前只有时延）
-
-serviceTopo = ServiceTopo(sfcIdList,sfcLifeTimeDict,endPointDict,vnfRequstDict,qosRequesDict)
-with open(f"{serviceTopo.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file:
-    pickle.dump(serviceTopo, file)
-
-# endregion
-
-# region step3: define vnf manager--------------------------------------------------
+# region step2: define vnf manager--------------------------------------------------
 
 from minisfc.mano.vnfm import VnfManager,VnfEm
 
@@ -101,6 +81,26 @@ nfvManager.add_vnf_service_into_pool(0,2,**{"band":20})
 
 with open(f"{nfvManager.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file:
     pickle.dump(nfvManager, file)
+
+# endregion
+
+# region step3: define sfc topologies------------------------------------------------
+
+from minisfc.topo import ServiceTopo
+
+sfcIdList = [0,1]                             # sfc 请求的id
+sfcLifeTimeDict = {0:[5,25],
+                   1:[10,50]}                # sfc 生命周期
+endPointDict = {0:[0,2],
+                1:[0,1]}                    # sfc 端点部署位置限制（即强制vnf_gnb部署位置）
+vnfRequstDict = {0:[2,0,2],
+                 1:[2,0,2]}                 # sfc 请求的vnf列表
+qosRequesDict = {0:[100],
+                 1:[100]}                   # sfc 请求的qos列表（目前只有时延）
+
+serviceTopo = ServiceTopo(sfcIdList,sfcLifeTimeDict,endPointDict,vnfRequstDict,qosRequesDict)
+with open(f"{serviceTopo.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file:
+    pickle.dump(serviceTopo, file)
 
 # endregion
 
