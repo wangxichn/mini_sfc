@@ -1,0 +1,529 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>基于容器的模拟仿真环境的简单示例 &mdash; MiniSFC 2.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Container-based Simulation Example" href="simple_container_en.html" />
+    <link rel="prev" title="Numerical Dynamic Topography Simulation Example" href="simple_dynamictopo_en.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MiniSFC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introductory/index.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/index.html">安装</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">使用示例</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simple_dynamictopo_zh.html">动态拓扑的数值仿真</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_dynamictopo_en.html">Numerical Dynamic Topography Simulation Example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">基于容器的模拟仿真环境的简单示例</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">基本工作流</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">关于容器</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">准备工作</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">步骤一：定义基底网络拓扑</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vnf">步骤二：定义VNF管理器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sfc">步骤三：定义SFC拓扑</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">步骤四：定义用户管理器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">步骤五：定义SFC部署求解器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc">步骤六：定义MiniSFC仿真器</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">开始仿真</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">仿真过程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">结果分析</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simple_container_en.html">Container-based Simulation Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_sagintopo_zh.html">空天地一体化网络拓扑下的数值仿真示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_sagintopo_en.html">Numerical Simulation Example under the Space-Air-Ground Integrated Network Topology</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Minisfc API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MiniSFC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">使用示例</a></li>
+      <li class="breadcrumb-item active">基于容器的模拟仿真环境的简单示例</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/simple_container_zh.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p><a class="reference internal" href="#"><span class="doc">中文</span></a> | <a class="reference internal" href="simple_container_en.html"><span class="doc">English</span></a></p>
+<section id="id1">
+<h1>基于容器的模拟仿真环境的简单示例<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>使用MiniSFC进行仿真的基本流程同NS3、Mininet等其他网络仿真工具类似，即首先编写一个<code class="docutils literal notranslate"><span class="pre">.py</span></code>的控制脚本文件设定仿真的场景，然后使用<code class="docutils literal notranslate"><span class="pre">Python</span></code>运行该脚本文件，即可启动仿真。</p>
+<p>该示例的讲解以项目中<code class="docutils literal notranslate"><span class="pre">example/simple_container.py</span></code>为例，介绍使用MiniSFC进行仿真时仿真脚本必要的元素，以及如何对产生的结果进行分析，完成基于容器的模拟仿真环境的简单示例。</p>
+<section id="id2">
+<h2>基本工作流<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>编写脚本使用MiniSFC进行基于容器的模拟仿真环境的简单示例的流程如图1所示：</p>
+<p><img alt="container_workflow" src="https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_docs-container_workflow.drawio.png" /></p>
+<center>图1 使用MiniSFC进行基于容器的模拟仿真环境的简单示例的基本工作流</center><p>这个工作流符合构建网络仿真的直觉，即首先构建网络拓扑，然后设置一个预期该网络中需要部署的服务，然后在仿真环境中模拟网络的行为。直到定义MiniSFC仿真器并开始仿真，前面的工作都可以视为准备工作。</p>
+</section>
+<section id="id3">
+<h2>关于容器<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p><mark>需要注意的是，相比基于简单的数值仿真，基于容器的模拟仿真要求实际地在网络中部署容器，以及在容器中运行着相应的服务来支持仿真。因此在运行仿真之前，需要预先准备好预期在网络中部署的容器镜像，以及相应的服务启动和使用方式。</mark></p>
+<p>在该示例中我们提供了分别用于构建vnf和ue的两个docker镜像：</p>
+<ul class="simple">
+<li><p>vnf镜像制作文件：<code class="docutils literal notranslate"><span class="pre">Dockerfile.vnfserver</span></code></p>
+<ul>
+<li><p>其上部署一个支持三种类型vnf功能的基于FastAPI开发的Web服务器</p></li>
+<li><p>该服务器的原文件位于<code class="docutils literal notranslate"><span class="pre">example/simple_container/mini_vnf</span></code></p></li>
+<li><p>三种类型的vnf功能分别为：</p>
+<ul>
+<li><p>功能1：<code class="docutils literal notranslate"><span class="pre">vnf_gnb</span></code>用于简单模拟移动通信中的基站的接入功能，本质上是将用户的请求转发到指定的下一个vnf节点。</p></li>
+<li><p>功能2：<code class="docutils literal notranslate"><span class="pre">vnf_matinv</span></code>用于将用户请求的数据矩阵多次进行求逆运算（模拟高计算负载任务），并将运算结果转发到指定的下一个vnf节点。</p></li>
+<li><p>功能3：<code class="docutils literal notranslate"><span class="pre">vnf_matprint</span></code>用于将用户请求的数据矩阵打印出来。</p></li>
+</ul>
+</li>
+<li><p>vnf的具体功能是通过服务器启动指令中的<code class="docutils literal notranslate"><span class="pre">vnf_type</span></code>参数来指定的</p></li>
+<li><p>不管那种类型的vnf其内容都在维护一个转发表，即来自于哪个用户的请求对应着应该将处理结果转发到哪个vnf节点。</p></li>
+<li><p>因此服务器对外提供一个设置转发表的Restful接口，用户可以通过该接口设置转发表，以便控制vnf的功能(已被Minisfc中的MANO根据SFC的部署情况自动实现)。</p></li>
+<li><p>正常启动各个服务的容器，并完成相应的转发表设置后，用户即可向vnf链的首个vnf节点发送请求，链上的转发和计算功能将自动完成，并将结果返回给目标用户。</p></li>
+<li><p>用户可以参考该镜像的功能，编写自己的vnf镜像，并将其部署在MiniSFC仿真器中（建议在<code class="docutils literal notranslate"><span class="pre">mini_vnf</span></code>的基础上进行扩展减少意外错误，每次修改完代码后都需要重新构建镜像）。</p></li>
+<li><p>详细的vnf镜像制作过程将在后续的步骤中介绍。</p></li>
+</ul>
+</li>
+<li><p>ue镜像制作文件：<code class="docutils literal notranslate"><span class="pre">Dockerfile.ueserver</span></code></p>
+<ul>
+<li><p>为了便于MiniSFC作为整个仿真场景的总指挥，对网络中的各个实体进行统一的管理和控制，我们将用户模型也通过容器进行封装和部署</p></li>
+<li><p>其上部署一个支持两种类型ue功能的基于FastAPI开发的Web服务器</p></li>
+<li><p>该服务器的原文件位于<code class="docutils literal notranslate"><span class="pre">example/simple_container/mini_ue</span></code></p></li>
+<li><p>两种类型的ue功能分别为：</p>
+<ul>
+<li><p>功能1：<code class="docutils literal notranslate"><span class="pre">ue_post</span></code>用于模拟用户的上传功能，通过该接口可以命令用户传输一个待求逆运算的数据矩阵发送到指定的vnf节点。</p></li>
+<li><p>功能2：<code class="docutils literal notranslate"><span class="pre">ue_print</span></code>用于将用户接受到的数据矩阵打印出来</p></li>
+</ul>
+</li>
+<li><p>ue的具体功能是通过服务器启动指令中的<code class="docutils literal notranslate"><span class="pre">ue_type</span></code>参数来指定的</p></li>
+<li><p>用户可以参考该镜像的功能，编写自己的ue镜像，并将其部署在MiniSFC仿真器中（建议在<code class="docutils literal notranslate"><span class="pre">mini_ue</span></code>的基础上进行扩展减少意外错误，每次修改完代码后都需要重新构建镜像）。</p></li>
+<li><p>详细的ue镜像制作过程将在后续的步骤中介绍。</p></li>
+</ul>
+</li>
+</ul>
+<p>在MiniSFC运行过程中，每个容器被创建时都会具备两个IP地址：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">10.0.*.*</span></code>：MiniSFC内容虚拟网络的地址，该地址用于容器间的通信，即SFC中UE与各个VNF之前的数据流通（矩阵数据的转发）。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">172.17.*.*</span></code>:容器的控制地址，该地址用于宿主机与各个容器的通信，即MiniSFC向各个容器下达的控制指令（转发表即传输开始命令的下达）。</p></li>
+<li><p>地址的分配和管理是由MiniSFC自动完成的，用户不需要关心具体的IP地址分配。</p></li>
+</ul>
+<p>接下来介绍仿真脚本的具体编写过程。</p>
+</section>
+<section id="id4">
+<h2>准备工作<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>为了对每次仿真结果进行标记，MiniSFC提供了一个<code class="docutils literal notranslate"><span class="pre">Trace</span></code>类，该类可以记录仿真过程中产生的信息，并提供时间戳进行标记。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.trace</span><span class="w"> </span><span class="kn">import</span> <span class="n">Trace</span>
+
+<span class="n">SIMULATION_ID</span> <span class="o">=</span> <span class="n">Trace</span><span class="o">.</span><span class="n">get_time_stamp</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="id5">
+<h3>步骤一：定义基底网络拓扑<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>首先，需要构建一个基底网络拓扑，即一个包含所有节点和链路的网络拓扑。这个拓扑可以是静态的，也可以是动态的。不论是静态的还是动态的，都需要包含以下几个元素才可完整定义基底网络所需的信息。</p>
+<ul class="simple">
+<li><p>时间：一个时间序列，用于标记网络拓扑发生变化的时间点，该时间默认以秒为单位，支持浮点数精度。如果需要构建的是静态的网络拓扑，则时间序列只包含一个元素，即基底网络的建立时间0.0。如果需要构建的是动态的网络拓扑，则时间序列包含多个元素，即网络拓扑发生变化的时间点。MiniSFC会根据该信息来自动生成事件，标记网络拓扑此时发生了变化，并对网络进行相应的调整。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoTimeList</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>邻接矩阵字典：一个以时间为索引的邻接矩阵字典，用于描述网络运行过程中不同时间点的节点之间的连接关系。矩阵的行数和列数分别为节点的数量，矩阵中的元素表示节点i和节点j之间是否存在一条链路。该字典的键需要与时间序列中的元素严格一一对应。需要注意的是该邻接矩阵需包含自环，这么做是基于部署在同一个物理设置上的不同VNF可以通过内部链路进行通信。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoAdjMatDict</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span>
+                                <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+                                <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]])}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>链路权重矩阵字典：一个以时间为索引的链路权重矩阵字典，用于描述网络运行过程中不同时间点的链路的权重。矩阵的行数和列数分别为节点的数量，矩阵中的元素表示节点i和节点j之间的链路的权重。该字典的键需要与时间序列中的元素严格一一对应。该权值默认为两个节点之间的传播延迟，单位为毫秒。需要注意各个权值矩阵应与邻接矩阵中的元素一一对应。即基于这样一种假设，两个节点之间不存在链路是，其权值矩阵中的元素应该为0或无穷大（因为节点的可达性是基于邻接矩阵的，因此不影响服务的时延累计的计算）。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoWeightMatDict</span> <span class="o">=</span> <span class="p">{</span><span class="mf">0.0</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="c1"># delay ms</span>
+                                   <span class="p">[</span><span class="mi">20</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">],</span>
+                                   <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">]])}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>节点资源字典：一个以时间为索引的节点资源字典，用于描述网络运行过程中不同时间点的节点的资源信息。字典的键为元组，包含时间和资源类型两个元素，值为一个列表，包含每个节点的资源信息。资源类型可以是CPU、内存等，具体取决于想要模拟的网络的资源类型。需要注意的是，资源信息的数量应该与节点的数量相匹配，即每个节点都应该有对应的资源信息。且时间信息应该与时间序列中的元素严格一一对应。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoNodeResourceDict</span> <span class="o">=</span> <span class="p">{(</span><span class="mf">0.0</span><span class="p">,</span><span class="s1">&#39;cpu&#39;</span><span class="p">):[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="c1"># cores</span>
+                        <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="s1">&#39;ram&#39;</span><span class="p">):[</span><span class="mi">256</span><span class="p">,</span><span class="mi">512</span><span class="p">,</span><span class="mi">256</span><span class="p">]}</span> <span class="c1"># Memmory MB</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>链路资源字典：一个以时间为索引的链路资源字典，用于描述网络运行过程中不同时间点的链路的资源信息。字典的键为元组，包含时间和资源类型两个元素，值为一个矩阵，包含每个链路的资源信息。资源类型可以是带宽等，具体取决于想要模拟的网络的资源类型。需要注意的是，资源信息的数量应该与链路的数量相匹配，即每个链路都应该有对应的资源信息。且时间信息应该与时间序列中的元素严格一一对应。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoLinkResourceDict</span> <span class="o">=</span> <span class="p">{(</span><span class="mf">0.0</span><span class="p">,</span><span class="s1">&#39;band&#39;</span><span class="p">):</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="c1"># bw Mbps</span>
+                                               <span class="p">[</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">],</span>
+                                               <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">,</span><span class="mi">100</span><span class="p">]])}</span>
+</pre></div>
+</div>
+<p>当这些信息准备好后，就可以构建一个来自于Minisfc的<code class="docutils literal notranslate"><span class="pre">SubstrateTopo</span></code>对象，该对象包含了所有网络拓扑信息。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.topo</span><span class="w"> </span><span class="kn">import</span> <span class="n">SubstrateTopo</span>
+
+<span class="n">substrateTopo</span> <span class="o">=</span> <span class="n">SubstrateTopo</span><span class="p">(</span><span class="n">topoTimeList</span><span class="p">,</span><span class="n">topoAdjMatDict</span><span class="p">,</span><span class="n">topoWeightMatDict</span><span class="p">,</span>
+                              <span class="n">topoNodeResourceDict</span><span class="p">,</span><span class="n">topoLinkResourceDict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>为了方便后续的仿真，可以将该<code class="docutils literal notranslate"><span class="pre">SubstrateTopo</span></code>对象保存为一个pickle文件进行固化，即无需每次都重新构建该对象，该方法适用于构建随机网络拓扑的场景并测试不同算法的性能时，进行变量控制。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">substrateTopo</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">substrateTopo</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="vnf">
+<h3>步骤二：定义VNF管理器<a class="headerlink" href="#vnf" title="Link to this heading"></a></h3>
+<p>SFC所建立的服务是由多个VNF组成的，每个VNF都代表一个具体的功能，这些VNF需要部署在基底网络上，并按照一定顺序部署。MiniSFC提供了<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>类来管理VNF的部署和调度。因此在仿真之前，需要向<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>中添加VNF的模板，并设置每个VNF的资源占用信息。该过程类似于用户的服务注册环节，即用户需要向系统中事先注册自己所需的服务，进而在后续运行中，系统根据用户的需求提供相应的服务。</p>
+<ul class="simple">
+<li><p>实例化：<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象可以直接实例化，不需要任何参数。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.mano.vnfm</span><span class="w"> </span><span class="kn">import</span> <span class="n">VnfManager</span><span class="p">,</span><span class="n">VnfEm</span>
+
+<span class="n">nfvManager</span> <span class="o">=</span> <span class="n">VnfManager</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>添加VNF模板：VNF在MiniSFC中被抽象为<code class="docutils literal notranslate"><span class="pre">VnfEm</span></code>类，该类包含了VNF的ID、CPU占用、内存占用、带宽占用等信息。<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象提供了<code class="docutils literal notranslate"><span class="pre">add_vnf_into_pool</span></code>方法，用于向其内部的VNF模板池中添加VNF模板。需要注意的是，VNF模板的ID必须是唯一的，且不能与其他VNF模板的ID重复。'vnf_cpu'的值应该是浮点数，表示VNF的CPU占用，单位为核数。'vnf_ram'的值应该是整数，表示VNF的内存占用，单位为MB。为了能够使得容器正常启动，因此需要设置'vnf_type'参数用于指定vnf的功能类型，'vnf_img'参数用于指定vnf的镜像名称，'vnf_cmd'参数用于指定vnf服务的启动指令，'vnf_port'参数用于指定vnf服务的监听端口。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">template_str</span> <span class="o">=</span> <span class="s2">&quot;python run_command.py --vnf_name=$vnf_name --vnf_type=$vnf_type --vnf_ip=$vnf_ip --vnf_port=$vnf_port --vnf_cpu=$vnf_cpu --vnf_ram=$vnf_ram --vnf_rom=$vnf_rom&quot;</span>
+
+<span class="n">vnfEm_template</span> <span class="o">=</span> <span class="n">VnfEm</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;vnf_id&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;vnf_cpu&#39;</span><span class="p">:</span><span class="mf">0.2</span><span class="p">,</span><span class="s1">&#39;vnf_ram&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span>
+                          <span class="s1">&#39;vnf_type&#39;</span><span class="p">:</span><span class="s1">&#39;vnf_matinv&#39;</span><span class="p">,</span><span class="s1">&#39;vnf_img&#39;</span><span class="p">:</span><span class="s1">&#39;vnfserver:latest&#39;</span><span class="p">,</span><span class="s1">&#39;vnf_cmd&#39;</span><span class="p">:</span><span class="n">template_str</span><span class="p">,</span><span class="s1">&#39;vnf_port&#39;</span><span class="p">:</span><span class="mi">5000</span><span class="p">})</span>
+<span class="n">nfvManager</span><span class="o">.</span><span class="n">add_vnf_into_pool</span><span class="p">(</span><span class="n">vnfEm_template</span><span class="p">)</span>
+<span class="n">vnfEm_template</span> <span class="o">=</span> <span class="n">VnfEm</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;vnf_id&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;vnf_cpu&#39;</span><span class="p">:</span><span class="mf">0.15</span><span class="p">,</span><span class="s1">&#39;vnf_ram&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span>
+                          <span class="s1">&#39;vnf_type&#39;</span><span class="p">:</span><span class="s1">&#39;vnf_matprint&#39;</span><span class="p">,</span><span class="s1">&#39;vnf_img&#39;</span><span class="p">:</span><span class="s1">&#39;vnfserver:latest&#39;</span><span class="p">,</span><span class="s1">&#39;vnf_cmd&#39;</span><span class="p">:</span><span class="n">template_str</span><span class="p">,</span><span class="s1">&#39;vnf_port&#39;</span><span class="p">:</span><span class="mi">5000</span><span class="p">})</span>
+<span class="n">nfvManager</span><span class="o">.</span><span class="n">add_vnf_into_pool</span><span class="p">(</span><span class="n">vnfEm_template</span><span class="p">)</span>
+<span class="n">vnfEm_template</span> <span class="o">=</span> <span class="n">VnfEm</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;vnf_id&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="s1">&#39;vnf_cpu&#39;</span><span class="p">:</span><span class="mf">0.15</span><span class="p">,</span><span class="s1">&#39;vnf_ram&#39;</span><span class="p">:</span><span class="mi">64</span><span class="p">,</span>
+                          <span class="s1">&#39;vnf_type&#39;</span><span class="p">:</span><span class="s1">&#39;vnf_gnb&#39;</span><span class="p">,</span><span class="s1">&#39;vnf_img&#39;</span><span class="p">:</span><span class="s1">&#39;vnfserver:latest&#39;</span><span class="p">,</span><span class="s1">&#39;vnf_cmd&#39;</span><span class="p">:</span><span class="n">template_str</span><span class="p">,</span><span class="s1">&#39;vnf_port&#39;</span><span class="p">:</span><span class="mi">5000</span><span class="p">})</span>
+<span class="n">nfvManager</span><span class="o">.</span><span class="n">add_vnf_into_pool</span><span class="p">(</span><span class="n">vnfEm_template</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><mark>在上述参数中'vnf_img':'vnfserver:latest'镜像需要用户预先构建好</mark></p>
+<p>在<code class="docutils literal notranslate"><span class="pre">example/simple_container</span></code>目录下(与<code class="docutils literal notranslate"><span class="pre">Dockerfile.vnfserver</span></code>文件同一级)，运行</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>Dockerfile.vnfserver<span class="w"> </span>-t<span class="w"> </span>vnfserver:latest<span class="w"> </span>.
+</pre></div>
+</div>
+<p><mark>构建完成后可在终端中运行'sudo docker images'进行检查</mark></p>
+<ul class="simple">
+<li><p>设置VNF间虚拟链路资源占用：<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象提供了<code class="docutils literal notranslate"><span class="pre">set_vnf_resource_info</span></code>方法，用于设置VNF间的虚拟链路资源占用信息。该方法需要三个参数，前两个参数为VNF的ID，第三个参数为资源占用信息。资源占用信息是一个字典，包含资源类型和占用量两个元素，资源类型默认支持单位为MB的带宽，具体取决于想要模拟的网络的资源类型。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">nfvManager</span><span class="o">.</span><span class="n">add_vnf_service_into_pool</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;band&quot;</span><span class="p">:</span><span class="mi">20</span><span class="p">})</span>
+<span class="n">nfvManager</span><span class="o">.</span><span class="n">add_vnf_service_into_pool</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;band&quot;</span><span class="p">:</span><span class="mi">20</span><span class="p">})</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>保存VNF管理器：为了方便后续的仿真，可以将<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象保存为一个pickle文件进行固化，即无需每次都重新构建该对象，该方法适用于构建随机网络拓扑的场景并测试不同算法的性能时，进行变量控制。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nfvManager</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">nfvManager</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="sfc">
+<h3>步骤三：定义SFC拓扑<a class="headerlink" href="#sfc" title="Link to this heading"></a></h3>
+<p>SFC拓扑是指部署在基底网络上的服务流，它由多个服务节点和服务链路组成。每个服务节点都代表一个具体的服务，该示例中我们进行的是基于数值的仿真，因此该服务为虚拟的，仅仅体现在对基底网络中物理节点设置的资源占用。</p>
+<ul class="simple">
+<li><p>ID：一个整数列表，用于标记SFC的ID。该值将用来标记每个SFC的唯一性，且该列表的长度应该与服务链路的数量相匹配。在仿真结束后生成的日志记录中，会包含每个SFC的ID，方便后续的分析。需要注意的是，SFC的ID不能重复，否则会导致仿真结果的错误。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfcIdList</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>生命周期：一个以SFC ID为索引的字典，用于描述SFC的生命周期。字典的键为SFC的ID，值为一个列表，包含两个元素，分别为SFC的建立时间和终止时间。该值以秒为单位，且生命周期的终止时间应该大于等于建立时间。MiniSFC会根据该信息来自动生成事件，调度每一个SFC的部署和终止，并在最后一个生命周期终止时停止仿真。需要注意的是，该字典的键需要与SFC ID列表中的元素严格一一对应。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfcLifeTimeDict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:[</span><span class="mi">5</span><span class="p">,</span><span class="mi">25</span><span class="p">],</span>
+                   <span class="mi">1</span><span class="p">:[</span><span class="mi">10</span><span class="p">,</span><span class="mi">50</span><span class="p">]}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>端点：一个以SFC ID为索引的字典，用于描述SFC的端点。端点的设置基于这样一种假设，即用户对其请求服务的接入接出点是基于用户与网络设施的相对物理位置的，当由于网络拓扑的变化而导致服务的接入接出点发生变化时，用户应当重新请求服务（此处是当前版本V2.0的权宜之计，后续版本将设计更符合实际情况的动态设置方法）。字典的键为SFC的ID，值为一个列表，包含SFC的接入接出点对应的基底网络上的物理节点ID。要注意的是，该字典的键需要与SFC ID列表中的元素严格一一对应。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">endPointDict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+                <span class="mi">1</span><span class="p">:[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VNF请求：一个以SFC ID为索引的字典，用于描述SFC的VNF请求。字典的键为SFC的ID，值为一个列表，包含SFC所需的VNF的ID，其中的ID值即为VNF模板池中VNF模板的ID，列表的长度即为SFC所需的VNF数量，由于不同VNF的功能不同，因此该列表中允许出现相同的VNF ID，即使用一个VNF模版分别创建不同的实例进行部署。需要注意的是，该字典的键需要与SFC ID列表中的元素严格一一对应。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vnfRequstDict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
+                 <span class="mi">1</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>服务QoS需求：一个以SFC ID为索引的字典，用于描述SFC的QoS需求。字典的键为SFC的ID，值为一个列表，包含SFC的QoS需求，这里与基底网络中节点之间的传输时延对应，单位为毫秒，该值表示SFC的端到端时延要求。需要注意的是，该字典的键需要与SFC ID列表中的元素严格一一对应。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qosRequesDict</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:[</span><span class="mi">100</span><span class="p">],</span>
+                 <span class="mi">1</span><span class="p">:[</span><span class="mi">100</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p>在这些信息准备好后，就可以构建一个来自于Minisfc的<code class="docutils literal notranslate"><span class="pre">ServiceTopo</span></code>对象，该对象包含了所有SFC拓扑信息。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.topo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ServiceTopo</span>
+<span class="n">serviceTopo</span> <span class="o">=</span> <span class="n">ServiceTopo</span><span class="p">(</span><span class="n">sfcIdList</span><span class="p">,</span><span class="n">sfcLifeTimeDict</span><span class="p">,</span><span class="n">endPointDict</span><span class="p">,</span><span class="n">vnfRequstDict</span><span class="p">,</span><span class="n">qosRequesDict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>为了方便后续的仿真，可以将该<code class="docutils literal notranslate"><span class="pre">ServiceTopo</span></code>对象保存为一个pickle文件进行固化，即无需每次都重新构建该对象，该方法适用于构建随机网络拓扑的场景并测试不同算法的性能时，进行变量控制。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">serviceTopo</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">serviceTopo</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>步骤四：定义用户管理器<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p>用户管理器的设计是基于这样一种假设，即对用户设备的模拟也通过容器进行封装和部署，因此用户管理器的设计与VNF管理器类似，即也将用户模型抽象为模版向系统中注册。进而在后续运行中，系统自动将用户与请求的SFC进行关联。MiniSFC作为整个仿真场景的总指挥，对网络中的包括用户在内的各个实体进行统一的管理和控制。</p>
+<ul class="simple">
+<li><p>实例化：<code class="docutils literal notranslate"><span class="pre">UeManager</span></code>对象可以直接实例化，不需要任何参数。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.mano.uem</span><span class="w"> </span><span class="kn">import</span> <span class="n">UeManager</span><span class="p">,</span> <span class="n">Ue</span>
+
+<span class="n">ueManager</span> <span class="o">=</span> <span class="n">UeManager</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>添加用户模板：用户在MiniSFC中被抽象为<code class="docutils literal notranslate"><span class="pre">Ue</span></code>类，该类包含了用户的ID、类型、镜像名称、启动指令、监听端口等信息。<code class="docutils literal notranslate"><span class="pre">UeManager</span></code>对象提供了<code class="docutils literal notranslate"><span class="pre">add_ue_into_pool</span></code>方法，用于向其内部的用户模板池中添加用户模板。需要注意的是，用户模板的ID必须是唯一的，且不能与其他用户模板的ID重复。'ue_type'的值应该是字符串，表示用户的类型，'ue_img'的值应该是字符串，表示用户的镜像名称，'ue_cmd'的值应该是字符串，表示用户服务的启动指令，'ue_port'的值应该是整数，表示用户行为被控指令的监听端口。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">template_str</span> <span class="o">=</span> <span class="s2">&quot;python run_command.py --ue_name=$ue_name --ue_type=$ue_type --ue_ip=$ue_ip --ue_port=$ue_port&quot;</span>
+
+<span class="n">ue_template</span> <span class="o">=</span> <span class="n">Ue</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;ue_id&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;ue_type&#39;</span><span class="p">:</span><span class="s1">&#39;ue_post&#39;</span><span class="p">,</span><span class="s1">&#39;ue_img&#39;</span><span class="p">:</span><span class="s1">&#39;ueserver:latest&#39;</span><span class="p">,</span><span class="s1">&#39;ue_cmd&#39;</span><span class="p">:</span><span class="n">template_str</span><span class="p">,</span><span class="s1">&#39;ue_port&#39;</span><span class="p">:</span><span class="mi">8000</span><span class="p">})</span>
+<span class="n">ueManager</span><span class="o">.</span><span class="n">add_ue_into_pool</span><span class="p">(</span><span class="n">ue_template</span><span class="p">)</span>
+<span class="n">ue_template</span> <span class="o">=</span> <span class="n">Ue</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;ue_id&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;ue_type&#39;</span><span class="p">:</span><span class="s1">&#39;ue_print&#39;</span><span class="p">,</span><span class="s1">&#39;ue_img&#39;</span><span class="p">:</span><span class="s1">&#39;ueserver:latest&#39;</span><span class="p">,</span><span class="s1">&#39;ue_cmd&#39;</span><span class="p">:</span><span class="n">template_str</span><span class="p">,</span><span class="s1">&#39;ue_port&#39;</span><span class="p">:</span><span class="mi">8000</span><span class="p">})</span>
+<span class="n">ueManager</span><span class="o">.</span><span class="n">add_ue_into_pool</span><span class="p">(</span><span class="n">ue_template</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><mark>在上述参数中'ue_img':'ueserver:latest'镜像需要用户预先构建好</mark></p>
+<p>在<code class="docutils literal notranslate"><span class="pre">example/simple_container</span></code>目录下(与<code class="docutils literal notranslate"><span class="pre">Dockerfile.ueserver</span></code>文件同一级)，运行</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-f<span class="w"> </span>Dockerfile.ueserver<span class="w"> </span>-t<span class="w"> </span>ueserver:latest<span class="w"> </span>.
+</pre></div>
+</div>
+<p><mark>构建完成后可在终端中运行'sudo docker images'进行检查</mark></p>
+<ul class="simple">
+<li><p>设置用户请求：<code class="docutils literal notranslate"><span class="pre">UeManager</span></code>对象提供了<code class="docutils literal notranslate"><span class="pre">add_ue_service_into_pool</span></code>方法，用于设置用户请求的SFC的ID、请求延时等信息。该方法需要三个参数，前两个参数为用户的ID，第三个参数为请求信息。请求信息是一个字典，目前设置为请求的发送间隔，单位为秒。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ueManager</span><span class="o">.</span><span class="n">add_ue_service_into_pool</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;req_delay&quot;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">})</span> 
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>保存用户管理器：为了方便后续的仿真，可以将<code class="docutils literal notranslate"><span class="pre">UeManager</span></code>对象保存为一个pickle文件进行固化，即无需每次都重新构建该对象，该方法适用于构建随机网络拓扑的场景并测试不同算法的性能时，进行变量控制。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ueManager</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">ueManager</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>步骤五：定义SFC部署求解器<a class="headerlink" href="#id7" title="Link to this heading"></a></h3>
+<p>MiniSFC提供了多种SFC部署求解器，用于求解SFC在基底网络上的部署方案。在仿真之前，需要选择一个部署求解器，该求解器可以来自于Minisfc的<code class="docutils literal notranslate"><span class="pre">SfcSolver</span></code>类例如<code class="docutils literal notranslate"><span class="pre">RandomSolver</span></code>、<code class="docutils literal notranslate"><span class="pre">GreedySolver</span></code>等，也可以来自于用户集成了Minisfc的<code class="docutils literal notranslate"><span class="pre">SfcSolver</span></code>类后实现的自定义求解器，例如<code class="docutils literal notranslate"><span class="pre">PsoSolver</span></code>。</p>
+<p><code class="docutils literal notranslate"><span class="pre">SfcSolver</span></code>对象的实例化需要两个参数，第一个参数为<code class="docutils literal notranslate"><span class="pre">SubstrateTopo</span></code>对象，第二个参数为<code class="docutils literal notranslate"><span class="pre">ServiceTopo</span></code>对象，这两个对象分别代表了基底网络拓扑和SFC拓扑，可用于求解器的初始化。因此我们默认求解器具备未来网络发生事件的全部信息，因此可用于基于学习类的预测算法。当然如果用户希望实现一个完全基于突发事件的求解器，则可以忽略掉这两个参数，而是仅根据事件发生时的信息进行计算。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.solver</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomSolver</span><span class="p">,</span> <span class="n">GreedySolver</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">custom.psoSolver</span><span class="w"> </span><span class="kn">import</span> <span class="n">PsoSolver</span>
+
+<span class="n">sfcSolver</span> <span class="o">=</span> <span class="n">RadomSolver</span><span class="p">(</span><span class="n">substrateTopo</span><span class="p">,</span><span class="n">serviceTopo</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="minisfc">
+<h3>步骤六：定义MiniSFC仿真器<a class="headerlink" href="#minisfc" title="Link to this heading"></a></h3>
+<p>MiniSFC提供了<code class="docutils literal notranslate"><span class="pre">Minisfc</span></code>类来进行仿真，该类包含了仿真的主要逻辑，包括事件驱动、事件处理、事件调度、仿真结果记录等。</p>
+<p><code class="docutils literal notranslate"><span class="pre">Minisfc</span></code>对象的实例化需要六个参数，第一个参数为<code class="docutils literal notranslate"><span class="pre">SubstrateTopo</span></code>对象，第二个参数为<code class="docutils literal notranslate"><span class="pre">ServiceTopo</span></code>对象，第三个参数为<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象，第四个参数为<code class="docutils literal notranslate"><span class="pre">SfcSolver</span></code>对象，第五个参数为<code class="docutils literal notranslate"><span class="pre">UeManager</span></code>对象，第六个参数为布尔值，表示是否使用容器模拟，默认为<code class="docutils literal notranslate"><span class="pre">True</span></code>。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.net</span><span class="w"> </span><span class="kn">import</span> <span class="n">Minisfc</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">Minisfc</span><span class="p">(</span><span class="n">substrateTopo</span><span class="p">,</span><span class="n">serviceTopo</span><span class="p">,</span><span class="n">nfvManager</span><span class="p">,</span><span class="n">sfcSolver</span><span class="p">,</span><span class="n">ueManager</span><span class="o">=</span><span class="n">ueManager</span><span class="p">,</span><span class="n">use_container</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>开始仿真<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<p>在仿真开始之前，允许用户自定义仿真结果的保存路径或文件名，默认路径为运行脚本所在的当前目录。</p>
+<p>MiniSFC默认提供了两种仿真结果记录方式，一种是基于事件的记录，即记录每一个事件的发生时间、事件类型、事件相关的对象、事件相关的属性等信息，该方式可以用于算法性能以及执行结果的分析。另一种是基于每个物理节点的记录，即记录每一个事件发生时间时，每个物理节点的CPU、内存占用情况，该方式可以用于对比不同算法对资源的分配情况。用户可以根据自己的需求设计新的仿真结果记录条目，只需继承<code class="docutils literal notranslate"><span class="pre">TraceResult</span></code>或<code class="docutils literal notranslate"><span class="pre">TraceNfvi</span></code>类，并参照其在MANO中的调用方式，重写所需方法即可。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TraceResultFile</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">TRACE_RESULT</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">sfcSolver</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s1">.csv&#39;</span>
+<span class="n">TRACE_RESULT</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">TraceResultFile</span><span class="p">)</span>
+<span class="n">TraceNfviFile</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">TRACE_NFVI</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">sfcSolver</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s1">.csv&#39;</span>
+<span class="n">TRACE_NFVI</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">TraceNfviFile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><mark>在运行仿真之前，这里需声明一下SDN控制器的问题</mark></p>
+<p>由于MiniSFC的基于容器的仿真是基于<code class="docutils literal notranslate"><span class="pre">Containernet</span></code>实现的，而<code class="docutils literal notranslate"><span class="pre">Containernet</span></code>默认使用了<code class="docutils literal notranslate"><span class="pre">Mininet</span></code>中的简单控制器作为SDN控制器，该控制器的流表下发功能仅能支持简单的匹配规则，因此仅能工作在树状拓扑结构的网络中，而无法处理有环的网络拓扑。具体的表现形式即为创建了模拟vnf的容器后，各个容器之间无法正常通信，导致用户的请求无法到达目的地。因此为了解决该问题，MiniSFC支持用户使用自定义的SDN控制器，并将其部署在仿真环境中。</p>
+<p>MiniSFC将<code class="docutils literal notranslate"><span class="pre">Containernet</span></code>的添加外部控制器功能封装为<code class="docutils literal notranslate"><span class="pre">addRemoteController</span></code>方法，该方法需要三个参数，第一个参数为控制器的名称，第二个参数为控制器的IP地址，第三个参数为控制器的端口。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">addRemoteController</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;c0&#39;</span><span class="p">,</span> <span class="n">ip</span><span class="o">=</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">6653</span><span class="p">):</span>
+</pre></div>
+</div>
+<p>如果用户对RYU控制器的使用较为了解，可以直接使用路径<code class="docutils literal notranslate"><span class="pre">examples/simple_container/ryu/simple_switch_stp_13.py</span></code>脚本来启动RYU控制器提供的一个基于STP协议的控制器应用，可以实现剪枝算法进而解决环路问题。具体流程为：</p>
+<ul class="simple">
+<li><p>安装RYU控制器，具体方法可参考<a class="reference external" href="https://www.yuque.com/wangxi_chn/kozrfl/ov20zsfgpt4naaki#">Ryu 安装教程</a></p></li>
+<li><p>使用RYU控制器加载<code class="docutils literal notranslate"><span class="pre">simple_switch_stp_13.py</span></code>应用脚本</p></li>
+<li><p>在MiniSFC的场景脚本中，调用<code class="docutils literal notranslate"><span class="pre">addRemoteController</span></code>方法，将RYU控制器的IP地址和端口号作为参数传入</p></li>
+<li><p>启动仿真，由于STP协议需要较长的时间用来学习拓扑，因此建议将首个SFC的到达时间适当延长，以便让控制器学习完拓扑后再开始部署SFC</p></li>
+</ul>
+<p><mark>如何将控制器流表下发功能集成在MiniSFC中，并解决环路问题，将在后续版本中进行完善</mark></p>
+<p>上述工作完成后，就可以启动仿真，该过程会自动生成事件并进行调度，直到所有SFC的生命周期终止。<code class="docutils literal notranslate"><span class="pre">net.stop()</span></code>在基于容器的模拟仿真中，该方法是必须的，因为需要该方法释放仿真过程中所占用的资源并退出Containernet仿真环境，避免对下次仿真造成影响。为了避免仿真过程中的意外中断导致Containernet环境无法正常退出，建议将<code class="docutils literal notranslate"><span class="pre">net.stop()</span></code>放置在try-except语句中，捕获异常并调用<code class="docutils literal notranslate"><span class="pre">net.stop()</span></code>方法进行清理。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="n">net</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+    <span class="k">raise</span> <span class="n">e</span>
+</pre></div>
+</div>
+<p>由于基于容器的仿真需要用到Docker指令因此会强制要求运行该脚本的用户具有root权限，在使用<code class="docutils literal notranslate"><span class="pre">sudo</span></code>命令时，需要提前通过<code class="docutils literal notranslate"><span class="pre">which</span></code>命令找到<code class="docutils literal notranslate"><span class="pre">python</span></code>的路径，并将其替换为<code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">path/to/python</span></code>。</p>
+<p>如果使用示例中的默认脚本，则运行如下命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>minisfc/examples/simple_dynamictopo
+which<span class="w"> </span>python
+sudo<span class="w"> </span>path/to/python<span class="w"> </span>simple_dynamictopo.py
+</pre></div>
+</div>
+<p>如果使用了Anaconda环境（例如命名为<code class="docutils literal notranslate"><span class="pre">minisfc</span></code>的开发环境），则运行如下命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>minisfc/examples/simple_dynamictopo
+conda<span class="w"> </span>activate<span class="w"> </span>minisfc
+which<span class="w"> </span>python
+sudo<span class="w"> </span>path/to/python<span class="w"> </span>simple_dynamictopo.py
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h2>仿真过程<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<p>在仿真运行过程中，会在执行该脚本中的终端创建一个基于<code class="docutils literal notranslate"><span class="pre">tqdm</span></code>的进度条，显示仿真的进度。该进度条会显示当前仿真时间、当前仿真事件等信息。可用于观察仿真的运行情况，以及当仿真突然中断时，可以根据进度条信息来进行调试。</p>
+<p>由于MiniSFC工作在基于容器的仿真环境中，因此在运行时，会自动弹出两个执行监控任务的终端窗口：</p>
+<ul class="simple">
+<li><p>窗口1：用于实时将各个容器的记录日志拷贝到当前目录下的<code class="docutils literal notranslate"><span class="pre">logsave</span></code>文件夹中，并实时显示在该窗口中。</p>
+<ul>
+<li><p>该<code class="docutils literal notranslate"><span class="pre">logsave</span></code>文件夹中的存放内容为以仿真过程中动态创建的以vnf名称命名的.log文件，记录了每个容器中数据包的收发情况。记录条目为<code class="docutils literal notranslate"><span class="pre">时间,行为（+为接收，-为发送）,PacketID</span></code>，便于后续追踪每个数据包在各个环节的用时。</p></li>
+<li><p>所自动执行的采集脚本存放于<code class="docutils literal notranslate"><span class="pre">minisfc/util/auto_getlogs.sh</span></code>中，用户可以根据自己的需求进行修改。</p></li>
+</ul>
+</li>
+<li><p>窗口2：用于实时将各个容器的CPU、内存占用情况保存在当前目录下的<code class="docutils literal notranslate"><span class="pre">logsave</span></code>文件夹中，并实时显示在该窗口中。</p>
+<ul>
+<li><p>该文件的命名为<code class="docutils literal notranslate"><span class="pre">vnf_stats.log</span></code>,记录的条目为<code class="docutils literal notranslate"><span class="pre">时间戳\t容器名称\tCPU占用\t内存占用</span></code>，便于后续分析各个节点的负载情况。</p></li>
+<li><p>所自动执行的采集脚本存放于<code class="docutils literal notranslate"><span class="pre">minisfc/util/auto_getstatus.sh</span></code>中，用户可以根据自己的需求进行修改。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="id10">
+<h2>结果分析<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<p>当仿真结束后，脚本所在的工作目录下会生成两个日志记录文件：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TraceResult_{SolverName}_{SimulationID}.csv</span></code>：该日志文件的记录条目为<code class="docutils literal notranslate"><span class="pre">Event,Time,SfcId,Result,Resource,Vnffgs,Solution,Reason</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Event</span></code>：事件类型，参考NS3的设置，这里使用了<code class="docutils literal notranslate"><span class="pre">+</span></code>来表示SFC请求的到来，<code class="docutils literal notranslate"><span class="pre">-</span></code>来表示SFC生命周期终止，<code class="docutils literal notranslate"><span class="pre">t</span></code>来表示基底网络拓扑发生变化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Time</span></code>：事件发生的时间，单位为秒。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SfcId</span></code>：事件相关的SFC的ID。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Result</span></code>：事件的结果，<code class="docutils literal notranslate"><span class="pre">True</span></code>表示SFC部署成功，<code class="docutils literal notranslate"><span class="pre">False</span></code>表示SFC部署失败。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Resource</span></code>：事件发生时全网的剩余资源情况，格式为<code class="docutils literal notranslate"><span class="pre">[cpu:mem:band]</span></code>，分别表示CPU、内存、带宽的剩余资源。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Vnffgs</span></code>：事件发生时在网运行的SFC情况，格式为<code class="docutils literal notranslate"><span class="pre">[SFC_ID]</span></code>。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Solution</span></code>：事件的部署方案，格式为<code class="docutils literal notranslate"><span class="pre">vnffg1:node1,vnffg2:node2,vnffg3:node3</span></code>，即该事件部署的SFC上的每个VNF部署在哪个基底网络节点上。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Reason</span></code>：事件的原因，当事件类型为<code class="docutils literal notranslate"><span class="pre">-</span></code>或<code class="docutils literal notranslate"><span class="pre">t</span></code>时，该字段记录了SFC的终止原因（例如超时、资源不足等）。</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TraceNfvi_{SolverName}_{SimulationID}.csv</span></code>：该日志文件的记录条目为<code class="docutils literal notranslate"><span class="pre">Event,Time,NVFI_0_cpu,NVFI_0_ram,NVFI_0_vnfs,NVFI_1_cpu...</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Event</span></code>：事件类型，参考NS3的设置，这里使用了<code class="docutils literal notranslate"><span class="pre">+</span></code>来表示SFC请求的到来，<code class="docutils literal notranslate"><span class="pre">-</span></code>来表示SFC生命周期终止，<code class="docutils literal notranslate"><span class="pre">t</span></code>来表示基底网络拓扑发生变化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Time</span></code>：事件发生的时间，单位为秒。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NVFI_i_cpu</span></code>：第i个节点的CPU占用情况，单位为核数。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NVFI_i_ram</span></code>：第i个节点的内存占用情况，单位为MB。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NVFI_i_vnfs</span></code>：第i个节点上运行的VNF的ID列表。</p></li>
+</ul>
+</li>
+</ul>
+<p>以及来源于自动采集脚本的日志文件夹<code class="docutils literal notranslate"><span class="pre">logsave</span></code>，该文件夹中包含了每个容器的日志文件。</p>
+<p>用户可以根据自己的需求对日志文件进行分析，例如绘制仿真结果图表、分析SFC部署失败的原因、分析资源的分配情况等。</p>
+<p>MiniSFC提供了一个简易的分析模块<code class="docutils literal notranslate"><span class="pre">DataAnalysis</span></code>，可以帮助用户快速分析日志文件，在每次仿真结束后，该模块会自动打印一行文字输出SFC部署成功率等信息，用户可以根据该信息快速判断算法的性能。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataAnalysis</span>
+<span class="n">DataAnalysis</span><span class="o">.</span><span class="n">getResult</span><span class="p">(</span><span class="n">TraceResultFile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>在<code class="docutils literal notranslate"><span class="pre">examples/simple_container</span></code>目录下提供了两个基于<code class="docutils literal notranslate"><span class="pre">matplotlib</span></code>的仿真结果分析示例：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">draw_nvfi_statues_numerical.py</span></code>：即便MiniSFC工作在基于容器的仿真环境中，但也会保留基于数值仿真的仿真结果，因此可以通过该脚本绘制在理想状态下，各个节点的CPU、内存占用情况，如下图所示。</p></li>
+</ul>
+<p><img alt="nvfi_status_numerical" src="https://raw.githubusercontent.com/wangxichn/image_hosting/d9ae503b3848bfdc16bfa50ca6ff13fcc9573cdc/minisfc/Draw_simple_dynamictopo_nvfi_statues_with_numerical_data.svg" /></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">draw_nvfi_statues_container.py</span></code>：该脚本的功能同样是绘制各个节点的CPU、内存占用情况，但是其数据来源于容器的日志文件，因此真实准确的反映了各个节点的实际资源占用情况，如下图所示。</p></li>
+</ul>
+<p><img alt="nvfi_status_numerical" src="https://raw.githubusercontent.com/wangxichn/image_hosting/d9ae503b3848bfdc16bfa50ca6ff13fcc9573cdc/minisfc/Draw_simple_dynamictopo_nvfi_statues_with_container_data.svg" /></p>
+<p>示例中提供的<code class="docutils literal notranslate"><span class="pre">get_statstable.py</span></code>脚本，用于将日志文件<code class="docutils literal notranslate"><span class="pre">vnf_stats.log</span></code>中的数据提取和整理，并保存为csv文件，便于后续分析。</p>
+<p>示例中提供的<code class="docutils literal notranslate"><span class="pre">get_logtable.py</span></code>脚本，用于将日志文件各个容器的日志文件<code class="docutils literal notranslate"><span class="pre">vnf*.log</span></code>中的数据提取和整理，并保存为csv文件，便于后续分析每个数据包在各个环节的用时。</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="simple_dynamictopo_en.html" class="btn btn-neutral float-left" title="Numerical Dynamic Topography Simulation Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="simple_container_en.html" class="btn btn-neutral float-right" title="Container-based Simulation Example" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Wang Xi。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

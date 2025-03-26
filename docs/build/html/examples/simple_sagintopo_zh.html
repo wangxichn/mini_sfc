@@ -1,0 +1,421 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>空天地一体化网络拓扑下的数值仿真示例 &mdash; MiniSFC 2.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" />
+    <link rel="next" title="Numerical Simulation Example under the Space-Air-Ground Integrated Network Topology" href="simple_sagintopo_en.html" />
+    <link rel="prev" title="Container-based Simulation Example" href="simple_container_en.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MiniSFC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introductory/index.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../install/index.html">安装</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">使用示例</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="simple_dynamictopo_zh.html">动态拓扑的数值仿真</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_dynamictopo_en.html">Numerical Dynamic Topography Simulation Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_container_zh.html">基于容器的模拟仿真环境的简单示例</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simple_container_en.html">Container-based Simulation Example</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">空天地一体化网络拓扑下的数值仿真示例</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">基本工作流</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">拓扑文件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">准备工作</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id5">步骤一：定义基底网络拓扑</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#vnf">步骤二：定义VNF管理器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sfc">步骤三：定义SFC拓扑</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6">步骤四：定义SFC部署求解器</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc">步骤五：定义MiniSFC仿真器</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id7">开始仿真</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">仿真过程</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">结果分析</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id10">批量仿真</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simple_sagintopo_en.html">Numerical Simulation Example under the Space-Air-Ground Integrated Network Topology</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">Minisfc API</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MiniSFC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">使用示例</a></li>
+      <li class="breadcrumb-item active">空天地一体化网络拓扑下的数值仿真示例</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/examples/simple_sagintopo_zh.md.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p><a class="reference internal" href="#"><span class="doc">中文</span></a> | <a class="reference internal" href="simple_sagintopo_en.html"><span class="doc">English</span></a></p>
+<section id="id1">
+<h1>空天地一体化网络拓扑下的数值仿真示例<a class="headerlink" href="#id1" title="Link to this heading"></a></h1>
+<p>使用MiniSFC进行仿真的基本流程同NS3、Mininet等其他网络仿真工具类似，即首先编写一个<code class="docutils literal notranslate"><span class="pre">.py</span></code>的控制脚本文件设定仿真的场景，然后使用<code class="docutils literal notranslate"><span class="pre">Python</span></code>运行该脚本文件，即可启动仿真。</p>
+<p>该示例的讲解以项目中<code class="docutils literal notranslate"><span class="pre">example/simple_sagintopo.py</span></code>为例，介绍使用MiniSFC进行仿真时仿真脚本必要的元素，以及如何对产生的结果进行分析，完成空天地一体化网络拓扑的数值仿真。</p>
+<section id="id2">
+<h2>基本工作流<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
+<p>编写脚本使用MiniSFC进行空天地一体化网络拓扑数值仿真的流程如图1所示：</p>
+<p><img alt="sagin_workflow" src="https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/minisfc_docs-sagin_workflow.drawio.png" /></p>
+<center>图1 使用MiniSFC进行空天地一体化网络拓扑数值仿真的基本工作流</center><p>这个工作流符合构建网络仿真的直觉，即首先读取外部提供的网络拓扑，然后设置预期该网络中需要部署的服务，然后在仿真环境中模拟网络的行为。直到定义MiniSFC仿真器并开始仿真，前面的工作都可以视为准备工作。</p>
+</section>
+<section id="id3">
+<h2>拓扑文件<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
+<p>在仿真之前，需要准备一个包含所有节点和链路的网络拓扑文件，在该示例中，我们使用了路径<code class="docutils literal notranslate"><span class="pre">examples/simple_sagintopo/SSG-Json-RawData</span></code>文件夹中的所有<code class="docutils literal notranslate"><span class="pre">.json</span></code>文件，作为定义网络拓扑的数据文件。</p>
+<p>其中每个文件的命名方式为<code class="docutils literal notranslate"><span class="pre">stk_data_ID_DAY_MONTH_YEAR_HOUR_MINUTE_00.000.json</span></code>，该文件由软件<code class="docutils literal notranslate"><span class="pre">STK11</span></code>生成，包含了节点之间链路的连接关系、以及链路之间的距离。多个文件之间的关系即为随着仿真时间的推移，节点之间的连接关系会发生变化，进而导致网络拓扑发生了变化。每隔10分钟对应有一个新的文件，共有60个文件。</p>
+<p>这些文件的获取方式可以参考<a class="reference external" href="https://www.yuque.com/wangxi_chn/kozrfl/ln4yhqlu00bus4ph#">STK11 Python接口使用</a>。</p>
+<p>在MiniSFC中，我们提供了一个名为<code class="docutils literal notranslate"><span class="pre">minisfc.util.JsonReader</span></code>的模块可以实现自动化处理这些<code class="docutils literal notranslate"><span class="pre">.json</span></code>文件，并提取所需的拓扑数据，用于后续基底网络的构建。</p>
+</section>
+<section id="id4">
+<h2>准备工作<a class="headerlink" href="#id4" title="Link to this heading"></a></h2>
+<p>为了对每次仿真结果进行标记，MiniSFC提供了一个<code class="docutils literal notranslate"><span class="pre">Trace</span></code>类，该类可以记录仿真过程中产生的信息，并提供时间戳进行标记。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.trace</span><span class="w"> </span><span class="kn">import</span> <span class="n">Trace</span>
+
+<span class="n">SIMULATION_ID</span> <span class="o">=</span> <span class="n">Trace</span><span class="o">.</span><span class="n">get_time_stamp</span><span class="p">()</span>
+</pre></div>
+</div>
+<section id="id5">
+<h3>步骤一：定义基底网络拓扑<a class="headerlink" href="#id5" title="Link to this heading"></a></h3>
+<p>首先，使用数据文件中的信息构建基底网络拓扑。与前面的简单示例相同，不论如何都需要包含必要的元素才可完整定义基底网络。只不过在此示例中，无法再通过手动定义的方式来构建拓扑，而是需要使用MiniSFC提供的<code class="docutils literal notranslate"><span class="pre">util</span></code>包中的一系列模块来自动处理或生成数据来完成赋值。</p>
+<p>因为在整个仿真过程中节点的数量不会发生变化，因此可以从第一个数据文件中获取节点的数量、类型等基本信息，对应于构建的空天地一体化网络的基底节点，<code class="docutils literal notranslate"><span class="pre">Sat</span></code>对应卫星节点标识，<code class="docutils literal notranslate"><span class="pre">Base</span></code>对应地面基站节点标识，<code class="docutils literal notranslate"><span class="pre">Uav</span></code>对应空中无人机节点标识。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">NumberGen</span><span class="p">,</span> <span class="n">JsonReader</span>
+
+<span class="n">jsondir</span> <span class="o">=</span> <span class="s1">&#39;SSG-Json-RawData&#39;</span>
+<span class="n">jsonfiles</span> <span class="o">=</span> <span class="p">[</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">jsondir</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span> <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">jsondir</span><span class="p">)]</span>
+
+<span class="n">jsonReader</span> <span class="o">=</span> <span class="n">JsonReader</span><span class="p">(</span><span class="n">jsonfiles</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">topoNodeNames</span> <span class="o">=</span> <span class="n">jsonReader</span><span class="o">.</span><span class="n">all_node_list</span>
+<span class="n">topoNodeNum_Sat</span> <span class="o">=</span> <span class="n">jsonReader</span><span class="o">.</span><span class="n">sat_num</span>
+<span class="n">topoNodeNum_Base</span> <span class="o">=</span> <span class="n">jsonReader</span><span class="o">.</span><span class="n">base_num</span>
+<span class="n">topoNodeNum_Uav</span> <span class="o">=</span> <span class="n">jsonReader</span><span class="o">.</span><span class="n">uav_num</span>
+<span class="n">topoSize</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">topoNodeNames</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>时间：一个时间序列，用于标记网络拓扑发生变化的时间点，这里采用以分钟为单位的时间戳，即从0分钟开始，每隔10分钟对应一个时间戳。MiniSFC会根据该信息来自动生成事件，标记网络拓扑此时发生了变化，并对网络进行相应的调整。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoTimeList</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="mf">600.0</span><span class="p">,</span><span class="mf">10.0</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>邻接矩阵字典：一个以时间为索引的邻接矩阵字典，用于描述网络运行过程中不同时间点的节点之间的连接关系。矩阵的行数和列数分别为节点的数量，矩阵中的元素表示节点i和节点j之间是否存在一条链路。该字典的键需要与时间序列中的元素严格一一对应。需要注意的是该邻接矩阵需包含自环，这么做是基于部署在同一个物理设置上的不同VNF可以通过内部链路进行通信。这里直接使用<code class="docutils literal notranslate"><span class="pre">JsonReader</span></code>模块的<code class="docutils literal notranslate"><span class="pre">getAdjacencyMat</span></code>方法来获取邻接矩阵。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoAdjMatDict</span> <span class="o">=</span> <span class="p">{</span><span class="n">topoTime</span><span class="p">:</span><span class="n">JsonReader</span><span class="p">(</span><span class="n">jsonfiles</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">getAdjacencyMat</span><span class="p">()</span> 
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">topoTime</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">topoTimeList</span><span class="p">)}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>链路权重矩阵字典：一个以时间为索引的链路权重矩阵字典，用于描述网络运行过程中不同时间点的链路的权重。矩阵的行数和列数分别为节点的数量，矩阵中的元素表示节点i和节点j之间的链路的权重。该字典的键需要与时间序列中的元素严格一一对应。该权值默认为两个节点之间的传播延迟，单位为毫秒。需要注意各个权值矩阵应与邻接矩阵中的元素一一对应。即基于这样一种假设，两个节点之间不存在链路是，其权值矩阵中的元素应该为0或无穷大（因为节点的可达性是基于邻接矩阵的，因此不影响服务的时延累计的计算）。这里直接使用<code class="docutils literal notranslate"><span class="pre">JsonReader</span></code>模块的<code class="docutils literal notranslate"><span class="pre">getWeightMat</span></code>方法来获取链路权重矩阵。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoWeightMatDict</span> <span class="o">=</span> <span class="p">{</span><span class="n">topoTime</span><span class="p">:</span><span class="n">JsonReader</span><span class="p">(</span><span class="n">jsonfiles</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">.</span><span class="n">getWeightMat</span><span class="p">()</span> 
+                     <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">topoTime</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">topoTimeList</span><span class="p">)}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>节点资源字典：一个以时间为索引的节点资源字典，用于描述网络运行过程中不同时间点的节点的资源信息。字典的键为元组，包含时间和资源类型两个元素，值为一个列表，包含每个节点的资源信息。资源类型可以是CPU、内存等，具体取决于想要模拟的网络的资源类型。需要注意的是，资源信息的数量应该与节点的数量相匹配，即每个节点都应该有对应的资源信息。且时间信息应该与时间序列中的元素严格一一对应。这里直接使用MiniSFC提供的<code class="docutils literal notranslate"><span class="pre">NumberGen</span></code>模块的<code class="docutils literal notranslate"><span class="pre">getVector</span></code>方法来生成节点资源信息。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoNodeResourceDict_cpu</span> <span class="o">=</span> <span class="p">{(</span><span class="n">topoTime</span><span class="p">,</span><span class="s1">&#39;cpu&#39;</span><span class="p">):</span><span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">topoSize</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">50</span><span class="p">})</span>
+                            <span class="k">for</span> <span class="n">topoTime</span> <span class="ow">in</span> <span class="n">topoTimeList</span><span class="p">}</span>
+<span class="n">topoNodeResourceDict_ram</span> <span class="o">=</span> <span class="p">{(</span><span class="n">topoTime</span><span class="p">,</span><span class="s1">&#39;ram&#39;</span><span class="p">):</span><span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">topoSize</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mi">500</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">500</span><span class="p">})</span><span class="o">*</span><span class="mi">1000</span> <span class="c1"># unit conversion Gb2Mb</span>
+                            <span class="k">for</span> <span class="n">topoTime</span> <span class="ow">in</span> <span class="n">topoTimeList</span><span class="p">}</span>
+<span class="n">topoNodeResourceDict</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">topoNodeResourceDict_cpu</span><span class="p">,</span><span class="o">**</span><span class="n">topoNodeResourceDict_ram</span><span class="p">}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>链路资源字典：一个以时间为索引的链路资源字典，用于描述网络运行过程中不同时间点的链路的资源信息。字典的键为元组，包含时间和资源类型两个元素，值为一个矩阵，包含每个链路的资源信息。资源类型可以是带宽等，具体取决于想要模拟的网络的资源类型。需要注意的是，资源信息的数量应该与链路的数量相匹配，即每个链路都应该有对应的资源信息。且时间信息应该与时间序列中的元素严格一一对应。这里直接使用MiniSFC提供的<code class="docutils literal notranslate"><span class="pre">NumberGen</span></code>模块的<code class="docutils literal notranslate"><span class="pre">getMatrix</span></code>方法来生成链路资源信息。（由于空天地一体化网络的链路的异构性，这里的链路资源信生成过程较为复杂，大致而言是区分星间链路和星地链路的生成过程，然后将两者的资源信息叠加）</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">topoLinkResourceMat_Sat</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getMatrix</span><span class="p">(</span><span class="n">topoNodeNum_Sat</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;symmetric&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">1000</span><span class="p">})</span> <span class="c1"># unit conversion Mb</span>
+<span class="n">topoLinkResourceMat_Other</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getMatrix</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">topoNodeNames</span><span class="p">),</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;symmetric&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mi">50</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">300</span><span class="p">})</span> <span class="c1"># unit conversion Mb</span>
+<span class="n">topoLinkResourceMat_Other</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">topoNodeNum_Sat</span><span class="p">,</span><span class="mi">0</span><span class="p">:</span><span class="n">topoNodeNum_Sat</span><span class="p">]</span> <span class="o">=</span> <span class="n">topoLinkResourceMat_Sat</span>
+<span class="n">topoLinkResourceDict</span> <span class="o">=</span> <span class="p">{(</span><span class="n">topoTime</span><span class="p">,</span><span class="s1">&#39;band&#39;</span><span class="p">):</span><span class="n">topoLinkResourceMat_Other</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">topoSize</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span><span class="o">*</span><span class="mi">20</span><span class="o">*</span><span class="mi">1000</span> <span class="k">for</span> <span class="n">topoTime</span> <span class="ow">in</span> <span class="n">topoTimeList</span><span class="p">}</span>  <span class="c1"># unit conversion Gb2Mb</span>
+</pre></div>
+</div>
+<p>当这些信息准备好后，就可以构建一个来自于Minisfc的<code class="docutils literal notranslate"><span class="pre">SubstrateTopo</span></code>对象，该对象包含了所有网络拓扑信息。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.topo</span><span class="w"> </span><span class="kn">import</span> <span class="n">SubstrateTopo</span>
+
+<span class="n">substrateTopo</span> <span class="o">=</span> <span class="n">SubstrateTopo</span><span class="p">(</span><span class="n">topoTimeList</span><span class="p">,</span><span class="n">topoAdjMatDict</span><span class="p">,</span><span class="n">topoWeightMatDict</span><span class="p">,</span>
+                              <span class="n">topoNodeResourceDict</span><span class="p">,</span><span class="n">topoLinkResourceDict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>为了方便后续的仿真，可以将该<code class="docutils literal notranslate"><span class="pre">SubstrateTopo</span></code>对象保存为一个pickle文件进行固化，即无需每次都重新构建该对象，该方法适用于构建随机网络拓扑的场景并测试不同算法的性能时，进行变量控制。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">substrateTopo</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">substrateTopo</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="vnf">
+<h3>步骤二：定义VNF管理器<a class="headerlink" href="#vnf" title="Link to this heading"></a></h3>
+<p>SFC所建立的服务是由多个VNF组成的，每个VNF都代表一个具体的功能，这些VNF需要部署在基底网络上，并按照一定顺序部署。MiniSFC提供了<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>类来管理VNF的部署和调度。因此在仿真之前，需要向<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>中添加VNF的模板，并设置每个VNF的资源占用信息。该过程类似于用户的服务注册环节，即用户需要向系统中事先注册自己所需的服务，进而在后续运行中，系统根据用户的需求提供相应的服务。</p>
+<ul class="simple">
+<li><p>实例化：<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象可以直接实例化，不需要任何参数。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.mano.vnfm</span><span class="w"> </span><span class="kn">import</span> <span class="n">VnfManager</span><span class="p">,</span><span class="n">VnfEm</span>
+
+<span class="n">nfvManager</span> <span class="o">=</span> <span class="n">VnfManager</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>添加VNF模板：VNF在MiniSFC中被抽象为<code class="docutils literal notranslate"><span class="pre">VnfEm</span></code>类，该类包含了VNF的ID、CPU占用、内存占用、带宽占用等信息。<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象提供了<code class="docutils literal notranslate"><span class="pre">add_vnf_into_pool</span></code>方法，用于向其内部的VNF模板池中添加VNF模板。需要注意的是，VNF模板的ID必须是唯一的，且不能与其他VNF模板的ID重复。'vnf_cpu'的值应该是浮点数，表示VNF的CPU占用，单位为核数。'vnf_ram'的值应该是整数，表示VNF的内存占用，单位为MB。由于空天地一体化网络的宏大场景，服务的设定也无法手动一一设置，因此需要借助MiniSFC提供的<code class="docutils literal notranslate"><span class="pre">NumberGen</span></code>模块来批量生成随机数进行赋值。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vnfTypeNum</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">vnfRequstCPU</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">vnfTypeNum</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
+<span class="n">vnfRequstRAM</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">vnfTypeNum</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vnfTypeNum</span><span class="p">):</span>
+    <span class="n">vnfEm_template</span> <span class="o">=</span> <span class="n">VnfEm</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;vnf_id&#39;</span><span class="p">:</span><span class="n">i</span><span class="p">,</span><span class="s1">&#39;vnf_cpu&#39;</span><span class="p">:</span><span class="n">vnfRequstCPU</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="s1">&#39;vnf_ram&#39;</span><span class="p">:</span><span class="n">vnfRequstRAM</span><span class="p">[</span><span class="n">i</span><span class="p">]})</span>
+    <span class="n">nfvManager</span><span class="o">.</span><span class="n">add_vnf_into_pool</span><span class="p">(</span><span class="n">vnfEm_template</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>设置VNF间虚拟链路资源占用：<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象提供了<code class="docutils literal notranslate"><span class="pre">set_vnf_resource_info</span></code>方法，用于设置VNF间的虚拟链路资源占用信息。该方法需要三个参数，前两个参数为VNF的ID，第三个参数为资源占用信息。资源占用信息是一个字典，包含资源类型和占用量两个元素，资源类型默认支持单位为MB的带宽，具体取决于想要模拟的网络的资源类型。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vnfRequstBAND</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getMatrix</span><span class="p">(</span><span class="n">vnfTypeNum</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s1">&#39;symmetric&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">100</span><span class="p">})</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vnfTypeNum</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">vnfTypeNum</span><span class="p">):</span>
+        <span class="n">nfvManager</span><span class="o">.</span><span class="n">add_vnf_service_into_pool</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;band&quot;</span><span class="p">:</span><span class="n">vnfRequstBAND</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]})</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>保存VNF管理器：为了方便后续的仿真，可以将<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象保存为一个pickle文件进行固化，即无需每次都重新构建该对象，该方法适用于构建随机网络拓扑的场景并测试不同算法的性能时，进行变量控制。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">nfvManager</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">nfvManager</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="sfc">
+<h3>步骤三：定义SFC拓扑<a class="headerlink" href="#sfc" title="Link to this heading"></a></h3>
+<p>SFC拓扑是指部署在基底网络上的服务流，它由多个服务节点和服务链路组成。每个服务节点都代表一个具体的服务，该示例中我们进行的是基于数值的仿真，因此该服务为虚拟的，仅仅体现在对基底网络中物理节点设置的资源占用。</p>
+<ul class="simple">
+<li><p>ID：一个整数列表，用于标记SFC的ID。该值将用来标记每个SFC的唯一性，且该列表的长度应该与服务链路的数量相匹配。在仿真结束后生成的日志记录中，会包含每个SFC的ID，方便后续的分析。需要注意的是，SFC的ID不能重复，否则会导致仿真结果的错误。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfcNum</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">sfcIdList</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sfcNum</span><span class="p">)]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>生命周期：一个以SFC ID为索引的字典，用于描述SFC的生命周期。字典的键为SFC的ID，值为一个列表，包含两个元素，分别为SFC的建立时间和终止时间。该值以秒为单位，且生命周期的终止时间应该大于等于建立时间。MiniSFC会根据该信息来自动生成事件，调度每一个SFC的部署和终止，并在最后一个生命周期终止时停止仿真。需要注意的是，该字典的键需要与SFC ID列表中的元素严格一一对应。MiniSFC提供了<code class="docutils literal notranslate"><span class="pre">NumberGen</span></code>模块支持按照到达时间的分布模型来生成随机数，用于生成SFC的生命周期。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfcArriveTime</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">sfcNum</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;possion&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;float&#39;</span><span class="p">,</span><span class="s1">&#39;lam&#39;</span><span class="p">:</span><span class="mf">0.55</span><span class="p">,</span><span class="s1">&#39;reciprocal&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">}))</span>
+<span class="n">sfcLifeLength</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">sfcNum</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;float&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">60</span><span class="p">})</span>
+<span class="n">sfcLifeTimeDict</span> <span class="o">=</span> <span class="p">{</span><span class="n">sfcIdList</span><span class="p">[</span><span class="n">i</span><span class="p">]:[</span><span class="n">sfcArriveTime</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">sfcArriveTime</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">sfcLifeLength</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> 
+                    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sfcNum</span><span class="p">)}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>端点：一个以SFC ID为索引的字典，用于描述SFC的端点。端点的设置基于这样一种假设，即用户对其请求服务的接入接出点是基于用户与网络设施的相对物理位置的，当由于网络拓扑的变化而导致服务的接入接出点发生变化时，用户应当重新请求服务（此处是当前版本V2.0的权宜之计，后续版本将设计更符合实际情况的动态设置方法）。字典的键为SFC的ID，值为一个列表，包含SFC的接入接出点对应的基底网络上的物理节点ID。要注意的是，该字典的键需要与SFC ID列表中的元素严格一一对应。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfcEndPointDict</span> <span class="o">=</span> <span class="p">{</span><span class="n">sfcIdList</span><span class="p">[</span><span class="n">i</span><span class="p">]:[</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">topoSize</span><span class="p">),</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">topoSize</span><span class="p">),</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sfcNum</span><span class="p">)}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>VNF请求：一个以SFC ID为索引的字典，用于描述SFC的VNF请求。字典的键为SFC的ID，值为一个列表，包含SFC所需的VNF的ID，其中的ID值即为VNF模板池中VNF模板的ID，列表的长度即为SFC所需的VNF数量，由于不同VNF的功能不同，因此该列表中允许出现相同的VNF ID，即使用一个VNF模版分别创建不同的实例进行部署。需要注意的是，该字典的键需要与SFC ID列表中的元素严格一一对应。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfcVnfNum</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">sfcNum</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;int&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mi">10</span><span class="p">})</span>
+<span class="n">sfcVnfRequstDict</span> <span class="o">=</span> <span class="p">{</span><span class="n">sfcIdList</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span><span class="n">random</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">sfcVnfIdList</span><span class="p">,</span><span class="n">sfcVnfNum</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sfcNum</span><span class="p">)}</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>服务QoS需求：一个以SFC ID为索引的字典，用于描述SFC的QoS需求。字典的键为SFC的ID，值为一个列表，包含SFC的QoS需求，这里与基底网络中节点之间的传输时延对应，单位为毫秒，该值表示SFC的端到端时延要求。需要注意的是，该字典的键需要与SFC ID列表中的元素严格一一对应。这里我们假设QoS需求与服务的类型相关，参考了5G的三种服务类型（URLLC、mMTC、eMBB）的QoS需求，并在不同的取值范围内随机生成了QoS需求值。</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sfcNum_URLLC</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sfcNum</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">sfcNum_mMTC</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sfcNum</span><span class="o">*</span><span class="p">(</span><span class="mi">5</span><span class="o">/</span><span class="mi">8</span><span class="p">))</span>
+<span class="n">sfcNum_eMBB</span> <span class="o">=</span> <span class="n">sfcNum</span><span class="o">-</span><span class="p">(</span><span class="n">sfcNum_URLLC</span><span class="o">+</span><span class="n">sfcNum_mMTC</span><span class="p">)</span>
+
+<span class="n">sfcLatencyRequest_URLLC</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">sfcNum_URLLC</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;float&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mf">0.150</span><span class="p">})</span>
+<span class="n">sfcLatencyRequest_mMTC</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">sfcNum_mMTC</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;float&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mf">0.300</span><span class="p">})</span>
+<span class="n">sfcLatencyRequest_eMBB</span> <span class="o">=</span> <span class="n">NumberGen</span><span class="o">.</span><span class="n">getVector</span><span class="p">(</span><span class="n">sfcNum_eMBB</span><span class="p">,</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;distribution&#39;</span><span class="p">:</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span><span class="s1">&#39;dtype&#39;</span><span class="p">:</span><span class="s1">&#39;float&#39;</span><span class="p">,</span><span class="s1">&#39;low&#39;</span><span class="p">:</span><span class="mf">0.1</span><span class="p">,</span><span class="s1">&#39;high&#39;</span><span class="p">:</span><span class="mf">0.400</span><span class="p">})</span>
+<span class="n">sfcLatencyRequest</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">sfcLatencyRequest_URLLC</span><span class="p">,</span><span class="n">sfcLatencyRequest_mMTC</span><span class="p">,</span><span class="n">sfcLatencyRequest_eMBB</span><span class="p">))</span>
+
+<span class="n">sfcQosRequestDict</span> <span class="o">=</span> <span class="p">{</span><span class="n">sfcIdList</span><span class="p">[</span><span class="n">i</span><span class="p">]:[</span><span class="n">sfcLatencyRequest</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sfcNum</span><span class="p">)}</span>
+</pre></div>
+</div>
+<p>在这些信息准备好后，就可以构建一个来自于Minisfc的<code class="docutils literal notranslate"><span class="pre">ServiceTopo</span></code>对象，该对象包含了所有SFC拓扑信息。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.topo</span><span class="w"> </span><span class="kn">import</span> <span class="n">ServiceTopo</span>
+<span class="n">serviceTopo</span> <span class="o">=</span> <span class="n">ServiceTopo</span><span class="p">(</span><span class="n">sfcIdList</span><span class="p">,</span><span class="n">sfcLifeTimeDict</span><span class="p">,</span><span class="n">endPointDict</span><span class="p">,</span><span class="n">vnfRequstDict</span><span class="p">,</span><span class="n">qosRequesDict</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>为了方便后续的仿真，可以将该<code class="docutils literal notranslate"><span class="pre">ServiceTopo</span></code>对象保存为一个pickle文件进行固化，即无需每次都重新构建该对象，该方法适用于构建随机网络拓扑的场景并测试不同算法的性能时，进行变量控制。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">serviceTopo</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s2">.pkl&quot;</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">serviceTopo</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>步骤四：定义SFC部署求解器<a class="headerlink" href="#id6" title="Link to this heading"></a></h3>
+<p>MiniSFC提供了多种SFC部署求解器，用于求解SFC在基底网络上的部署方案。在仿真之前，需要选择一个部署求解器，该求解器可以来自于Minisfc的<code class="docutils literal notranslate"><span class="pre">SfcSolver</span></code>类例如<code class="docutils literal notranslate"><span class="pre">RandomSolver</span></code>、<code class="docutils literal notranslate"><span class="pre">GreedySolver</span></code>等，也可以来自于用户集成了Minisfc的<code class="docutils literal notranslate"><span class="pre">SfcSolver</span></code>类后实现的自定义求解器，例如<code class="docutils literal notranslate"><span class="pre">PsoSolver</span></code>。</p>
+<p><code class="docutils literal notranslate"><span class="pre">SfcSolver</span></code>对象的实例化需要两个参数，第一个参数为<code class="docutils literal notranslate"><span class="pre">SubstrateTopo</span></code>对象，第二个参数为<code class="docutils literal notranslate"><span class="pre">ServiceTopo</span></code>对象，这两个对象分别代表了基底网络拓扑和SFC拓扑，可用于求解器的初始化。因此我们默认求解器具备未来网络发生事件的全部信息，因此可用于基于学习类的预测算法。当然如果用户希望实现一个完全基于突发事件的求解器，则可以忽略掉这两个参数，而是仅根据事件发生时的信息进行计算。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.solver</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomSolver</span><span class="p">,</span> <span class="n">GreedySolver</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">custom.psoSolver</span><span class="w"> </span><span class="kn">import</span> <span class="n">PsoSolver</span>
+
+<span class="n">sfcSolver</span> <span class="o">=</span> <span class="n">PsoSolver</span><span class="p">(</span><span class="n">substrateTopo</span><span class="p">,</span><span class="n">serviceTopo</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="minisfc">
+<h3>步骤五：定义MiniSFC仿真器<a class="headerlink" href="#minisfc" title="Link to this heading"></a></h3>
+<p>MiniSFC提供了<code class="docutils literal notranslate"><span class="pre">Minisfc</span></code>类来进行仿真，该类包含了仿真的主要逻辑，包括事件驱动、事件处理、事件调度、仿真结果记录等。</p>
+<p><code class="docutils literal notranslate"><span class="pre">Minisfc</span></code>对象的实例化需要四个参数，第一个参数为<code class="docutils literal notranslate"><span class="pre">SubstrateTopo</span></code>对象，第二个参数为<code class="docutils literal notranslate"><span class="pre">ServiceTopo</span></code>对象，第三个参数为<code class="docutils literal notranslate"><span class="pre">VnfManager</span></code>对象，第四个参数为<code class="docutils literal notranslate"><span class="pre">SfcSolver</span></code>对象，即为前面定义的准备好的对象。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.net</span><span class="w"> </span><span class="kn">import</span> <span class="n">Minisfc</span>
+
+<span class="n">net</span> <span class="o">=</span> <span class="n">Minisfc</span><span class="p">(</span><span class="n">substrateTopo</span><span class="p">,</span><span class="n">serviceTopo</span><span class="p">,</span><span class="n">nfvManager</span><span class="p">,</span><span class="n">sfcSolver</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>开始仿真<a class="headerlink" href="#id7" title="Link to this heading"></a></h2>
+<p>在仿真开始之前，允许用户自定义仿真结果的保存路径或文件名，默认路径为运行脚本所在的当前目录。</p>
+<p>MiniSFC默认提供了两种仿真结果记录方式，一种是基于事件的记录，即记录每一个事件的发生时间、事件类型、事件相关的对象、事件相关的属性等信息，该方式可以用于算法性能以及执行结果的分析。另一种是基于每个物理节点的记录，即记录每一个事件发生时间时，每个物理节点的CPU、内存占用情况，该方式可以用于对比不同算法对资源的分配情况。用户可以根据自己的需求设计新的仿真结果记录条目，只需继承<code class="docutils literal notranslate"><span class="pre">TraceResult</span></code>或<code class="docutils literal notranslate"><span class="pre">TraceNfvi</span></code>类，并参照其在MANO中的调用方式，重写所需方法即可。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">TraceResultFile</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">TRACE_RESULT</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">sfcSolver</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s1">.csv&#39;</span>
+<span class="n">TRACE_RESULT</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">TraceResultFile</span><span class="p">)</span>
+<span class="n">TraceNfviFile</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">TRACE_NFVI</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">sfcSolver</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">SIMULATION_ID</span><span class="si">}</span><span class="s1">.csv&#39;</span>
+<span class="n">TRACE_NFVI</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">TraceNfviFile</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>上述工作完成后，就可以启动仿真，该过程会自动生成事件并进行调度，直到所有SFC的生命周期终止。<code class="docutils literal notranslate"><span class="pre">net.stop()</span></code>在基于数值的仿真中不重要，因为在所有的事件都处理完后，仿真会自动停止。因此可以不用调用该方法。（为了体现仿真的完整性和规范性，这里还是调用了该方法）但是在基于容器的模拟仿真中，该方法是必须的，因为需要该方法释放仿真过程中所占用的资源并退出Containernet仿真环境，避免对下次仿真造成影响。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">net</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="n">net</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>如果使用示例中的默认脚本，则运行如下命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>minisfc/examples/simple_dynamictopo
+python<span class="w"> </span>simple_dynamictopo.py
+</pre></div>
+</div>
+<p>如果使用了Anaconda环境（例如命名为<code class="docutils literal notranslate"><span class="pre">minisfc</span></code>的开发环境），则运行如下命令：</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>minisfc/examples/simple_dynamictopo
+conda<span class="w"> </span>activate<span class="w"> </span>minisfc
+python<span class="w"> </span>simple_dynamictopo.py
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h2>仿真过程<a class="headerlink" href="#id8" title="Link to this heading"></a></h2>
+<p>在仿真运行过程中，会在执行该脚本中的终端创建一个基于<code class="docutils literal notranslate"><span class="pre">tqdm</span></code>的进度条，显示仿真的进度。该进度条会显示当前仿真时间、当前仿真事件等信息。可用于观察仿真的运行情况，以及当仿真突然中断时，可以根据进度条信息来进行调试。</p>
+</section>
+<section id="id9">
+<h2>结果分析<a class="headerlink" href="#id9" title="Link to this heading"></a></h2>
+<p>当仿真结束后，脚本所在的工作目录下会生成两个日志记录文件：</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TraceResult_{SolverName}_{SimulationID}.csv</span></code>：该日志文件的记录条目为<code class="docutils literal notranslate"><span class="pre">Event,Time,SfcId,Result,Resource,Vnffgs,Solution,Reason</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Event</span></code>：事件类型，参考NS3的设置，这里使用了<code class="docutils literal notranslate"><span class="pre">+</span></code>来表示SFC请求的到来，<code class="docutils literal notranslate"><span class="pre">-</span></code>来表示SFC生命周期终止，<code class="docutils literal notranslate"><span class="pre">t</span></code>来表示基底网络拓扑发生变化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Time</span></code>：事件发生的时间，单位为秒。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SfcId</span></code>：事件相关的SFC的ID。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Result</span></code>：事件的结果，<code class="docutils literal notranslate"><span class="pre">True</span></code>表示SFC部署成功，<code class="docutils literal notranslate"><span class="pre">False</span></code>表示SFC部署失败。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Resource</span></code>：事件发生时全网的剩余资源情况，格式为<code class="docutils literal notranslate"><span class="pre">[cpu:mem:band]</span></code>，分别表示CPU、内存、带宽的剩余资源。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Vnffgs</span></code>：事件发生时在网运行的SFC情况，格式为<code class="docutils literal notranslate"><span class="pre">[SFC_ID]</span></code>。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Solution</span></code>：事件的部署方案，格式为<code class="docutils literal notranslate"><span class="pre">vnffg1:node1,vnffg2:node2,vnffg3:node3</span></code>，即该事件部署的SFC上的每个VNF部署在哪个基底网络节点上。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Reason</span></code>：事件的原因，当事件类型为<code class="docutils literal notranslate"><span class="pre">-</span></code>或<code class="docutils literal notranslate"><span class="pre">t</span></code>时，该字段记录了SFC的终止原因（例如超时、资源不足等）。</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TraceNfvi_{SolverName}_{SimulationID}.csv</span></code>：该日志文件的记录条目为<code class="docutils literal notranslate"><span class="pre">Event,Time,NVFI_0_cpu,NVFI_0_ram,NVFI_0_vnfs,NVFI_1_cpu...</span></code></p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">Event</span></code>：事件类型，参考NS3的设置，这里使用了<code class="docutils literal notranslate"><span class="pre">+</span></code>来表示SFC请求的到来，<code class="docutils literal notranslate"><span class="pre">-</span></code>来表示SFC生命周期终止，<code class="docutils literal notranslate"><span class="pre">t</span></code>来表示基底网络拓扑发生变化。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Time</span></code>：事件发生的时间，单位为秒。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NVFI_i_cpu</span></code>：第i个节点的CPU占用情况，单位为核数。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NVFI_i_ram</span></code>：第i个节点的内存占用情况，单位为MB。</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NVFI_i_vnfs</span></code>：第i个节点上运行的VNF的ID列表。</p></li>
+</ul>
+</li>
+</ul>
+<p>用户可以根据自己的需求对日志文件进行分析，例如绘制仿真结果图表、分析SFC部署失败的原因、分析资源的分配情况等。</p>
+<p>MiniSFC提供了一个简易的分析模块<code class="docutils literal notranslate"><span class="pre">DataAnalysis</span></code>，可以帮助用户快速分析日志文件，在每次仿真结束后，该模块会自动打印一行文字输出SFC部署成功率等信息，用户可以根据该信息快速判断算法的性能。</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">minisfc.util</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataAnalysis</span>
+<span class="n">DataAnalysis</span><span class="o">.</span><span class="n">getResult</span><span class="p">(</span><span class="n">TraceResultFile</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id10">
+<h2>批量仿真<a class="headerlink" href="#id10" title="Link to this heading"></a></h2>
+<p>如果需要批量运行多个仿真，则可以参考脚本<code class="docutils literal notranslate"><span class="pre">simple_sagintopo_gen.py</span></code>与<code class="docutils literal notranslate"><span class="pre">simple_sagintopo_load.py</span></code>的做法，将仿真场景的生成与仿真的加载分离，然后自定义循环体读取生成的场景文件进行仿真。这里给出一个通过循环体修改SFC个数批量生成场景后进行仿真并分别分析结果后绘制的算法对比图如下：</p>
+<p><img alt="nvfi_status" src="https://raw.githubusercontent.com/wangxichn/image_hosting/974d9c84fa547e0605e5024dfed206c02892cd5d/minisfc/draw_simple_sagintopo_condition.svg" /></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="simple_container_en.html" class="btn btn-neutral float-left" title="Container-based Simulation Example" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="simple_sagintopo_en.html" class="btn btn-neutral float-right" title="Numerical Simulation Example under the Space-Air-Ground Integrated Network Topology" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Wang Xi。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
