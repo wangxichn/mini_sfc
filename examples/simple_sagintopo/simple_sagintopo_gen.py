@@ -42,7 +42,7 @@ SIMULATION_ID = TRACER.get_time_stamp()
 
 from minisfc.topo import SubstrateTopo
 
-jsondir = 'SSG-Json-RawData'
+jsondir = 'data'
 jsonfiles = [os.path.join(jsondir, file) for file in os.listdir(jsondir)]
 
 jsonReader = JsonReader(jsonfiles[0])

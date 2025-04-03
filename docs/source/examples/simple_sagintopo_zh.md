@@ -18,11 +18,16 @@
 
 ## 拓扑文件
 
-在仿真之前，需要准备一个包含所有节点和链路的网络拓扑文件，在该示例中，我们使用了路径`examples/simple_sagintopo/SSG-Json-RawData`文件夹中的所有`.json`文件，作为定义网络拓扑的数据文件。
+在仿真之前，需要准备一个包含所有节点和链路的网络拓扑文件，在该示例中，我们使用了路径`examples/simple_sagintopo/data`文件夹中的所有`.json`文件，作为定义网络拓扑的数据文件。
 
-其中每个文件的命名方式为`stk_data_ID_DAY_MONTH_YEAR_HOUR_MINUTE_00.000.json`，该文件由软件`STK11`生成，包含了节点之间链路的连接关系、以及链路之间的距离。多个文件之间的关系即为随着仿真时间的推移，节点之间的连接关系会发生变化，进而导致网络拓扑发生了变化。每隔10分钟对应有一个新的文件，共有60个文件。
+这些数据文件的获取方式如下：
 
-这些文件的获取方式可以参考[STK11 Python接口使用](https://www.yuque.com/wangxi_chn/kozrfl/ln4yhqlu00bus4ph#)。
+- 使用软件`STK11`生成，参考[STK11 Python接口使用](https://www.yuque.com/wangxi_chn/kozrfl/ln4yhqlu00bus4ph#)，生成的每个文件的命名方式为`stk_data_ID_DAY_MONTH_YEAR_HOUR_MINUTE_00.000.json`，包含了节点之间链路的连接关系、以及链路之间的距离。多个文件之间的关系即为随着仿真时间的推移，节点之间的连接关系会发生变化，进而导致网络拓扑发生了变化。每隔10分钟对应有一个新的文件，共有60个文件。
+- 使用我们的另外一个项目[PySAGIN](https://gitee.com/WangXi_Chn/pysagin.git)中的使用示例`可用于MiniSFC的SAGIN场景示例`，即执行`pysagin/examples/zhengzhou/`下的构建脚本，生成的data文件夹中存放着以`sagin_data_YEAR_MONTH_DAY_HOUR_MINUTE_00.json`命名的拓扑数据文件，每个文件包含了场景中各个平台之间的连接关系信息。其内容格式与STK11生成的`.json`文件一致。并可以通过[PySAGIN](https://gitee.com/WangXi_Chn/pysagin.git)的功能对该拓扑数据进行可视化展示如下。
+
+![PySAGIN](https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/Draw_simple_sagintopo_pysagin.gif)
+
+![adjMatrix](https://raw.githubusercontent.com/wangxichn/image_hosting/refs/heads/main/minisfc/Draw_simple_sagintopo_adjmatrix.gif)
 
 在MiniSFC中，我们提供了一个名为`minisfc.util.JsonReader`的模块可以实现自动化处理这些`.json`文件，并提取所需的拓扑数据，用于后续基底网络的构建。
 
