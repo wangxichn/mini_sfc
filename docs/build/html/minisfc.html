@@ -1,0 +1,846 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>minisfc package &mdash; MiniSFC 2.0.0 文档</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=b15d7ad8"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/translations.js?v=beaddf03"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="genindex.html" />
+    <link rel="search" title="搜索" href="search.html" />
+    <link rel="next" title="minisfc.mano package" href="minisfc.mano.html" />
+    <link rel="prev" title="Minisfc API" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MiniSFC
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="搜索文档" aria-label="搜索文档" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="导航菜单">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introductory/index.html">介绍</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install/index.html">安装</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">使用示例</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Minisfc API</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">minisfc package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html">minisfc.mano package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html">minisfc.util package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-minisfc.event">minisfc.event module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.event.Event"><code class="docutils literal notranslate"><span class="pre">Event</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.event.EventType"><code class="docutils literal notranslate"><span class="pre">EventType</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.event.Schedule"><code class="docutils literal notranslate"><span class="pre">Schedule</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-minisfc.net">minisfc.net module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.net.Minisfc"><code class="docutils literal notranslate"><span class="pre">Minisfc</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-minisfc.solver">minisfc.solver module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.solver.GreedySolver"><code class="docutils literal notranslate"><span class="pre">GreedySolver</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.solver.RadomSolver"><code class="docutils literal notranslate"><span class="pre">RadomSolver</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.solver.SOLUTION_TYPE"><code class="docutils literal notranslate"><span class="pre">SOLUTION_TYPE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.solver.Solution"><code class="docutils literal notranslate"><span class="pre">Solution</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.solver.Solver"><code class="docutils literal notranslate"><span class="pre">Solver</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-minisfc.topo">minisfc.topo module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.topo.ServiceTopo"><code class="docutils literal notranslate"><span class="pre">ServiceTopo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.topo.SubstrateTopo"><code class="docutils literal notranslate"><span class="pre">SubstrateTopo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.topo.Topo"><code class="docutils literal notranslate"><span class="pre">Topo</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-minisfc.trace">minisfc.trace module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.trace.Trace"><code class="docutils literal notranslate"><span class="pre">Trace</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.trace.TraceNFVI"><code class="docutils literal notranslate"><span class="pre">TraceNFVI</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#minisfc.trace.TraceResult"><code class="docutils literal notranslate"><span class="pre">TraceResult</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-minisfc">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="移动版导航菜单" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MiniSFC</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="页面导航">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">Minisfc API</a></li>
+      <li class="breadcrumb-item active">minisfc package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/minisfc.rst.txt" rel="nofollow"> 查看页面源码</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="minisfc-package">
+<h1>minisfc package<a class="headerlink" href="#minisfc-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="minisfc.mano.html">minisfc.mano package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.mano.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.mano.html#module-minisfc.mano.mano">minisfc.mano.mano module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.mano.NfvMano"><code class="docutils literal notranslate"><span class="pre">NfvMano</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.mano.NfvMano.ending"><code class="docutils literal notranslate"><span class="pre">NfvMano.ending()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.mano.NfvMano.handle"><code class="docutils literal notranslate"><span class="pre">NfvMano.handle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.mano.NfvMano.ready"><code class="docutils literal notranslate"><span class="pre">NfvMano.ready()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.mano.html#module-minisfc.mano.nfvo">minisfc.mano.nfvo module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.nfvo.NfvOrchestrator"><code class="docutils literal notranslate"><span class="pre">NfvOrchestrator</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.nfvo.NfvOrchestrator.handle"><code class="docutils literal notranslate"><span class="pre">NfvOrchestrator.handle()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.nfvo.NfvOrchestrator.ready"><code class="docutils literal notranslate"><span class="pre">NfvOrchestrator.ready()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.nfvo.VnffgManager"><code class="docutils literal notranslate"><span class="pre">VnffgManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.nfvo.VnffgManager.handle_arrive"><code class="docutils literal notranslate"><span class="pre">VnffgManager.handle_arrive()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.nfvo.VnffgManager.handle_ending"><code class="docutils literal notranslate"><span class="pre">VnffgManager.handle_ending()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.nfvo.VnffgManager.handle_topochange"><code class="docutils literal notranslate"><span class="pre">VnffgManager.handle_topochange()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.mano.html#module-minisfc.mano.uem">minisfc.mano.uem module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#module-uem">uem.py</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#introduction">Introduction</a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#version">Version</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue"><code class="docutils literal notranslate"><span class="pre">Ue</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue.check_cmd_param_exists"><code class="docutils literal notranslate"><span class="pre">Ue.check_cmd_param_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue.check_image_exists"><code class="docutils literal notranslate"><span class="pre">Ue.check_image_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue.config_network"><code class="docutils literal notranslate"><span class="pre">Ue.config_network()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue.get_self_control_url"><code class="docutils literal notranslate"><span class="pre">Ue.get_self_control_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue.get_self_service_url"><code class="docutils literal notranslate"><span class="pre">Ue.get_self_service_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue.ready"><code class="docutils literal notranslate"><span class="pre">Ue.ready()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue.start_trasport"><code class="docutils literal notranslate"><span class="pre">Ue.start_trasport()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue.stop_trasport"><code class="docutils literal notranslate"><span class="pre">Ue.stop_trasport()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.Ue.update_ue_info"><code class="docutils literal notranslate"><span class="pre">Ue.update_ue_info()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.UeManager"><code class="docutils literal notranslate"><span class="pre">UeManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.UeManager.add_ue_into_pool"><code class="docutils literal notranslate"><span class="pre">UeManager.add_ue_into_pool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.UeManager.add_ue_service_into_pool"><code class="docutils literal notranslate"><span class="pre">UeManager.add_ue_service_into_pool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.UeManager.get_ue_from_pool"><code class="docutils literal notranslate"><span class="pre">UeManager.get_ue_from_pool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.UeManager.ready"><code class="docutils literal notranslate"><span class="pre">UeManager.ready()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.mano.html#module-minisfc.mano.vim">minisfc.mano.vim module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvInstance"><code class="docutils literal notranslate"><span class="pre">NfvInstance</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvInstance.access_ue"><code class="docutils literal notranslate"><span class="pre">NfvInstance.access_ue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvInstance.deploy_VNF"><code class="docutils literal notranslate"><span class="pre">NfvInstance.deploy_VNF()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvInstance.get_accessed_ues"><code class="docutils literal notranslate"><span class="pre">NfvInstance.get_accessed_ues()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvInstance.get_deployed_vnfs"><code class="docutils literal notranslate"><span class="pre">NfvInstance.get_deployed_vnfs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvInstance.get_vailable_ip"><code class="docutils literal notranslate"><span class="pre">NfvInstance.get_vailable_ip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvInstance.unaccess_ue"><code class="docutils literal notranslate"><span class="pre">NfvInstance.unaccess_ue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvInstance.undeploy_VNF"><code class="docutils literal notranslate"><span class="pre">NfvInstance.undeploy_VNF()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim"><code class="docutils literal notranslate"><span class="pre">NfvVim</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.access_ue_on_NFVI"><code class="docutils literal notranslate"><span class="pre">NfvVim.access_ue_on_NFVI()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.add_NFVInstance"><code class="docutils literal notranslate"><span class="pre">NfvVim.add_NFVInstance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.del_NFVInstance"><code class="docutils literal notranslate"><span class="pre">NfvVim.del_NFVInstance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.deploy_VNF_on_NFVI"><code class="docutils literal notranslate"><span class="pre">NfvVim.deploy_VNF_on_NFVI()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.deploy_service"><code class="docutils literal notranslate"><span class="pre">NfvVim.deploy_service()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.get_all_NFVIs_info"><code class="docutils literal notranslate"><span class="pre">NfvVim.get_all_NFVIs_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.get_curent_substrate_topo"><code class="docutils literal notranslate"><span class="pre">NfvVim.get_curent_substrate_topo()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.get_vailable_NFVI_ip"><code class="docutils literal notranslate"><span class="pre">NfvVim.get_vailable_NFVI_ip()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.ready"><code class="docutils literal notranslate"><span class="pre">NfvVim.ready()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.unaccess_ue_on_NFVI"><code class="docutils literal notranslate"><span class="pre">NfvVim.unaccess_ue_on_NFVI()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.undeploy_VNF_on_NFVI"><code class="docutils literal notranslate"><span class="pre">NfvVim.undeploy_VNF_on_NFVI()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.undeploy_service"><code class="docutils literal notranslate"><span class="pre">NfvVim.undeploy_service()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vim.NfvVim.update_substrate_topo"><code class="docutils literal notranslate"><span class="pre">NfvVim.update_substrate_topo()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.mano.html#module-minisfc.mano.vnfm">minisfc.mano.vnfm module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm"><code class="docutils literal notranslate"><span class="pre">VnfEm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm.check_cmd_param_exists"><code class="docutils literal notranslate"><span class="pre">VnfEm.check_cmd_param_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm.check_image_exists"><code class="docutils literal notranslate"><span class="pre">VnfEm.check_image_exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm.check_resource_availability"><code class="docutils literal notranslate"><span class="pre">VnfEm.check_resource_availability()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm.config_network"><code class="docutils literal notranslate"><span class="pre">VnfEm.config_network()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm.get_self_control_url"><code class="docutils literal notranslate"><span class="pre">VnfEm.get_self_control_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm.get_self_service_url"><code class="docutils literal notranslate"><span class="pre">VnfEm.get_self_service_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm.ready"><code class="docutils literal notranslate"><span class="pre">VnfEm.ready()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm.set_forward_route"><code class="docutils literal notranslate"><span class="pre">VnfEm.set_forward_route()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfEm.update_vnf_param"><code class="docutils literal notranslate"><span class="pre">VnfEm.update_vnf_param()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfManager"><code class="docutils literal notranslate"><span class="pre">VnfManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfManager.add_vnf_into_pool"><code class="docutils literal notranslate"><span class="pre">VnfManager.add_vnf_into_pool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfManager.add_vnf_service_into_pool"><code class="docutils literal notranslate"><span class="pre">VnfManager.add_vnf_service_into_pool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfManager.get_vnf_from_pool"><code class="docutils literal notranslate"><span class="pre">VnfManager.get_vnf_from_pool()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfManager.ready"><code class="docutils literal notranslate"><span class="pre">VnfManager.ready()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfManager.set_vnfs_forward_route"><code class="docutils literal notranslate"><span class="pre">VnfManager.set_vnfs_forward_route()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.mano.html#module-minisfc.mano">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="minisfc.util.html">minisfc.util package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.util.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.util.html#module-minisfc.util.dataAnalysis">minisfc.util.dataAnalysis module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataAnalysis.DataAnalysis"><code class="docutils literal notranslate"><span class="pre">DataAnalysis</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataAnalysis.DataAnalysis.getResult"><code class="docutils literal notranslate"><span class="pre">DataAnalysis.getResult()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataAnalysis.DataExtractor"><code class="docutils literal notranslate"><span class="pre">DataExtractor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataAnalysis.DataExtractor.extract"><code class="docutils literal notranslate"><span class="pre">DataExtractor.extract()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.util.html#module-minisfc.util.dataGen">minisfc.util.dataGen module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataGen.NumberGen"><code class="docutils literal notranslate"><span class="pre">NumberGen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataGen.NumberGen.getMatrix"><code class="docutils literal notranslate"><span class="pre">NumberGen.getMatrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataGen.NumberGen.getVector"><code class="docutils literal notranslate"><span class="pre">NumberGen.getVector()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataGen.TopoGen"><code class="docutils literal notranslate"><span class="pre">TopoGen</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataGen.TopoGen.cut_to_stp"><code class="docutils literal notranslate"><span class="pre">TopoGen.cut_to_stp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.dataGen.TopoGen.get"><code class="docutils literal notranslate"><span class="pre">TopoGen.get()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.util.html#module-minisfc.util.jsonRead">minisfc.util.jsonRead module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.util.html#minisfc.util.jsonRead.JsonReader"><code class="docutils literal notranslate"><span class="pre">JsonReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.jsonRead.JsonReader.getAdjacencyMat"><code class="docutils literal notranslate"><span class="pre">JsonReader.getAdjacencyMat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.jsonRead.JsonReader.getJsonFiles"><code class="docutils literal notranslate"><span class="pre">JsonReader.getJsonFiles()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.jsonRead.JsonReader.getWeightMat"><code class="docutils literal notranslate"><span class="pre">JsonReader.getWeightMat()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.util.html#module-minisfc.util.runCommand">minisfc.util.runCommand module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="minisfc.util.html#minisfc.util.runCommand.RunCommand"><code class="docutils literal notranslate"><span class="pre">RunCommand</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.runCommand.RunCommand.clear_container"><code class="docutils literal notranslate"><span class="pre">RunCommand.clear_container()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.runCommand.RunCommand.get_container_logs"><code class="docutils literal notranslate"><span class="pre">RunCommand.get_container_logs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.runCommand.RunCommand.get_container_status"><code class="docutils literal notranslate"><span class="pre">RunCommand.get_container_status()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.runCommand.RunCommand.make_executable"><code class="docutils literal notranslate"><span class="pre">RunCommand.make_executable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.runCommand.RunCommand.run_shell"><code class="docutils literal notranslate"><span class="pre">RunCommand.run_shell()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="minisfc.util.html#minisfc.util.runCommand.RunCommand.run_shell_in_terminal"><code class="docutils literal notranslate"><span class="pre">RunCommand.run_shell_in_terminal()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="minisfc.util.html#module-minisfc.util">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-minisfc.event">
+<span id="minisfc-event-module"></span><h2>minisfc.event module<a class="headerlink" href="#module-minisfc.event" title="Link to this heading"></a></h2>
+<p>&#64;File    :   event.py
+&#64;Time    :   2024/06/18 15:57:24
+&#64;Author  :   Wang Xi
+&#64;Version :   0.0
+&#64;Contact :   <a class="reference external" href="mailto:wangxi_chn&#37;&#52;&#48;foxmail&#46;com">wangxi_chn<span>&#64;</span>foxmail<span>&#46;</span>com</a>
+&#64;License :   (C)Copyright 2023-2024, Wang Xi
+&#64;Desc    :   None</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.event.Event">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.event.</span></span><span class="sig-name descname"><span class="pre">Event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.event.Event" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.event.EventType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.event.</span></span><span class="sig-name descname"><span class="pre">EventType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.event.EventType" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.event.EventType.NOTHING">
+<span class="sig-name descname"><span class="pre">NOTHING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#minisfc.event.EventType.NOTHING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.event.EventType.SFC_ARRIVE">
+<span class="sig-name descname"><span class="pre">SFC_ARRIVE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#minisfc.event.EventType.SFC_ARRIVE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.event.EventType.SFC_ENDING">
+<span class="sig-name descname"><span class="pre">SFC_ENDING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#minisfc.event.EventType.SFC_ENDING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.event.EventType.TOPO_CHANGE">
+<span class="sig-name descname"><span class="pre">TOPO_CHANGE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#minisfc.event.EventType.TOPO_CHANGE" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.event.Schedule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.event.</span></span><span class="sig-name descname"><span class="pre">Schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substrateTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.SubstrateTopo" title="minisfc.topo.SubstrateTopo"><span class="pre">SubstrateTopo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serviceTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.ServiceTopo" title="minisfc.topo.ServiceTopo"><span class="pre">ServiceTopo</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.event.Schedule" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.event.Schedule.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">bool</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#minisfc.event.Schedule.step" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-minisfc.net">
+<span id="minisfc-net-module"></span><h2>minisfc.net module<a class="headerlink" href="#module-minisfc.net" title="Link to this heading"></a></h2>
+<p>&#64;File    :   net.py
+&#64;Time    :   2024/06/18 16:39:32
+&#64;Author  :   Wang Xi
+&#64;Version :   0.0
+&#64;Contact :   <a class="reference external" href="mailto:wangxi_chn&#37;&#52;&#48;foxmail&#46;com">wangxi_chn<span>&#64;</span>foxmail<span>&#46;</span>com</a>
+&#64;License :   (C)Copyright 2023-2024, Wang Xi
+&#64;Desc    :   None</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.net.Minisfc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.net.</span></span><span class="sig-name descname"><span class="pre">Minisfc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substrateTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.SubstrateTopo" title="minisfc.topo.SubstrateTopo"><span class="pre">SubstrateTopo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serviceTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.ServiceTopo" title="minisfc.topo.ServiceTopo"><span class="pre">ServiceTopo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">vnfManager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfManager" title="minisfc.mano.vnfm.VnfManager"><span class="pre">VnfManager</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sfcSolver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.solver.Solver" title="minisfc.solver.Solver"><span class="pre">Solver</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">ueManager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.uem.UeManager" title="minisfc.mano.uem.UeManager"><span class="pre">UeManager</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_container</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.net.Minisfc" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.net.Minisfc.addCLI">
+<span class="sig-name descname"><span class="pre">addCLI</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.net.Minisfc.addCLI" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.net.Minisfc.addRemoteController">
+<span class="sig-name descname"><span class="pre">addRemoteController</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'c0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6653</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.net.Minisfc.addRemoteController" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.net.Minisfc.ready">
+<span class="sig-name descname"><span class="pre">ready</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.net.Minisfc.ready" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.net.Minisfc.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.net.Minisfc.start" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.net.Minisfc.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.net.Minisfc.stop" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.net.Minisfc.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.net.Minisfc.update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-minisfc.solver">
+<span id="minisfc-solver-module"></span><h2>minisfc.solver module<a class="headerlink" href="#module-minisfc.solver" title="Link to this heading"></a></h2>
+<p>&#64;File    :   solver.py
+&#64;Time    :   2024/06/18 15:32:23
+&#64;Author  :   Wang Xi
+&#64;Version :   0.0
+&#64;Contact :   <a class="reference external" href="mailto:wangxi_chn&#37;&#52;&#48;foxmail&#46;com">wangxi_chn<span>&#64;</span>foxmail<span>&#46;</span>com</a>
+&#64;License :   (C)Copyright 2023-2024, Wang Xi
+&#64;Desc    :   None</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.solver.GreedySolver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.solver.</span></span><span class="sig-name descname"><span class="pre">GreedySolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substrateTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.SubstrateTopo" title="minisfc.topo.SubstrateTopo"><span class="pre">SubstrateTopo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serviceTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.ServiceTopo" title="minisfc.topo.ServiceTopo"><span class="pre">ServiceTopo</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.solver.GreedySolver" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#minisfc.solver.RadomSolver" title="minisfc.solver.RadomSolver"><code class="xref py py-class docutils literal notranslate"><span class="pre">RadomSolver</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.GreedySolver.solve_embedding">
+<span class="sig-name descname"><span class="pre">solve_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minisfc.solver.Solution" title="minisfc.solver.Solution"><span class="pre">Solution</span></a></span></span><a class="headerlink" href="#minisfc.solver.GreedySolver.solve_embedding" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.GreedySolver.solve_migration">
+<span class="sig-name descname"><span class="pre">solve_migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minisfc.solver.Solution" title="minisfc.solver.Solution"><span class="pre">Solution</span></a></span></span><a class="headerlink" href="#minisfc.solver.GreedySolver.solve_migration" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.solver.RadomSolver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.solver.</span></span><span class="sig-name descname"><span class="pre">RadomSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substrateTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.SubstrateTopo" title="minisfc.topo.SubstrateTopo"><span class="pre">SubstrateTopo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serviceTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.ServiceTopo" title="minisfc.topo.ServiceTopo"><span class="pre">ServiceTopo</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.solver.RadomSolver" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#minisfc.solver.Solver" title="minisfc.solver.Solver"><code class="xref py py-class docutils literal notranslate"><span class="pre">Solver</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.RadomSolver.check_constraints">
+<span class="sig-name descname"><span class="pre">check_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minisfc.solver.SOLUTION_TYPE" title="minisfc.solver.SOLUTION_TYPE"><span class="pre">SOLUTION_TYPE</span></a></span></span><a class="headerlink" href="#minisfc.solver.RadomSolver.check_constraints" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.RadomSolver.get_latency_running">
+<span class="sig-name descname"><span class="pre">get_latency_running</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#minisfc.solver.RadomSolver.get_latency_running" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.RadomSolver.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vnfManager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfManager" title="minisfc.mano.vnfm.VnfManager"><span class="pre">VnfManager</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.solver.RadomSolver.initialize" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.RadomSolver.solve_embedding">
+<span class="sig-name descname"><span class="pre">solve_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minisfc.solver.Solution" title="minisfc.solver.Solution"><span class="pre">Solution</span></a></span></span><a class="headerlink" href="#minisfc.solver.RadomSolver.solve_embedding" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.RadomSolver.solve_ending">
+<span class="sig-name descname"><span class="pre">solve_ending</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minisfc.solver.Solution" title="minisfc.solver.Solution"><span class="pre">Solution</span></a></span></span><a class="headerlink" href="#minisfc.solver.RadomSolver.solve_ending" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.RadomSolver.solve_migration">
+<span class="sig-name descname"><span class="pre">solve_migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minisfc.solver.Solution" title="minisfc.solver.Solution"><span class="pre">Solution</span></a></span></span><a class="headerlink" href="#minisfc.solver.RadomSolver.solve_migration" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.solver.</span></span><span class="sig-name descname"><span class="pre">SOLUTION_TYPE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>An enumeration.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.CHANGE_FAILED_FOR_LATENCY">
+<span class="sig-name descname"><span class="pre">CHANGE_FAILED_FOR_LATENCY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">11</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.CHANGE_FAILED_FOR_LATENCY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.CHANGE_FAILED_FOR_LINK_BAND">
+<span class="sig-name descname"><span class="pre">CHANGE_FAILED_FOR_LINK_BAND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.CHANGE_FAILED_FOR_LINK_BAND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.CHANGE_FAILED_FOR_NODE_CPU">
+<span class="sig-name descname"><span class="pre">CHANGE_FAILED_FOR_NODE_CPU</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.CHANGE_FAILED_FOR_NODE_CPU" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.CHANGE_FAILED_FOR_NODE_RAM">
+<span class="sig-name descname"><span class="pre">CHANGE_FAILED_FOR_NODE_RAM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.CHANGE_FAILED_FOR_NODE_RAM" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.CHANGE_SUCCESS">
+<span class="sig-name descname"><span class="pre">CHANGE_SUCCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.CHANGE_SUCCESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.END_SUCCESS">
+<span class="sig-name descname"><span class="pre">END_SUCCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">12</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.END_SUCCESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.NOTHING">
+<span class="sig-name descname"><span class="pre">NOTHING</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.NOTHING" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.SET_FAILED_FOR_LATENCY">
+<span class="sig-name descname"><span class="pre">SET_FAILED_FOR_LATENCY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.SET_FAILED_FOR_LATENCY" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND">
+<span class="sig-name descname"><span class="pre">SET_FAILED_FOR_LINK_BAND</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU">
+<span class="sig-name descname"><span class="pre">SET_FAILED_FOR_NODE_CPU</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.SET_FAILED_FOR_NODE_CPU" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.SET_FAILED_FOR_NODE_RAM">
+<span class="sig-name descname"><span class="pre">SET_FAILED_FOR_NODE_RAM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.SET_FAILED_FOR_NODE_RAM" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.SOLUTION_TYPE.SET_SUCCESS">
+<span class="sig-name descname"><span class="pre">SET_SUCCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#minisfc.solver.SOLUTION_TYPE.SET_SUCCESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.solver.Solution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.solver.</span></span><span class="sig-name descname"><span class="pre">Solution</span></span><a class="headerlink" href="#minisfc.solver.Solution" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.Solution.map_link">
+<span class="sig-name descname"><span class="pre">map_link</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">slice</span><span class="p"><span class="pre">(</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#minisfc.solver.Solution.map_link" title="Link to this definition"></a></dt>
+<dd><p>list[SubstrateNetwork.link]]
+Description: map from ServiceChain links to SubstrateNetwork links</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[ServiceChain.link</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.Solution.map_node">
+<span class="sig-name descname"><span class="pre">map_node</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict[slice(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">None)]</span></em><a class="headerlink" href="#minisfc.solver.Solution.map_node" title="Link to this definition"></a></dt>
+<dd><p>SubstrateNetwork.node]
+Description: map from ServiceChain nodes to SubstrateNetwork nodes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[ServiceChain.node</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="minisfc.solver.Solution.resource">
+<span class="sig-name descname"><span class="pre">resource</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict[slice(&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">list[int],</span> <span class="pre">None)]</span></em><a class="headerlink" href="#minisfc.solver.Solution.resource" title="Link to this definition"></a></dt>
+<dd><p>list[value]]
+Description: the resources allocated on each VNF and link in the ServiceChain</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[resource name</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.solver.Solver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.solver.</span></span><span class="sig-name descname"><span class="pre">Solver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">substrateTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.SubstrateTopo" title="minisfc.topo.SubstrateTopo"><span class="pre">SubstrateTopo</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">serviceTopo</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.topo.ServiceTopo" title="minisfc.topo.ServiceTopo"><span class="pre">ServiceTopo</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.solver.Solver" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.Solver.initialize">
+<span class="sig-name descname"><span class="pre">initialize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vnfManager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="minisfc.mano.html#minisfc.mano.vnfm.VnfManager" title="minisfc.mano.vnfm.VnfManager"><span class="pre">VnfManager</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#minisfc.solver.Solver.initialize" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.Solver.loadParam">
+<span class="sig-name descname"><span class="pre">loadParam</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.solver.Solver.loadParam" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.Solver.saveParam">
+<span class="sig-name descname"><span class="pre">saveParam</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.solver.Solver.saveParam" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.Solver.solve_embedding">
+<span class="sig-name descname"><span class="pre">solve_embedding</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minisfc.solver.Solution" title="minisfc.solver.Solution"><span class="pre">Solution</span></a></span></span><a class="headerlink" href="#minisfc.solver.Solver.solve_embedding" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.Solver.solve_ending">
+<span class="sig-name descname"><span class="pre">solve_ending</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minisfc.solver.Solution" title="minisfc.solver.Solution"><span class="pre">Solution</span></a></span></span><a class="headerlink" href="#minisfc.solver.Solver.solve_ending" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.solver.Solver.solve_migration">
+<span class="sig-name descname"><span class="pre">solve_migration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#minisfc.event.Event" title="minisfc.event.Event"><span class="pre">Event</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#minisfc.solver.Solution" title="minisfc.solver.Solution"><span class="pre">Solution</span></a></span></span><a class="headerlink" href="#minisfc.solver.Solver.solve_migration" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-minisfc.topo">
+<span id="minisfc-topo-module"></span><h2>minisfc.topo module<a class="headerlink" href="#module-minisfc.topo" title="Link to this heading"></a></h2>
+<p>&#64;File    :   topo.py
+&#64;Time    :   2024/06/17 19:44:24
+&#64;Author  :   Wang Xi
+&#64;Version :   0.0
+&#64;Contact :   <a class="reference external" href="mailto:wangxi_chn&#37;&#52;&#48;foxmail&#46;com">wangxi_chn<span>&#64;</span>foxmail<span>&#46;</span>com</a>
+&#64;License :   (C)Copyright 2023-2024, Wang Xi
+&#64;Desc    :   None</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.topo.ServiceTopo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.topo.</span></span><span class="sig-name descname"><span class="pre">ServiceTopo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">idList:</span> <span class="pre">list[int],</span> <span class="pre">lifeTimeDict:</span> <span class="pre">dict[slice(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">[&lt;class</span> <span class="pre">'float'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'float'&gt;],</span> <span class="pre">None)],</span> <span class="pre">endPointDict:</span> <span class="pre">dict[slice(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">list[int,</span> <span class="pre">int],</span> <span class="pre">None)],</span> <span class="pre">vnfRequstDict:</span> <span class="pre">dict[slice(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">None)],</span> <span class="pre">qosRequesDict:</span> <span class="pre">dict[slice(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">None)],</span> <span class="pre">arriveFunParamDict:</span> <span class="pre">dict[slice(&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'list'&gt;,</span> <span class="pre">None)]</span> <span class="pre">=</span> <span class="pre">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.topo.ServiceTopo" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.topo.SubstrateTopo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.topo.</span></span><span class="sig-name descname"><span class="pre">SubstrateTopo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">timeList:</span> <span class="pre">list[float],</span> <span class="pre">adjacencyMatDict:</span> <span class="pre">dict[slice(&lt;class</span> <span class="pre">'float'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.ndarray'&gt;,</span> <span class="pre">None)],</span> <span class="pre">weightMatDict:</span> <span class="pre">dict[slice(&lt;class</span> <span class="pre">'float'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.ndarray'&gt;,</span> <span class="pre">None)],</span> <span class="pre">nodeResourceDict:</span> <span class="pre">dict[float,</span> <span class="pre">slice(&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.ndarray'&gt;,</span> <span class="pre">None)],</span> <span class="pre">linkResourceDict:</span> <span class="pre">dict[float,</span> <span class="pre">slice(&lt;class</span> <span class="pre">'str'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'numpy.ndarray'&gt;,</span> <span class="pre">None)]</span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.topo.SubstrateTopo" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#minisfc.topo.Topo" title="minisfc.topo.Topo"><code class="xref py py-class docutils literal notranslate"><span class="pre">Topo</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.topo.SubstrateTopo.changeTopo">
+<span class="sig-name descname"><span class="pre">changeTopo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.topo.SubstrateTopo.changeTopo" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.topo.Topo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.topo.</span></span><span class="sig-name descname"><span class="pre">Topo</span></span><a class="headerlink" href="#minisfc.topo.Topo" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.topo.Topo.get_adjacency_matrix">
+<span class="sig-name descname"><span class="pre">get_adjacency_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.topo.Topo.get_adjacency_matrix" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.topo.Topo.get_all_links_attrs_values">
+<span class="sig-name descname"><span class="pre">get_all_links_attrs_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link_attrs_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict[slice(tuple[int,</span> <span class="pre">int],</span> <span class="pre">&lt;class</span> <span class="pre">'int'&gt;,</span> <span class="pre">None)]</span></span></span><a class="headerlink" href="#minisfc.topo.Topo.get_all_links_attrs_values" title="Link to this definition"></a></dt>
+<dd><p>Get the attribute values of all links in network</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>link_attrs_name</strong> (<em>str</em>) -- &quot;capacity/remain/request&quot;+&quot;_&quot;+&quot;band&quot;</p>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>int]: edge:value</p>
+</dd>
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict[tuple[int,int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.topo.Topo.get_all_nodes_aggrlinks_attrs_values">
+<span class="sig-name descname"><span class="pre">get_all_nodes_aggrlinks_attrs_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link_attrs_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#minisfc.topo.Topo.get_all_nodes_aggrlinks_attrs_values" title="Link to this definition"></a></dt>
+<dd><p>Get the attribute values ​​of the links around all node aggregates</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>link_attrs_name</strong> (<em>str</em>) -- &quot;capacity/remain/request&quot;+&quot;_&quot;+&quot;band&quot;</p>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>values</p>
+</dd>
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.topo.Topo.get_all_nodes_attrs_values">
+<span class="sig-name descname"><span class="pre">get_all_nodes_attrs_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_attrs_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#minisfc.topo.Topo.get_all_nodes_attrs_values" title="Link to this definition"></a></dt>
+<dd><p>Get the attribute values of all nodes in network</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>node_attrs_name</strong> (<em>str</em>) -- &quot;capacity/remain/request&quot;+&quot;_&quot;+&quot;cpu/ram&quot;</p>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>values</p>
+</dd>
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.topo.Topo.get_kshortest_paths">
+<span class="sig-name descname"><span class="pre">get_kshortest_paths</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.topo.Topo.get_kshortest_paths" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.topo.Topo.get_sum_resource_list">
+<span class="sig-name descname"><span class="pre">get_sum_resource_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attrs_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.topo.Topo.get_sum_resource_list" title="Link to this definition"></a></dt>
+<dd><p>Get the sum of attribute values of network</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>attrs_name</strong> (<em>str</em>) -- &quot;capacity/remain/request&quot;</p>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>value</p>
+</dd>
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[int,int,int]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.topo.Topo.opt_link_attrs_value">
+<span class="sig-name descname"><span class="pre">opt_link_attrs_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">link_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">link_attrs_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#minisfc.topo.Topo.opt_link_attrs_value" title="Link to this definition"></a></dt>
+<dd><p>Get the attribute values of a link</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>link_id</strong> (<em>tuple</em><em>[</em><em>int</em><em>,</em><em>int</em><em>]</em>) -- Networkx index of link</p></li>
+<li><p><strong>link_attrs_name</strong> (<em>str</em>) -- &quot;capacity/remain/request&quot;+&quot;_&quot;+&quot;band&quot;</p></li>
+<li><p><strong>opration</strong> (<em>str</em>) -- &quot;get/set/decrease/increase&quot;</p></li>
+<li><p><strong>value</strong> (<em>int</em>) -- opration aim value</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>value</p>
+</dd>
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.topo.Topo.opt_node_attrs_value">
+<span class="sig-name descname"><span class="pre">opt_node_attrs_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_attrs_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">opration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#minisfc.topo.Topo.opt_node_attrs_value" title="Link to this definition"></a></dt>
+<dd><p>Get the attribute values of a node</p>
+<dl class="field-list simple">
+<dt class="field-odd">参数<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node_id</strong> (<em>int</em>) -- Networkx index of node</p></li>
+<li><p><strong>node_attrs_name</strong> (<em>str</em>) -- &quot;capacity/remain/request&quot;+&quot;_&quot;+&quot;cpu/ram&quot;</p></li>
+<li><p><strong>opration</strong> (<em>str</em>) -- &quot;get/set/decrease/increase&quot;</p></li>
+<li><p><strong>value</strong> (<em>int</em>) -- opration aim value</p></li>
+</ul>
+</dd>
+<dt class="field-even">返回<span class="colon">:</span></dt>
+<dd class="field-even"><p>value</p>
+</dd>
+<dt class="field-odd">返回类型<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-minisfc.trace">
+<span id="minisfc-trace-module"></span><h2>minisfc.trace module<a class="headerlink" href="#module-minisfc.trace" title="Link to this heading"></a></h2>
+<p>&#64;File    :   trace.py
+&#64;Time    :   2024/06/18 22:33:22
+&#64;Author  :   Wang Xi
+&#64;Version :   0.0
+&#64;Contact :   <a class="reference external" href="mailto:wangxi_chn&#37;&#52;&#48;foxmail&#46;com">wangxi_chn<span>&#64;</span>foxmail<span>&#46;</span>com</a>
+&#64;License :   (C)Copyright 2023-2024, Wang Xi
+&#64;Desc    :   None</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.trace.Trace">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.trace.</span></span><span class="sig-name descname"><span class="pre">Trace</span></span><a class="headerlink" href="#minisfc.trace.Trace" title="Link to this definition"></a></dt>
+<dd><p>基类：<code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.trace.Trace.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.trace.Trace.delete" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.trace.Trace.get_run_id">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_run_id</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#minisfc.trace.Trace.get_run_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.trace.Trace.get_time_stamp">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_time_stamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.trace.Trace.get_time_stamp" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.trace.Trace.ready">
+<span class="sig-name descname"><span class="pre">ready</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.trace.Trace.ready" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.trace.Trace.set">
+<span class="sig-name descname"><span class="pre">set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.trace.Trace.set" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="minisfc.trace.Trace.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contextDict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#minisfc.trace.Trace.write" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.trace.TraceNFVI">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.trace.</span></span><span class="sig-name descname"><span class="pre">TraceNFVI</span></span><a class="headerlink" href="#minisfc.trace.TraceNFVI" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#minisfc.trace.Trace" title="minisfc.trace.Trace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trace</span></code></a></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="minisfc.trace.TraceResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">minisfc.trace.</span></span><span class="sig-name descname"><span class="pre">TraceResult</span></span><a class="headerlink" href="#minisfc.trace.TraceResult" title="Link to this definition"></a></dt>
+<dd><p>基类：<a class="reference internal" href="#minisfc.trace.Trace" title="minisfc.trace.Trace"><code class="xref py py-class docutils literal notranslate"><span class="pre">Trace</span></code></a></p>
+</dd></dl>
+
+</section>
+<section id="module-minisfc">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-minisfc" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="页脚">
+        <a href="modules.html" class="btn btn-neutral float-left" title="Minisfc API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> 上一页</a>
+        <a href="minisfc.mano.html" class="btn btn-neutral float-right" title="minisfc.mano package" accesskey="n" rel="next">下一页 <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; 版权所有 2025, Wang Xi。</p>
+  </div>
+
+  利用 <a href="https://www.sphinx-doc.org/">Sphinx</a> 构建，使用的 
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">主题</a>
+    由 <a href="https://readthedocs.org">Read the Docs</a> 开发.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
