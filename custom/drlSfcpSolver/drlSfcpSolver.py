@@ -16,7 +16,7 @@ import sys
 sys.path.append("..//..//")
 from minisfc.event import Event
 from minisfc.topo import ServiceTopo, SubstrateTopo, Topo
-from minisfc.solver import RadomSolver, Solution, SOLUTION_TYPE
+from minisfc.solver import RandomSolver, Solution, SOLUTION_TYPE
 import code
 import random
 import copy 
@@ -30,7 +30,7 @@ import torch.nn.functional as F
 from torch.distributions import Categorical
 import networkx as nx
 
-class DrlSfcpSolver(RadomSolver):
+class DrlSfcpSolver(RandomSolver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
         super().__init__(substrateTopo, serviceTopo)
 

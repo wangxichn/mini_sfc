@@ -20,7 +20,7 @@ colors = [(122/255, 27/255, 109/255), (189/255, 55/255, 82/255), (251/255, 180/2
 markers = ['o', 's', '^']
 
 # NVFI的CPU和RAM曲线
-for i, color, marker in zip(range(3), colors, markers): # 3个NVFI
+for i, color, marker in zip(range(48), colors, markers): # 48个NVFI
     cpu_key = f'NVFI_{i}_cpu'
     ram_key = f'NVFI_{i}_ram'
     
@@ -41,6 +41,6 @@ if os.path.exists('fig') == False:
 plt.xlabel('Time(s)')
 plt.ylabel('Resource Usage Rate')
 plt.legend(loc='upper left')
-plt.savefig('fig/draw_simple_dynamictopo_nvfi_statues.svg', format='svg')
+plt.savefig('fig/draw_simple_sagintopo_nvfi_statues.svg', format='svg')
 
 # plt.show()

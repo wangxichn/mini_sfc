@@ -1,13 +1,13 @@
 
 from minisfc.event import Event
 from minisfc.topo import ServiceTopo, SubstrateTopo, Topo
-from minisfc.solver import RadomSolver, Solution, SOLUTION_TYPE
+from minisfc.solver import RandomSolver, Solution, SOLUTION_TYPE
 import numpy as np
 import networkx as nx
 from sko.PSO import PSO
 import code
 
-class PsoSolver(RadomSolver):
+class PsoSolver(RandomSolver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
         super().__init__(substrateTopo, serviceTopo, **kwargs)
 

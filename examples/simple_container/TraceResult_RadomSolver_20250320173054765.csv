@@ -1,6 +1,0 @@
-Event,Time,SfcId,Result,Resource,Vnffgs,Solution,Reason
-I,0.0,,,"[8, 1024, np.int64(700)]",,,
-+,5,0,True,"[7.5, 832, np.int64(600)]",[0],"dict_values([0, 2, 2])",
-+,10,1,True,"[7.0, 640, np.int64(540)]","[0, 1]","dict_values([0, 1, 1])",
--,25,0,True,"[7.5, 832, np.int64(640)]",[1],,
--,50,1,True,"[8.0, 1024, np.int64(700)]",[],,

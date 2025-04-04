@@ -29,14 +29,14 @@ Version
 
 '''
 
-from minisfc.trace import TRACER
+from minisfc.trace import Trace
 from minisfc.util import NumberGen, JsonReader
 import numpy as np
 import pickle
 import random
 import os
 
-SIMULATION_ID = TRACER.get_time_stamp()
+SIMULATION_ID = Trace.get_time_stamp()
 
 # region step1: define substrate topologies--------------------------------------------
 

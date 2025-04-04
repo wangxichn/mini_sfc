@@ -129,10 +129,10 @@ with open(f"{serviceTopo.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file
 
 # region step4: define sfc solver-----------------------------------------------------
 
-from minisfc.solver import RadomSolver, GreedySolver
+from minisfc.solver import RandomSolver, GreedySolver
 from custom.psoSolver import PsoSolver
 
-sfcSolver = RadomSolver(substrateTopo,serviceTopo)
+sfcSolver = RandomSolver(substrateTopo,serviceTopo)
 
 # endregion
 

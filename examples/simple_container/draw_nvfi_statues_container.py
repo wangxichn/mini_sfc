@@ -2,7 +2,9 @@ import pandas as pd
 from datetime import datetime
 import matplotlib.pyplot as plt
 import re
+import os
 import ast
+import glob
 import numpy as np
 
 color_Bar = np.array([[122,27,109],[189,55,82],[251,180,26],[58,9,100],[237,104,37],[179,106,111],[161,208,199],[80,138,178]])
@@ -11,9 +13,15 @@ linestyle_Bar = ['-','--','-.',':']
 
 # ------------------------------------------------------------------------------------------
 
-# 读取CSV文件
-csv_file_path = 'TraceNFVI_RadomSolver_20250320173054765.csv'
-df = pd.read_csv(csv_file_path)
+# 获取当前目录下TraceNFVI_*.csv文件
+csv_file_path = glob.glob("TraceNFVI_*.csv")
+if csv_file_path:
+    first_csv = csv_file_path[0]
+    df = pd.read_csv(first_csv)
+    print(f"已加载文件: {first_csv}")
+    print(df.head())  # 打印前五行数据作为检查
+else:
+    raise FileNotFoundError("当前目录下没有找到CSV文件。")
 
 # 读取日志文件
 log_file_path = 'logsave/vnf_stats.log'
@@ -64,7 +72,7 @@ ax = plt.axes()
 ax.set(xlabel=xlabel,ylabel=ylabel)
 
 # NVFI的CPU和RAM曲线
-for i in range(3): # 假设有3个NVFI
+for i in range(3): # 有3个NVFI
     cpu_key = f'NVFI_{i}_cpu'
     ram_key = f'NVFI_{i}_ram'
     total_cpu = df[cpu_key].iloc[0]
@@ -78,6 +86,7 @@ for i in range(3): # 假设有3个NVFI
             cpu_usage = 0
             ram_usage = 0
             vnfs_key = f'NVFI_{i}_vnfs'
+            # 这里的vnfs_list是字符串，需要转换成列表
             vnfs_list = [ast.literal_eval(item) for item in df.loc[df['Time'] == time, vnfs_key].tolist()][0]
             for vnf in vnfs_list:
                 cpu_usage += vnf_resources[nearest_time][vnf][0]
@@ -102,6 +111,9 @@ for i in range(3): # 假设有3个NVFI
             where='post')
 
 ax.legend(loc='upper right')
+
+if os.path.exists('fig') == False:
+    os.mkdir('fig')
 
 fig.savefig('fig/'+title.replace(' ','_')+'.svg',format='svg',dpi=150)
 fig.savefig('fig/'+title.replace(' ','_')+'.pdf', bbox_inches='tight', pad_inches=0.5)

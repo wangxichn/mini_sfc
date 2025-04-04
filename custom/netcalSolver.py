@@ -1,7 +1,7 @@
 
 from minisfc.event import Event
 from minisfc.topo import ServiceTopo, SubstrateTopo, Topo
-from minisfc.solver import RadomSolver, GreedySolver, Solution, SOLUTION_TYPE
+from minisfc.solver import RandomSolver, GreedySolver, Solution, SOLUTION_TYPE
 from .drlSfcpSolver.drlSfcpSolver import DrlSfcpSolver
 import numpy as np
 import networkx as nx
@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore", message="delta_grad == 0.0. Check if the appro
 import copy
 import code
 
-class netcalPsoSolver(RadomSolver):
+class netcalPsoSolver(RandomSolver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
         super().__init__(substrateTopo, serviceTopo, **kwargs)
 
@@ -199,7 +199,7 @@ class netcalPsoSolver(RadomSolver):
         return super().get_latency_running()+self.netcalLatency
 
 
-class netcalOptSolver(RadomSolver):
+class netcalOptSolver(RandomSolver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
         super().__init__(substrateTopo, serviceTopo, **kwargs)
     
@@ -525,7 +525,7 @@ class netcalSfcpSolver(DrlSfcpSolver):
         return super().get_latency_running()+self.netcalLatency
 
 
-class netcalRandomSolver(RadomSolver):
+class netcalRandomSolver(RandomSolver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
         super().__init__(substrateTopo, serviceTopo, **kwargs)
 

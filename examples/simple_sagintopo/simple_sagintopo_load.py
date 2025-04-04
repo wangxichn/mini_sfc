@@ -29,13 +29,15 @@ Version
 
 '''
 
-from minisfc.trace import TRACE_RESULT, TRACE_NFVI, Trace
+from minisfc.trace import TRACE_RESULT, TRACE_NFVI
 from minisfc.util import DataAnalysis
 import pickle
 
-substrateTopo_pklname = "SubstrateTopo_20250319182626597.pkl"
-serviceTopo_pklname = "ServiceTopo_20250319182626597.pkl"
-vnfManager_pklname = "VnfManager_20250319182626597.pkl"
+SIMULATION_ID = "20250404095250431"
+
+substrateTopo_pklname = f"SubstrateTopo_{SIMULATION_ID}.pkl"
+serviceTopo_pklname = f"ServiceTopo_{SIMULATION_ID}.pkl"
+vnfManager_pklname = f"VnfManager_{SIMULATION_ID}.pkl"
 
 # region step1: define substrate topologies--------------------------------------------
 
@@ -66,15 +68,13 @@ with open(vnfManager_pklname, "rb") as file:
 
 # region step4: define sfc solver-----------------------------------------------------
 
-from minisfc.solver import RadomSolver, GreedySolver
+from minisfc.solver import RandomSolver, GreedySolver
 from custom.psoSolver import PsoSolver
 
 sfcSolver = PsoSolver(substrateTopo,serviceTopo)
 sfcSolver.loadParam()
 
 # endregion
-
-SIMULATION_ID = Trace.get_time_stamp()
 
 TraceResultFile = f'{TRACE_RESULT.__class__.__name__}_{sfcSolver.__class__.__name__}_{SIMULATION_ID}.csv'
 TRACE_RESULT.set(TraceResultFile)

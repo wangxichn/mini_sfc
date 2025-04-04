@@ -79,7 +79,7 @@ class Solver:
     def loadParam(self):
         pass
 
-class RadomSolver(Solver):
+class RandomSolver(Solver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
         super().__init__(substrateTopo, serviceTopo, **kwargs)
 
@@ -263,7 +263,7 @@ class RadomSolver(Solver):
         return sum(latency_list)
 
 
-class GreedySolver(RadomSolver):
+class GreedySolver(RandomSolver):
     def __init__(self, substrateTopo: SubstrateTopo, serviceTopo: ServiceTopo, **kwargs) -> None:
         super().__init__(substrateTopo, serviceTopo, **kwargs)
     
