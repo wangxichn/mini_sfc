@@ -1,5 +1,11 @@
 # Mini-SFC 仿真框架
 
+<div align="center">
+  <img src="https://img.shields.io/badge/version-2.0-orange" />
+  <img src="https://img.shields.io/badge/python-3.10-blue" />
+  <img src="https://img.shields.io/badge/license-BSD%203--Clause-green" />
+</div>
+
 欢迎来到 Mini-SFC 仿真框架项目！根据您使用的语言，选择相应的入门指南：
 
 - [中文](./docs/source/introductory/README_zh.md)
