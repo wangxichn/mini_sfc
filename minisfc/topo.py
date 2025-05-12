@@ -136,7 +136,13 @@ class Topo(nx.Graph):
     def get_kshortest_paths(self, source, target, k):
         from itertools import islice
         return list(islice(nx.shortest_simple_paths(self, source, target, weight='weight'), k))
-        
+    
+    def get_djikstra_path(self, source, target):
+        try:
+            path = nx.dijkstra_path(self, source, target, weight='weight')
+        except nx.NetworkXNoPath:
+            path = []
+        return path
 
 class SubstrateTopo(Topo):
     def __init__(self,timeList:list[float],adjacencyMatDict:dict[float:np.ndarray],weightMatDict:dict[float:np.ndarray],

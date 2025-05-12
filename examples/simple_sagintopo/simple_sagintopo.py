@@ -135,8 +135,9 @@ with open(f"{serviceTopo.__class__.__name__}_{SIMULATION_ID}.pkl", "wb") as file
 
 from minisfc.solver import RandomSolver, GreedySolver
 from custom.psoSolver import PsoSolver
+from custom.drlSfcpSolver.drlSfcpSolver import DrlSfcpSolver
 
-sfcSolver = PsoSolver(substrateTopo,serviceTopo)
+sfcSolver = DrlSfcpSolver(substrateTopo,serviceTopo)
 sfcSolver.loadParam()
 
 # endregion

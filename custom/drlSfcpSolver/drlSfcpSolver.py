@@ -246,10 +246,13 @@ class DrlSfcpSolver(RandomSolver):
                 self.solution.map_node[node] = random.sample(range(len(self.substrateTopo.nodes)),1)[0]
 
         for v_link in self.sfcGraph.edges():
-            map_path = nx.dijkstra_path(self.substrateTopo,
-                                        self.solution.map_node[v_link[0]],
-                                        self.solution.map_node[v_link[1]])
-            if len(map_path) == 1: 
+            map_path = self.substrateTopo.get_djikstra_path(self.solution.map_node[v_link[0]],self.solution.map_node[v_link[1]])
+            if len(map_path) == 0:
+                self.solution.current_description = SOLUTION_TYPE.SET_FAILED_FOR_LINK_BAND
+                self.solution.current_result = False
+                self.record_solutions[self.event.serviceTopoId]=[self.solution]
+                return self.solution
+            elif len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
             else:
                 self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
@@ -294,10 +297,13 @@ class DrlSfcpSolver(RandomSolver):
                 self.solution.map_node[node] = random.sample(range(len(self.substrateTopo.nodes)),1)[0]
 
         for v_link in self.sfcGraph.edges():
-            map_path = nx.dijkstra_path(self.substrateTopo,
-                                        self.solution.map_node[v_link[0]],
-                                        self.solution.map_node[v_link[1]])
-            if len(map_path) == 1: 
+            map_path = self.substrateTopo.get_djikstra_path(self.solution.map_node[v_link[0]],self.solution.map_node[v_link[1]])
+            if len(map_path) == 0:
+                self.solution.current_description = SOLUTION_TYPE.CHANGE_FAILED_FOR_LINK_BAND
+                self.solution.current_result = False
+                self.record_solutions[self.event.serviceTopoId]=[self.solution]
+                return self.solution
+            elif len(map_path) == 1: 
                 self.solution.map_link[v_link] = [(map_path[0],map_path[0])]
             else:
                 self.solution.map_link[v_link] = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]

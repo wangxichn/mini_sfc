@@ -280,8 +280,12 @@ class SubEnv:
             last_action = self.subsolution.selected_actions[-1]
             v_link_rq_band = self.solution.resource['band'][len(self.subsolution.selected_actions)-1]
 
-            map_path = nx.dijkstra_path(self.p_net,last_action,action)
-            if len(map_path) == 1: 
+            map_path = self.p_net.get_djikstra_path(last_action,action)
+            if len(map_path) == 0:
+                self.subsolution.route_result = False
+                self.subsolution.result = False
+                return False
+            elif len(map_path) == 1: 
                 map_link = [(map_path[0],map_path[0])]
             else:
                 map_link = [(map_path[i],map_path[i+1]) for i in range(len(map_path)-1)]
@@ -317,7 +321,7 @@ class SubEnv:
             last_action = self.subsolution.selected_actions[-1]
             v_link_rq_band = self.solution.resource['band'][len(self.subsolution.selected_actions)-1]
 
-            map_path = nx.dijkstra_path(self.p_net,last_action,action)
+            map_path = self.p_net.get_djikstra_path(last_action,action)
             if len(map_path) == 1: 
                 map_link = [(map_path[0],map_path[0])]
             else:
